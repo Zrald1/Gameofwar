@@ -1,5 +1,5 @@
 /**
- * HudSystem — the UIKitML panel: race select, champion stats, quest rail
+ * HudSystem - the UIKitML panel: race select, champion stats, quest rail
  * status, event feed, Return Home / New Expedition buttons, and the
  * XR enter/exit buttons (scaffold pattern).
  */
@@ -52,7 +52,7 @@ export class HudSystem extends createSystem({}) {
       const handler = () => this.pickRace(i);
       btn?.addEventListener('click', handler);
       this.cleanupFuncs.push(() => btn?.removeEventListener('click', handler));
-      btn?.setProperties({ text: `${race} — ${RACE_PERKS[race]}` });
+      btn?.setProperties({ text: `${race} - ${RACE_PERKS[race]}` });
     });
     const home = p.getElementById('btn-home');
     const onHome = () => {
@@ -65,7 +65,7 @@ export class HudSystem extends createSystem({}) {
     this.cleanupFuncs.push(() => home?.removeEventListener('click', onHome));
     const map = p.getElementById('btn-map');
     const onMap = () => {
-      if (G.freeDig) return feed('The X already calls — dig it first');
+      if (G.freeDig) return feed('The X already calls - dig it first');
       emit('freeDigSpent');
       feed('The map re-inks a fresh X');
     };
@@ -101,12 +101,12 @@ export class HudSystem extends createSystem({}) {
 
   private refresh(): void {
     if (!this.panel) return;
-    this.set('stat-race', { text: `${G.race ?? '—'} · Lv ${1 + Math.floor(G.power / 25)}` });
-    this.set('stat-power', { text: `Power ${G.power} · Rank ${powerRank(G.power)}` });
+    this.set('stat-race', { text: `${G.race ?? '-'} | Lv ${1 + Math.floor(G.power / 25)}` });
+    this.set('stat-power', { text: `Power ${G.power} | Rank ${powerRank(G.power)}` });
     this.set('stat-gold', { text: `${G.gold} gold` });
     this.set(
       'stat-haven',
-      { text: G.houses > 0 ? `Haven: ${G.houses} house${G.houses > 1 ? 's' : ''} (+${G.houses * 2}g/10s)` : 'Haven: unbuilt — press the golden ring' },
+      { text: G.houses > 0 ? `Haven: ${G.houses} house${G.houses > 1 ? 's' : ''} (+${G.houses * 2}g/10s)` : 'Haven: unbuilt - press the golden ring' },
     );
     // quest rail status
     for (let s = 0; s < 4; s++) {
@@ -115,7 +115,7 @@ export class HudSystem extends createSystem({}) {
       if (q) {
         const live = G.activeQuests.has(q.id);
         this.set(`quest-${s}`, {
-          text: `${GRADES[q.gradeIdx]} · ${q.title.length > 24 ? q.title.slice(0, 23) + '…' : q.title}${live ? '  ▸ACTIVE' : ''}`,
+          text: `${GRADES[q.gradeIdx]} | ${q.title.length > 24 ? q.title.slice(0, 23) + '...' : q.title}${live ? '  >ACTIVE' : ''}`,
         });
       } else {
         this.set(`quest-${s}`, { text: '' });

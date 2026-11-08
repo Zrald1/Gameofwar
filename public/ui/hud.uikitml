@@ -1,88 +1,94 @@
 <style>
   .panel-root {
     flex-direction: column;
-    width: 340px;
+    width: 42.5px;
+    background-color: #10151f;
+    border-radius: 1.8px;
+    border-width: 0.2px;
+    border-color: #2a3550;
   }
 
   .panel-content {
     flex-direction: column;
-    gap: 8px;
-    padding: 18px;
+    gap: 1.0px;
+    padding: 2.2px;
+    background-color: #10151f;
+    border-radius: 1.8px;
   }
 
   .eyebrow {
     color: #f5d90a;
-    font-size: 12px;
+    font-size: 1.5px;
     font-weight: 700;
-    letter-spacing: 1.6px;
+    letter-spacing: 0.2px;
   }
 
   .heading {
     color: #fafaf7;
-    font-size: 24px;
+    font-size: 3.0px;
     font-weight: 700;
   }
 
   .sub {
     color: #9aa4b8;
-    font-size: 13px;
+    font-size: 1.6px;
   }
 
   .stats {
     color: #e8ecf4;
-    font-size: 15px;
+    font-size: 1.9px;
     font-weight: 600;
   }
 
   .gold {
     color: #ffd76a;
-    font-size: 16px;
+    font-size: 2.0px;
     font-weight: 700;
   }
 
   .quest {
     color: #b9c4d8;
-    font-size: 13px;
+    font-size: 1.6px;
   }
 
   .feed {
     color: #8fb8d8;
-    font-size: 12px;
+    font-size: 1.5px;
   }
 
   .race-wrap {
     flex-direction: column;
-    gap: 6px;
+    gap: 0.8px;
   }
 
   .game-wrap {
     flex-direction: column;
-    gap: 5px;
+    gap: 0.6px;
   }
 
   .btn {
     background-color: #232b3d;
-    border-radius: 10px;
-    border-width: 1px;
+    border-radius: 1.2px;
+    border-width: 0.1px;
     border-color: #3a4763;
   }
 
   .btn-label {
-    font-size: 13px;
+    font-size: 1.6px;
     font-weight: 600;
   }
 
   .divider {
-    height: 1px;
+    height: 0.1px;
     background-color: #2a3550;
-    margin-top: 4px;
-    margin-bottom: 4px;
+    margin-top: 0.5px;
+    margin-bottom: 0.5px;
   }
 
   .xrb {
-    margin-left: 18px;
-    margin-right: 18px;
-    margin-bottom: 14px;
+    margin-left: 2.2px;
+    margin-right: 2.2px;
+    margin-bottom: 1.8px;
   }
 </style>
 <Panel class="panel-root">
@@ -91,7 +97,7 @@
     <div class="heading">The Living Map</div>
     <div class="sub">Carry your champion. Dig the X. Rise to SSSS.</div>
     <div id="race-wrap" class="race-wrap">
-      <div class="sub">Bind your soul — pick a race:</div>
+      <div class="sub">Bind your soul - pick a race:</div>
       <Button id="btn-race-0" class="btn"><ButtonLabel class="btn-label">Human</ButtonLabel></Button>
       <Button id="btn-race-1" class="btn"><ButtonLabel class="btn-label">Dwarf</ButtonLabel></Button>
       <Button id="btn-race-2" class="btn"><ButtonLabel class="btn-label">Elf</ButtonLabel></Button>
@@ -99,7 +105,7 @@
       <Button id="btn-race-4" class="btn"><ButtonLabel class="btn-label">Demon</ButtonLabel></Button>
     </div>
     <div id="game-wrap" class="game-wrap" style="display: none">
-      <div id="stat-race" class="stats">—</div>
+      <div id="stat-race" class="stats">-</div>
       <div id="stat-power" class="stats">Power 0</div>
       <div id="stat-gold" class="gold">0 gold</div>
       <div id="stat-haven" class="sub">Haven: unbuilt</div>

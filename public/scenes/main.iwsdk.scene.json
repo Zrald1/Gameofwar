@@ -29,7 +29,16 @@
       "id": "game-floor",
       "name": "Ground",
       "framingRole": "support",
-      "content": { "type": "asset", "asset": "ground", "receiveShadow": true }
+      "content": { "type": "asset", "asset": "ground", "receiveShadow": true },
+      "components": {
+        "LocomotionEnvironment": {}
+      }
+    },
+    {
+      "id": "player",
+      "name": "Player",
+      "framingRole": "support",
+      "transform": { "position": [0, 0, 0] }
     },
     {
       "id": "backdrop",
@@ -41,7 +50,7 @@
     {
       "id": "map-table",
       "name": "Map Table",
-      "framingRole": "hero",
+      "framingRole": "content",
       "content": { "type": "asset", "asset": "map-table", "castShadow": true },
       "transform": { "position": [0, 0.82, -0.55] },
       "children": [
@@ -197,9 +206,9 @@
     {
       "id": "hud-panel",
       "name": "Atlas HUD",
-      "framingRole": "hero",
+      "framingRole": "content",
       "content": { "type": "asset", "asset": "hud-panel" },
-      "transform": { "position": [-0.52, 1.12, -0.42], "rotationDeg": [0, 38, 0] },
+      "transform": { "position": [-0.78, 1.18, -0.52], "rotationDeg": [8, 48, 0] },
       "components": { "RayInteractable": {} }
     },
     {

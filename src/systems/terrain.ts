@@ -48,8 +48,8 @@ export class TerrainSystem extends createSystem({
   init(): void {
     const table = this.world.requireSceneObject('map-table');
     Anchors.set('table', table);
-    this.terrain = table.getObjectByName('terrain-mesh') as InstancedMesh;
-    this.props = table.getObjectByName('prop-mesh') as InstancedMesh;
+    this.terrain = this.world.requireSceneObject('terrain-mesh') as unknown as InstancedMesh;
+    this.props = this.world.requireSceneObject('prop-mesh') as unknown as InstancedMesh;
     for (const id of [
       'champion', 'scroll-map', 'dig-x', 'chest', 'beacon', 'wish',
       'haven-marker', 'house-0', 'house-1', 'house-2',
