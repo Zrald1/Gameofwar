@@ -1,0 +1,12 @@
+{
+  "enabled": true,
+  "goal": "Make LiquidAI/LFM3-1.7B-Base serve ~100 tok/s on Snapdragon in the HyperQuant app by serving only active parameters - research + simulation, multiple combined ideas, logged in C:/Users/Zrald/mycall/nov7_breakthrough/",
+  "pending": [
+    "measure_predictor.py RUNNING (bg 90a33a): gate-router G1/G2 vs ridge-128 predictor vs oracle at byte-equal budgets — collect recall/mass/blkErr screening + argmax/KL at G@70% P@80%, log into RESULTS.md",
+    "Recompute stack byte-model: gate-router reads full gate (33% of FFN) + K*up/down — effective FFN fraction = 1/3 + K*2/3, not K. Update S3/S5 tok/s table with router-aware bytes; check if ~100 tok/s claim survives",
+    "Log ngram-spec acceptance: assemble a real LFM3-generation corpus (or best-available proxy) and measure prompt-lookup acceptance rate per domain instead of literature E values"
+  ],
+  "done": [
+    "Finish in-flight measure_conv_prune.py run; log oracle conv-channel-prune quality (K=50%/70% of EMB) into RESULTS.md — DONE: 50%->93.9% argmax/KL .0199, 70%->98.0%/KL .0026; viable but low-priority lever (~0.028 GB/tok)"
+  ]
+}
