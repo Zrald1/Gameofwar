@@ -7,13 +7,19 @@
 
 import { World } from '@iwsdk/core';
 import projectOptions from 'virtual:iwsdk-project';
-import { PanelSystem } from './panel.js';
-import { RobotSystem } from './robot.js';
+import { HudSystem } from './systems/hud.js';
+import { InteractSystem } from './systems/interact.js';
+import { NavSystem } from './systems/nav.js';
+import { QuestSystem } from './systems/quests.js';
+import { TerrainSystem } from './systems/terrain.js';
 
 World.create(
   document.getElementById('scene-container') as HTMLDivElement,
   projectOptions,
 ).then((world) => {
-  world.registerSystem(RobotSystem);
-  world.registerSystem(PanelSystem);
+  world.registerSystem(TerrainSystem);
+  world.registerSystem(NavSystem);
+  world.registerSystem(QuestSystem);
+  world.registerSystem(InteractSystem);
+  world.registerSystem(HudSystem);
 });

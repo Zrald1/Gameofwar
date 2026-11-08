@@ -1,0 +1,123 @@
+<style>
+  .panel-root {
+    flex-direction: column;
+    width: 340px;
+  }
+
+  .panel-content {
+    flex-direction: column;
+    gap: 8px;
+    padding: 18px;
+  }
+
+  .eyebrow {
+    color: #f5d90a;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+  }
+
+  .heading {
+    color: #fafaf7;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .sub {
+    color: #9aa4b8;
+    font-size: 13px;
+  }
+
+  .stats {
+    color: #e8ecf4;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .gold {
+    color: #ffd76a;
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .quest {
+    color: #b9c4d8;
+    font-size: 13px;
+  }
+
+  .feed {
+    color: #8fb8d8;
+    font-size: 12px;
+  }
+
+  .race-wrap {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .game-wrap {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .btn {
+    background-color: #232b3d;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: #3a4763;
+  }
+
+  .btn-label {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .divider {
+    height: 1px;
+    background-color: #2a3550;
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+
+  .xrb {
+    margin-left: 18px;
+    margin-right: 18px;
+    margin-bottom: 14px;
+  }
+</style>
+<Panel class="panel-root">
+  <div class="panel-content">
+    <div class="eyebrow">ATLAS ETERNAL</div>
+    <div class="heading">The Living Map</div>
+    <div class="sub">Carry your champion. Dig the X. Rise to SSSS.</div>
+    <div id="race-wrap" class="race-wrap">
+      <div class="sub">Bind your soul — pick a race:</div>
+      <Button id="btn-race-0" class="btn"><ButtonLabel class="btn-label">Human</ButtonLabel></Button>
+      <Button id="btn-race-1" class="btn"><ButtonLabel class="btn-label">Dwarf</ButtonLabel></Button>
+      <Button id="btn-race-2" class="btn"><ButtonLabel class="btn-label">Elf</ButtonLabel></Button>
+      <Button id="btn-race-3" class="btn"><ButtonLabel class="btn-label">Naga</ButtonLabel></Button>
+      <Button id="btn-race-4" class="btn"><ButtonLabel class="btn-label">Demon</ButtonLabel></Button>
+    </div>
+    <div id="game-wrap" class="game-wrap" style="display: none">
+      <div id="stat-race" class="stats">—</div>
+      <div id="stat-power" class="stats">Power 0</div>
+      <div id="stat-gold" class="gold">0 gold</div>
+      <div id="stat-haven" class="sub">Haven: unbuilt</div>
+      <div class="divider"></div>
+      <div class="sub">QUEST RAIL</div>
+      <div id="quest-0" class="quest"></div>
+      <div id="quest-1" class="quest"></div>
+      <div id="quest-2" class="quest"></div>
+      <div id="quest-3" class="quest"></div>
+      <div class="divider"></div>
+      <div id="feed-0" class="feed"></div>
+      <div id="feed-1" class="feed"></div>
+      <div id="feed-2" class="feed"></div>
+      <div class="divider"></div>
+      <Button id="btn-home" class="btn"><ButtonLabel class="btn-label">Return to Haven</ButtonLabel></Button>
+      <Button id="btn-map" class="btn"><ButtonLabel class="btn-label">Re-ink the Map</ButtonLabel></Button>
+    </div>
+  </div>
+  <Button id="xr-button" class="xrb"><ButtonLabel class="btn-label">Enter XR</ButtonLabel></Button>
+  <Button id="exit-button" class="xrb" style="display: none"><ButtonLabel class="btn-label">Exit to Browser</ButtonLabel></Button>
+</Panel>
