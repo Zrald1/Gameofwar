@@ -1,0 +1,9 @@
+/* TEAM */
+Developer: Zrald
+Site: https://zrald1.github.io/Gameofwar/
+Contact: via GitHub issues
+
+/* SITE */
+Stack: TypeScript, Vite, IWSDK, Three.js
+Platform: WebXR / Meta Quest
+Standards: MIT License
