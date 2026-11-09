@@ -1,17 +1,16 @@
 {
-  "enabled": true,
-  "goal": "ATLAS ETERNAL VR game for Meta VR Start Developer Competition 2026 \u2014 playable hands-first living-map vertical slice, admin world-authoring, pushed to Gameofwar",
-  "done": [
-    "IWSDK vertical slice: seeded infinite map table, champion carry-travel, dig X, D-SSSS quest rail, haven, persistent save",
-    "Fixed player 5km fall-through (LocomotionEnvironment) + panel sizing",
-    "Pulled upstream: map authoring, voxel builder, presence, map editor",
-    "Admin PIN login gating Cartographer mode + Set-as-Home-Map default-world persistence",
-    "Rust async research report -> C:/Users/Zrald/research/rust-async/REPORT.md"
-  ],
-  "pending": [
-    "Verify quest/dig/champion grab interaction via xr run-sequence",
-    "Final typecheck+build, commit + push"
-  ],
-  "current": "Verify admin login PIN-pad flow end-to-end in XR emulator (press btn-edit -> pad -> enter -> edit tools -> set home map)",
-  "iteration": 1
+ "enabled": true,
+ "goal": "ATLAS ETERNAL VR game for Meta VR Start Developer Competition 2026 \u2014 playable hands-first living-map vertical slice, admin world-authoring, pushed to Gameofwar",
+ "done": [
+  "IWSDK vertical slice: seeded infinite map table, champion carry-travel, dig X, D-SSSS quest rail, haven, persistent save",
+  "Fixed player 5km fall-through (LocomotionEnvironment) + panel sizing",
+  "Pulled upstream: map authoring, voxel builder, presence, map editor",
+  "Admin PIN login gating Cartographer mode + Set-as-Home-Map default-world persistence",
+  "Rust async research report -> C:/Users/Zrald/research/rust-async/REPORT.md",
+  "Row controls -> div chips (kit Buttons are fixed 80u); admin login verified END-TO-END in XR emulator: btn-edit -> PIN pad -> 'Key claimed' -> edit tools -> Set as Home -> 'atlas-home is now the default world'",
+  "Champion grab/carry verified: pinch -> carry -> drop -> \"Champion enters the forest lands (7,3)\"; meeple glides to new tile"
+ ],
+ "pending": [],
+ "current": "Final typecheck+build, commit + push",
+ "iteration": 3
 }
