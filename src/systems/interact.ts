@@ -52,6 +52,11 @@ export class InteractSystem extends createSystem({
       if (key === 'dig-x') this.tryDig();
       else if (key === 'wish') emit('wish');
       else if (key === 'haven') this.tryBuild();
+      // point at / fist-bump the envoy: take its contract, else beckon one
+      else if (key === 'patron') {
+        if (G.offer) emit('npcReply', 'take');
+        else emit('npcSummon');
+      }
     });
   }
 

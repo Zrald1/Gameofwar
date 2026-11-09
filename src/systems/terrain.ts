@@ -10,6 +10,7 @@ import {
   createSystem,
   InstancedMesh,
   Matrix4,
+  Mesh,
   MeshStandardMaterial,
   Object3D,
   Vector3,
@@ -64,6 +65,10 @@ export class TerrainSystem extends createSystem({
   private v = new Vector3();
   private meepleTarget = new Vector3();
   private hasTarget = false;
+  private patronRobe!: MeshStandardMaterial;
+  private patronPid = '';
+  private patronT = 0;
+  private patronRigged = false;
 
   init(): void {
     const table = this.world.requireSceneObject('map-table');
@@ -85,18 +90,22 @@ export class TerrainSystem extends createSystem({
       'haven-marker', 'house-0', 'house-1', 'house-2',
       'relic-0', 'relic-1', 'relic-2',
       'card-0', 'card-1', 'card-2', 'card-3',
+      'patron',
     ]) {
       Anchors.set(id, this.world.requireSceneObject(id));
     }
     for (const id of [
       'champion', 'scroll-map', 'dig-x', 'chest', 'beacon',
       'house-0', 'house-1', 'house-2', 'relic-0', 'relic-1', 'relic-2',
-      'card-0', 'card-1', 'card-2', 'card-3',
+      'card-0', 'card-1', 'card-2', 'card-3', 'patron',
     ]) {
       Anchors.get(id)!.visible = false;
     }
     // wish pedestal sits on the back-left rim — static
     Anchors.get('wish')!.position.set(-0.68, 0.032, -0.38);
+    // patron robe gets its own material so persona tints don't touch the asset.
+    // the manifest clone mounts async — rig it lazily on first visible frame
+    this.patronRobe = new MeshStandardMaterial({ color: 0x6a7a9a, roughness: 0.7 });
   }
 
   rebuild(): void {
@@ -345,6 +354,30 @@ export class TerrainSystem extends createSystem({
       if (!carried) {
         meeple.position.lerp(this.meepleTarget, Math.min(1, delta * 8));
       }
+    }
+    // guild patron: stands at the rim while you play; perks up with an offer
+    const patron = Anchors.get('patron')!;
+    const pOn = G.phase === 'playing';
+    if (patron.visible !== pOn) patron.visible = pOn;
+    if (pOn) {
+      this.patronT += delta;
+      if (!this.patronRigged) {
+        const robe = patron.getObjectByName('patron-robe') as Mesh | undefined;
+        if (robe) {
+          robe.material = this.patronRobe;
+          const hood = patron.getObjectByName('patron-hood') as Mesh | undefined;
+          if (hood) hood.material = this.patronRobe;
+          this.patronRigged = true;
+        }
+      }
+      const o = G.offer;
+      if (o && o.npc.id !== this.patronPid) {
+        this.patronPid = o.npc.id;
+        this.patronRobe.color.setHex(o.npc.robe);
+      }
+      const bob = o ? 0.006 : 0.0018;
+      patron.position.y = 0.032 + Math.abs(Math.sin(this.patronT * (o ? 5.2 : 1.4))) * bob;
+      patron.rotation.y = 0.42 + Math.sin(this.patronT * 0.9) * 0.14;
     }
   }
 }

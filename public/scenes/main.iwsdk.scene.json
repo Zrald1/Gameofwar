@@ -348,6 +348,30 @@
         },
         {
           "components": {
+            "RayInteractable": {}
+          },
+          "content": {
+            "asset": "patron",
+            "castShadow": true,
+            "type": "asset"
+          },
+          "id": "patron",
+          "name": "Guild Patron",
+          "transform": {
+            "position": [
+              -0.56,
+              0.032,
+              -0.44
+            ],
+            "rotationDeg": [
+              0,
+              24,
+              0
+            ]
+          }
+        },
+        {
+          "components": {
             "HavenTag": {},
             "RayInteractable": {}
           },

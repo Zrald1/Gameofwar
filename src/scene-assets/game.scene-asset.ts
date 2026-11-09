@@ -282,6 +282,37 @@ export function createRelic(): Group {
   return g;
 }
 
+/** guild patron — robed envoy standing at the table rim with offers.
+ *  'patron-robe'/'patron-hood' share one material so the runtime can
+ *  retint the whole figure per persona in a single write */
+export function createPatron(): Group {
+  const g = new Group();
+  const robeMat = mat(0x6a7a9a, { rough: 0.7 });
+  const robe = new Mesh(new ConeGeometry(0.022, 0.07, 10), robeMat);
+  robe.position.y = 0.035;
+  robe.name = 'patron-robe';
+  g.add(robe);
+  const hood = new Mesh(new ConeGeometry(0.013, 0.02, 10), robeMat);
+  hood.position.y = 0.086;
+  hood.name = 'patron-hood';
+  g.add(hood);
+  const head = new Mesh(new SphereGeometry(0.01, 10, 8), mat(0xe8c8a0, { rough: 0.8 }));
+  head.position.y = 0.073;
+  g.add(head);
+  const staff = new Mesh(new CylinderGeometry(0.0022, 0.0028, 0.088, 8), mat(0x5a3c22, { rough: 0.6 }));
+  staff.position.set(0.024, 0.044, 0.004);
+  staff.rotation.z = -0.08;
+  g.add(staff);
+  const orb = new Mesh(new OctahedronGeometry(0.007), mat(0x9fe8ff, { e: 0x50b0ff, ei: 1.3 }));
+  orb.position.set(0.0275, 0.092, 0.004);
+  g.add(orb);
+  const ring = new Mesh(new RingGeometry(0.019, 0.026, 20), mat(0xcfd8ea, { e: 0x8899bb, ei: 0.6 }));
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.y = 0.001;
+  g.add(ring);
+  return g;
+}
+
 /** low wall behind the table so the diorama reads as a scene */
 export function createBackdrop(): Group {
   const g = new Group();

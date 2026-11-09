@@ -17,6 +17,7 @@ import {
   createHouse,
   createMapTable,
   createMeeple,
+  createPatron,
   createPropMesh,
   createRelic,
   createScroll,
@@ -43,6 +44,7 @@ export default defineAssets({
   haven: createHaven(),
   house: createHouse(),
   relic: createRelic(),
+  patron: createPatron(),
   'hud-panel': {
     url: publicAssetUrl('ui/hud.uikitml'),
     type: AssetType.UIKitML,

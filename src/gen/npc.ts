@@ -21,6 +21,8 @@ export interface NpcPersona {
   /** boost passed to the quest grade roll — the NPC's difficulty appetite */
   boost: number;
   goldMul: number;
+  /** robe color of the patron figure on the table rim */
+  robe: number;
   greet: string[];
   bargainOk: string[];
   bargainNo: string[];
@@ -35,6 +37,7 @@ export const PERSONAS: NpcPersona[] = [
     title: 'Keeper of Safe Ledgers',
     boost: 0,
     goldMul: 1.0,
+    robe: 0x6a7a9a,
     greet: [
       'Careful work, wanderer. Nothing here will get you killed… probably.',
       'I deal in honest errands. Modest pay, modest peril.',
@@ -50,6 +53,7 @@ export const PERSONAS: NpcPersona[] = [
     title: 'Patron of Deep Expeditions',
     boost: 1,
     goldMul: 1.25,
+    robe: 0xa83240,
     greet: [
       'You look like someone who digs where the map goes quiet.',
       'My contracts pay better because they cost more. Interested?',
@@ -65,6 +69,7 @@ export const PERSONAS: NpcPersona[] = [
     title: 'Dealer in Impossible Deeds',
     boost: 2,
     goldMul: 1.6,
+    robe: 0x5a3a8a,
     greet: [
       'I offer what others hide — S-grades, relic hunts, legend work.',
       'The rail below holds errands. Mine hold destinies.',
