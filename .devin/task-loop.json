@@ -31,9 +31,10 @@
   "Runtime left clean: XR session exited, inputs released",
   "FIXED stuck Pages deploy: cancel-in-progress:true broke stale environment lock; manifest+icons now live (200)",
   "NEXT_STEPS.md handoff written - video recording + Devpost form + dev account steps for the user",
-  "README replaced with real game overview + live URL + feature list (was scaffold boilerplate)"
+  "README replaced with real game overview + live URL + feature list (was scaffold boilerplate)",
+  "AGENTS.md: project lessons recorded (LocomotionEnvironment, kit Button 80u, XR click path, panel face, Pages lock, assets realm)"
  ],
  "pending": [],
  "current": null,
- "iteration": 50
+ "iteration": 53
 }

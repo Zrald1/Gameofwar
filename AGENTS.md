@@ -221,3 +221,19 @@ Harness-native scoped rules cover `public/scenes/**`, `public/ui/**`,
 harnesses receive nested instruction files; Cursor and Copilot receive their
 native rule formats. Skill procedures live in the selected harness's project
 skill directory and state when they apply.
+
+## Project lessons (learned this build)
+
+- Player falls ~5km when a scene has `locomotion` but the floor lacks
+  `LocomotionEnvironment` — always add it to the walkable surface.
+- Horizon kit `Button` is a fixed ~80u wide; `width`/`flex-grow`/inline style
+  won't shrink it. For row controls use `<div class="chip">` with flex-grow.
+- XR click mechanism: `xr look-at` aims the ray at fresh `xr list-targets`
+  positions (never translate the controller), confirm `hovered` via
+  `ui inspect`, then `xr select`. Hidden elements resolve only after shown.
+- UIKitML panel faces +Z (single-sided); aim a ray at the face, not the
+  inflated yawed AABB edge.
+- Pages deploy locks: `cancel-in-progress: true` breaks a stale
+  `github-pages` environment lock that leaves runs stuck `pending`.
+- `assets.ts` runs in a separate realm — no DOM/canvas; create card
+  canvases lazily in the system (DOM realm), not the asset factory.
