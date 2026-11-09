@@ -30,9 +30,10 @@
   "Submission goal met: verified build + live URL + PWA + package all on Gameofwar. Only a queued Pages deploy remains (GitHub-side wait, dist is correct)",
   "Runtime left clean: XR session exited, inputs released",
   "FIXED stuck Pages deploy: cancel-in-progress:true broke stale environment lock; manifest+icons now live (200)",
-  "NEXT_STEPS.md handoff written - video recording + Devpost form + dev account steps for the user"
+  "NEXT_STEPS.md handoff written - video recording + Devpost form + dev account steps for the user",
+  "README replaced with real game overview + live URL + feature list (was scaffold boilerplate)"
  ],
  "pending": [],
  "current": null,
- "iteration": 47
+ "iteration": 50
 }
