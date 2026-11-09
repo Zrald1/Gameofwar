@@ -35,6 +35,7 @@ Hands-first: every interaction is a pinch or a ray.
 - `public/ui/` — UIKitML panels
 - `public/maps/` — charted world definitions
 - `SUBMISSION.md` / `NEXT_STEPS.md` — Devpost package + remaining steps
+- `docs/screenshots/` — storyboard stills for the demo video
 
 ## Multiplayer (optional)
 Same-table presence works with zero backend: open the app in two browser
