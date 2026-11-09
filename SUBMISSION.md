@@ -70,3 +70,5 @@ Lead with the world-shot + champion carry in the first 15 seconds.
 ### Access
 IWSDK WebXR build — LIVE at https://zrald1.github.io/Gameofwar/ (auto-deploys on every push).
 Repo: https://github.com/Zrald1/Gameofwar
+Judges can deep-link straight into each authored world:
+?map=atlas-home · ?map=verdant-reach · ?map=old-earth · ?map=terra-mirror
