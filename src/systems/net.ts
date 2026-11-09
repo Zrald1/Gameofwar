@@ -10,6 +10,7 @@ import {
   Color,
   ConeGeometry,
   createSystem,
+  Entity,
   Group,
   Mesh,
   MeshStandardMaterial,
@@ -27,6 +28,8 @@ const SEND_HZ = 10;
 interface PeerView {
   ghost: Group;
   marker: Mesh;
+  ghostEnt: Entity;
+  markerEnt: Entity;
   pos: Vector3;
   ci: number;
   cj: number;
@@ -84,11 +87,13 @@ export class NetAvatarSystem extends createSystem({}) {
       G.terrainDirty = true;
       feed('A wanderer shapes the world');
     } else if (m.t === 'map') {
-      const def = decodeMap(typeof m.def === 'string' ? JSON.parse(m.def) : m.def);
-      if (def) {
-        applyMap(def);
-        feed(`The wanderer's chart unfolds - ${def.name}`);
-      }
+      try {
+        const def = decodeMap(typeof m.def === 'string' ? JSON.parse(m.def) : m.def);
+        if (def) {
+          applyMap(def);
+          feed(`The wanderer's chart unfolds - ${def.name}`);
+        }
+      } catch {}
     }
   }
 
@@ -106,7 +111,7 @@ export class NetAvatarSystem extends createSystem({}) {
     e.addComponent(RemoteAvatar);
     const e2 = this.world.createTransformEntity(marker);
     e2.addComponent(RemoteAvatar);
-    const view: PeerView = { ghost, marker, pos: new Vector3(), ci: 0, cj: 0, color: 0x9aa4b8 };
+    const view: PeerView = { ghost, marker, ghostEnt: e, markerEnt: e2, pos: new Vector3(), ci: 0, cj: 0, color: 0x9aa4b8 };
     view.ghost.visible = false;
     view.marker.visible = false;
     this.peers.set(p, view);
@@ -116,8 +121,8 @@ export class NetAvatarSystem extends createSystem({}) {
   private dropPeer(p: string): void {
     const view = this.peers.get(p);
     if (!view) return;
-    view.ghost.removeFromParent();
-    view.marker.removeFromParent();
+    view.ghostEnt.dispose();
+    view.markerEnt.dispose();
     this.peers.delete(p);
   }
 
