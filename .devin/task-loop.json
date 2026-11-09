@@ -33,9 +33,10 @@
   "NEXT_STEPS.md handoff written - video recording + Devpost form + dev account steps for the user",
   "README replaced with real game overview + live URL + feature list (was scaffold boilerplate)",
   "AGENTS.md: project lessons recorded (LocomotionEnvironment, kit Button 80u, XR click path, panel face, Pages lock, assets realm)",
-  "chunkSizeWarningLimit set to 3000 - build no longer warns on the expected 2.4MB WebXR bundle"
+  "chunkSizeWarningLimit set to 3000 - build no longer warns on the expected 2.4MB WebXR bundle",
+  "favicon linked to icon-192.png (was empty data: placeholder)"
  ],
  "pending": [],
  "current": null,
- "iteration": 91
+ "iteration": 110
 }
