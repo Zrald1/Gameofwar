@@ -39,5 +39,22 @@
   "engines": {
     "node": ">=20.19.0 <21.0.0-0 || >=22.12.0 <23.0.0-0 || >=24.0.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "description": "ATLAS ETERNAL: The Living Map \u2014 a hands-first fantasy diorama for Meta Quest (WebXR/IWSDK). Carry your champion across a seeded living map, dig treasure, take graded quests, and author worlds.",
+  "keywords": [
+    "webxr",
+    "vr",
+    "meta-quest",
+    "iwsdk",
+    "threejs",
+    "fantasy-game",
+    "tabletop",
+    "procedural-generation",
+    "pwa"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zrald1/Gameofwar.git"
+  },
+  "homepage": "https://zrald1.github.io/Gameofwar/"
 }
