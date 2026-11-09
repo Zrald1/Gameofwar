@@ -95,7 +95,7 @@
     justify-content: center;
   }
 
-  .btn-sm {
+  .chip {
     background-color: #232b3d;
     border-radius: 2.2px;
     border-width: 0.2px;
@@ -103,6 +103,11 @@
     height: 8.1px;
     flex-grow: 1;
     justify-content: center;
+    align-items: center;
+    color: #e8ecf4;
+    font-size: 2.9px;
+    font-weight: 600;
+    cursor: pointer;
   }
 
   .btn-label {
@@ -171,113 +176,113 @@
         <div id="login-status" class="feed">First login claims a new key (4+ digits).</div>
         <div id="pin-display" class="stats">[    ]</div>
         <div class="row">
-          <Button id="pin-1" class="btn-sm"><ButtonLabel class="btn-label">1</ButtonLabel></Button>
-          <Button id="pin-2" class="btn-sm"><ButtonLabel class="btn-label">2</ButtonLabel></Button>
-          <Button id="pin-3" class="btn-sm"><ButtonLabel class="btn-label">3</ButtonLabel></Button>
-          <Button id="pin-4" class="btn-sm"><ButtonLabel class="btn-label">4</ButtonLabel></Button>
-          <Button id="pin-5" class="btn-sm"><ButtonLabel class="btn-label">5</ButtonLabel></Button>
+          <div id="pin-1" class="chip">1</div>
+          <div id="pin-2" class="chip">2</div>
+          <div id="pin-3" class="chip">3</div>
+          <div id="pin-4" class="chip">4</div>
+          <div id="pin-5" class="chip">5</div>
         </div>
         <div class="row">
-          <Button id="pin-6" class="btn-sm"><ButtonLabel class="btn-label">6</ButtonLabel></Button>
-          <Button id="pin-7" class="btn-sm"><ButtonLabel class="btn-label">7</ButtonLabel></Button>
-          <Button id="pin-8" class="btn-sm"><ButtonLabel class="btn-label">8</ButtonLabel></Button>
-          <Button id="pin-9" class="btn-sm"><ButtonLabel class="btn-label">9</ButtonLabel></Button>
-          <Button id="pin-0" class="btn-sm"><ButtonLabel class="btn-label">0</ButtonLabel></Button>
+          <div id="pin-6" class="chip">6</div>
+          <div id="pin-7" class="chip">7</div>
+          <div id="pin-8" class="chip">8</div>
+          <div id="pin-9" class="chip">9</div>
+          <div id="pin-0" class="chip">0</div>
         </div>
         <div class="row">
-          <Button id="pin-back" class="btn-sm"><ButtonLabel class="btn-label">Back</ButtonLabel></Button>
-          <Button id="pin-clear" class="btn-sm"><ButtonLabel class="btn-label">Clear</ButtonLabel></Button>
-          <Button id="pin-enter" class="btn-sm"><ButtonLabel class="btn-label">Enter</ButtonLabel></Button>
+          <div id="pin-back" class="chip">Back</div>
+          <div id="pin-clear" class="chip">Clear</div>
+          <div id="pin-enter" class="chip">Enter</div>
         </div>
       </div>
       <div id="edit-wrap" class="edit-wrap" style="display: none">
         <div class="sub">WORLD TOOLS - carry meeple, then stamp:</div>
         <div class="row">
-          <Button id="tool-o" class="btn-sm"><ButtonLabel class="btn-label">Sea</ButtonLabel></Button>
-          <Button id="tool-s" class="btn-sm"><ButtonLabel class="btn-label">Sand</ButtonLabel></Button>
-          <Button id="tool-d" class="btn-sm"><ButtonLabel class="btn-label">Dsrt</ButtonLabel></Button>
-          <Button id="tool-g" class="btn-sm"><ButtonLabel class="btn-label">Gras</ButtonLabel></Button>
+          <div id="tool-o" class="chip">Sea</div>
+          <div id="tool-s" class="chip">Sand</div>
+          <div id="tool-d" class="chip">Dsrt</div>
+          <div id="tool-g" class="chip">Gras</div>
         </div>
         <div class="row">
-          <Button id="tool-f" class="btn-sm"><ButtonLabel class="btn-label">Frst</ButtonLabel></Button>
-          <Button id="tool-r" class="btn-sm"><ButtonLabel class="btn-label">Rock</ButtonLabel></Button>
-          <Button id="tool-n" class="btn-sm"><ButtonLabel class="btn-label">Snow</ButtonLabel></Button>
-          <Button id="tool-road" class="btn-sm"><ButtonLabel class="btn-label">Road</ButtonLabel></Button>
+          <div id="tool-f" class="chip">Frst</div>
+          <div id="tool-r" class="chip">Rock</div>
+          <div id="tool-n" class="chip">Snow</div>
+          <div id="tool-road" class="chip">Road</div>
         </div>
         <div class="row">
-          <Button id="tool-dig" class="btn-sm"><ButtonLabel class="btn-label">Dig X</ButtonLabel></Button>
-          <Button id="tool-haven" class="btn-sm"><ButtonLabel class="btn-label">Haven</ButtonLabel></Button>
-          <Button id="tool-champ" class="btn-sm"><ButtonLabel class="btn-label">Spawn</ButtonLabel></Button>
-          <Button id="tool-erase" class="btn-sm"><ButtonLabel class="btn-label">Erase</ButtonLabel></Button>
+          <div id="tool-dig" class="chip">Dig X</div>
+          <div id="tool-haven" class="chip">Haven</div>
+          <div id="tool-champ" class="chip">Spawn</div>
+          <div id="tool-erase" class="chip">Erase</div>
         </div>
         <div class="row">
-          <Button id="btn-brush-minus" class="btn-sm"><ButtonLabel class="btn-label">-</ButtonLabel></Button>
+          <div id="btn-brush-minus" class="chip">-</div>
           <div id="brush-label" class="sub">Brush 1</div>
           <Button id="btn-brush-plus" class="btn"><ButtonLabel class="btn-label">+</ButtonLabel></Button>
         </div>
         <div class="sub">BUILD BLOCKS - minecraft style:</div>
         <div class="row">
-          <Button id="mat-d" class="btn-sm"><ButtonLabel class="btn-label">Dirt</ButtonLabel></Button>
-          <Button id="mat-s" class="btn-sm"><ButtonLabel class="btn-label">Stone</ButtonLabel></Button>
-          <Button id="mat-w" class="btn-sm"><ButtonLabel class="btn-label">Wood</ButtonLabel></Button>
-          <Button id="mat-b" class="btn-sm"><ButtonLabel class="btn-label">Brick</ButtonLabel></Button>
+          <div id="mat-d" class="chip">Dirt</div>
+          <div id="mat-s" class="chip">Stone</div>
+          <div id="mat-w" class="chip">Wood</div>
+          <div id="mat-b" class="chip">Brick</div>
         </div>
         <div class="row">
-          <Button id="mat-g" class="btn-sm"><ButtonLabel class="btn-label">Glass</ButtonLabel></Button>
-          <Button id="mat-o" class="btn-sm"><ButtonLabel class="btn-label">Gold</ButtonLabel></Button>
-          <Button id="mat-l" class="btn-sm"><ButtonLabel class="btn-label">Leaf</ButtonLabel></Button>
+          <div id="mat-g" class="chip">Glass</div>
+          <div id="mat-o" class="chip">Gold</div>
+          <div id="mat-l" class="chip">Leaf</div>
           <div id="mat-label" class="sub">Stone</div>
         </div>
         <div class="row">
-          <Button id="mat-c" class="btn-sm"><ButtonLabel class="btn-label">Concr</ButtonLabel></Button>
-          <Button id="mat-m" class="btn-sm"><ButtonLabel class="btn-label">Marbl</ButtonLabel></Button>
-          <Button id="mat-i" class="btn-sm"><ButtonLabel class="btn-label">Iron</ButtonLabel></Button>
-          <Button id="mat-k" class="btn-sm"><ButtonLabel class="btn-label">Obsid</ButtonLabel></Button>
+          <div id="mat-c" class="chip">Concr</div>
+          <div id="mat-m" class="chip">Marbl</div>
+          <div id="mat-i" class="chip">Iron</div>
+          <div id="mat-k" class="chip">Obsid</div>
         </div>
         <div class="row">
-          <Button id="mat-a" class="btn-sm"><ButtonLabel class="btn-label">Water</ButtonLabel></Button>
-          <Button id="mat-v" class="btn-sm"><ButtonLabel class="btn-label">Lava</ButtonLabel></Button>
-          <Button id="mat-t" class="btn-sm"><ButtonLabel class="btn-label">Torch</ButtonLabel></Button>
+          <div id="mat-a" class="chip">Water</div>
+          <div id="mat-v" class="chip">Lava</div>
+          <div id="mat-t" class="chip">Torch</div>
         </div>
         <div class="sub">PIECES - walls doors &amp; more:</div>
         <div class="row">
-          <Button id="mat-W" class="btn-sm"><ButtonLabel class="btn-label">Wall</ButtonLabel></Button>
-          <Button id="mat-D" class="btn-sm"><ButtonLabel class="btn-label">Door</ButtonLabel></Button>
-          <Button id="mat-S" class="btn-sm"><ButtonLabel class="btn-label">Stair</ButtonLabel></Button>
-          <Button id="mat-F" class="btn-sm"><ButtonLabel class="btn-label">Fence</ButtonLabel></Button>
+          <div id="mat-W" class="chip">Wall</div>
+          <div id="mat-D" class="chip">Door</div>
+          <div id="mat-S" class="chip">Stair</div>
+          <div id="mat-F" class="chip">Fence</div>
         </div>
         <div class="row">
-          <Button id="mat-P" class="btn-sm"><ButtonLabel class="btn-label">Pane</ButtonLabel></Button>
-          <Button id="mat-R" class="btn-sm"><ButtonLabel class="btn-label">Roof</ButtonLabel></Button>
+          <div id="mat-P" class="chip">Pane</div>
+          <div id="mat-R" class="chip">Roof</div>
         </div>
         <div class="row">
-          <Button id="btn-vox-add" class="btn-sm"><ButtonLabel class="btn-label">Place Block</ButtonLabel></Button>
-          <Button id="btn-vox-del" class="btn-sm"><ButtonLabel class="btn-label">Break Block</ButtonLabel></Button>
-          <Button id="btn-vox-clear" class="btn-sm"><ButtonLabel class="btn-label">Clear</ButtonLabel></Button>
+          <div id="btn-vox-add" class="chip">Place Block</div>
+          <div id="btn-vox-del" class="chip">Break Block</div>
+          <div id="btn-vox-clear" class="chip">Clear</div>
         </div>
         <Button id="btn-export" class="btn"><ButtonLabel class="btn-label">Export Map JSON</ButtonLabel></Button>
         <div class="row">
-          <Button id="btn-set-home" class="btn-sm"><ButtonLabel class="btn-label">Set as Home Map</ButtonLabel></Button>
-          <Button id="btn-clear-home" class="btn-sm"><ButtonLabel class="btn-label">Reset Default</ButtonLabel></Button>
+          <div id="btn-set-home" class="chip">Set as Home Map</div>
+          <div id="btn-clear-home" class="chip">Reset Default</div>
         </div>
         <div id="home-status" class="feed">Your map becomes the world everyone lands in.</div>
         <div class="row">
-          <Button id="btn-signout" class="btn-sm"><ButtonLabel class="btn-label">Sign out</ButtonLabel></Button>
+          <div id="btn-signout" class="chip">Sign out</div>
         </div>
         <div class="sub">AVATAR - your champion:</div>
         <div class="row">
-          <Button id="char-c-0" class="btn-sm"><ButtonLabel class="btn-label">Az</ButtonLabel></Button>
-          <Button id="char-c-1" class="btn-sm"><ButtonLabel class="btn-label">Em</ButtonLabel></Button>
-          <Button id="char-c-2" class="btn-sm"><ButtonLabel class="btn-label">Vd</ButtonLabel></Button>
-          <Button id="char-c-3" class="btn-sm"><ButtonLabel class="btn-label">Ro</ButtonLabel></Button>
-          <Button id="char-c-4" class="btn-sm"><ButtonLabel class="btn-label">Cr</ButtonLabel></Button>
-          <Button id="char-c-5" class="btn-sm"><ButtonLabel class="btn-label">Gd</ButtonLabel></Button>
+          <div id="char-c-0" class="chip">Az</div>
+          <div id="char-c-1" class="chip">Em</div>
+          <div id="char-c-2" class="chip">Vd</div>
+          <div id="char-c-3" class="chip">Ro</div>
+          <div id="char-c-4" class="chip">Cr</div>
+          <div id="char-c-5" class="chip">Gd</div>
         </div>
         <div class="row">
-          <Button id="hat-0" class="btn-sm"><ButtonLabel class="btn-label">Bare</ButtonLabel></Button>
-          <Button id="hat-1" class="btn-sm"><ButtonLabel class="btn-label">Cap</ButtonLabel></Button>
-          <Button id="hat-2" class="btn-sm"><ButtonLabel class="btn-label">Horns</ButtonLabel></Button>
-          <Button id="hat-3" class="btn-sm"><ButtonLabel class="btn-label">Crown</ButtonLabel></Button>
+          <div id="hat-0" class="chip">Bare</div>
+          <div id="hat-1" class="chip">Cap</div>
+          <div id="hat-2" class="chip">Horns</div>
+          <div id="hat-3" class="chip">Crown</div>
         </div>
       </div>
       <div class="divider"></div>
