@@ -3,7 +3,8 @@
 Everything is built, verified, and live. Remaining steps need you:
 
 ## 1. Record the demo video (≤3 min)
-- `npx @iwsdk/cli dev up` then `npx @iwsdk/cli xr enter`
+- `npm run build && npm run preview` then open the served URL — record on the **production** build (what judges get), not the dev server
+- `npx @iwsdk/cli dev up` then `npx @iwsdk/cli xr enter` if you want the emulator's XR controls for the immersive shots
 - Open any screen recorder (OBS, Xbox Game Bar Win+G)
 - Play the scripted flow: pick race -> pinch champion to map edge -> accept a quest card -> carry to the X -> dig loot -> build a haven -> Cartographer PIN -> paint terrain -> Set as Home
 - Lead with the world shot + champion carry in the first 15s
