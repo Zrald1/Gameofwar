@@ -1,5 +1,14 @@
 # Changelog — ATLAS ETERNAL: The Living Map
 
+## Guild update — patrons, weapons, voice, and the Architect
+- Guild patrons deal the quests: three personas assign the difficulty (safe → S-grade); reply by chip or voice — take, bargain, harder, refuse
+- VoiceSystem: SpeechRecognition hears you, patrons answer via speechSynthesis; intent words work fully offline
+- Weapon rarity ladder: Normal → Mythic with a 0.1% mythic floor on any roll; quest grade sharpens odds; equipped weapon adds dig power
+- XP + levels: digs and quest completions level you; level adds a luck edge
+- The Guild Architect: 'Commission the Guild' → an engineer agent plans the world (LLM when a BYOK key is configured, local otherwise) and a laborer agent builds it — playable instantly
+- BYOK brain: `?llm=endpoint|key|model` or localStorage — OpenAI-compatible, never committed; everything degrades to the local brain offline
+- New map: haven-stead farming homestead (heartlands, 6 dig sites)
+
 ## Vertical slice (competition submission)
 - Seeded infinite map table — deterministic terrain, ocean/desert/grass/forest/rock/snow
 - Hands-first: pinch the champion to carry + travel; drop at the edge to recenter the world

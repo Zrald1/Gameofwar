@@ -15,16 +15,24 @@ Cartographer's heir entirely with your hands.
 - Pick a race (Human, Dwarf, Elf, Naga, Demon) — each with its own perk
 - Pinch the champion meeple and carry it across tiles to travel; drop it at
   the map's edge and the infinite world recenters beneath it
-- Grab glowing quest cards graded D through legendary SSSS and release to accept
+- Guild patrons deal the quests — three personas choose the difficulty;
+  answer with take / bargain / harder / refuse chips, or **talk to them**
+- Weapons drop on a six-tier rarity ladder — Mythic sits at a 0.1% floor on
+  any roll, and quest grade sharpens the odds
+- Level up as you dig and quest; equip the strongest weapon you find
 - Carry your champion to the X and press it to dig gold, relics, and legendaries
 - Build a Haven of income-generating houses; whisper wishes at the pedestal
 - Event chimes answer every satisfying moment — digs, wishes, builds, unlocks
-- Everything persists — race, gold, map, home
+- Everything persists — race, gold, level, arsenal, map, home
 
 ## Author your own world
 Unlock the Cartographer with an admin PIN, then paint biomes, roads, dig sites,
 spawn points — plus a Minecraft-style voxel layer for walls, doors, stairs,
 towers — all with your hands. Save it as the default map everyone lands in.
+
+Or let the **Guild Architect** do it: *Commission the Guild* sends an engineer
+to plan a world and a laborer to raise it — playable instantly, offline or
+LLM-drafted from your prompt with a bring-your-own key (`?llm=` link).
 
 ## Run it locally
 ```bash

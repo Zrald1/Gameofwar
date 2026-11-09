@@ -25,10 +25,18 @@ marks buried treasure.
 - Pick a race — Human, Dwarf, Elf, Naga, Demon — each with its own perk.
 - **Pinch the champion meeple and carry it** to any tile to travel; drop it
   near the table's edge and the infinite world recenters beneath it.
+- **Guild patrons deal the quests** — Old Fenwick (safe ledgers), Mira the
+  Bold (deep expeditions), Vex of the Ninth Seal (S-grade legend work). The
+  patron chooses the difficulty; you answer back: take it, bargain for more
+  gold, ask for something harder, or send them away — by chip or by voice.
 - **Grab a glowing quest card**, grade D through legendary SSSS, and release
   to accept — treasure hunts, surveys, boss contracts.
 - **Carry your champion to the X and press it** to dig up gold, relics, and
   legendary drops — the X refuses if you're not close enough.
+- **Weapons drop on a six-tier rarity ladder** — Normal to Mythic with a
+  0.1% floor on any roll, so a low-level lucky pull can still change the run;
+  quest grade sharpens the odds.
+- Level up as you dig and quest; equip the strongest weapon you find.
 - Build a **Haven**: houses that generate gold while you roam.
 - Whisper a **wish** at the pedestal for a rare boon.
 - Everything persists — save, race, map, home — so you return to your world.
@@ -37,6 +45,14 @@ marks buried treasure.
 paint biomes, roads, dig sites, spawn points — and a Minecraft-style voxel
 layer to raise walls, doors, stairs and towers — all with your hands. Save
 your creation as the default map everyone lands in, or export/share it.
+
+**The Guild Architect (AI map creator):** press *Commission the Guild* and a
+civil-engineer agent drafts the survey — landmass, biome regions, roads, dig
+sites, a name and a story — while a laborer agent raises the land under your
+eyes. With an OpenAI-compatible endpoint configured (`?llm=` link or local
+key, never committed) the engineer drafts from your text prompt; offline, a
+seeded local draftsman does the same job. Either way the new world is
+playable the instant it lands.
 
 **How it was built:** Immersive Web SDK (IWSDK) + WebXR + Three.js.
 Deterministic seeded terrain gives the illusion of an AI-grown infinite
@@ -71,4 +87,6 @@ Lead with the world-shot + champion carry in the first 15 seconds.
 IWSDK WebXR build — LIVE at https://zrald1.github.io/Gameofwar/ (auto-deploys on every push).
 Repo: https://github.com/Zrald1/Gameofwar
 Judges can deep-link straight into each authored world:
-?map=atlas-home · ?map=verdant-reach · ?map=old-earth · ?map=terra-mirror
+?map=atlas-home · ?map=verdant-reach · ?map=old-earth · ?map=terra-mirror · ?map=haven-stead
+Optional AI upgrade (bring-your-own-key, stored only in the browser):
+?llm=endpoint|key|model — powers LLM-drafted maps and voiced patron replies.
