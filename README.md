@@ -32,6 +32,13 @@ Hands-first: every interaction is a pinch or a ray.
 - `public/ui/` — UIKitML panels
 - `public/maps/` — charted world definitions
 - `SUBMISSION.md` / `NEXT_STEPS.md` — Devpost package + remaining steps
+
+## Multiplayer (optional)
+Same-table presence works with zero backend: open the app in two browser
+windows (or two Quests on the same network) and you share the table.
+`?room=name` joins a separate room; `?relay=ws://host:8787` routes presence
+through `tools/presence-relay.mjs` for cross-network play.
+
 ## License
 MIT — see [LICENSE](LICENSE). The `old-earth`/`terra-mirror` maps use
 public-domain [Natural Earth](https://www.naturalearthdata.com) country data.
