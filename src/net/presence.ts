@@ -68,7 +68,9 @@ class BroadcastPresence extends Base implements PresenceService {
     return [...this.seen.keys()];
   }
   send(msg: Record<string, unknown>): void {
-    this.bc.postMessage({ ...msg, p: this.id });
+    try {
+      this.bc.postMessage({ ...msg, p: this.id });
+    } catch {}
   }
   leave(): void {
     this.send({ t: 'bye' });
