@@ -19,9 +19,10 @@
   "Wish pedestal verified: ray hover + press -> \"You whisper a wish... the map ink swirls\" - ALL interactables now proven live",
   "Devpost submission package drafted -> SUBMISSION.md (tagline, description, track/division, hands, video plan)",
   "GitHub Pages enabled (build_type=workflow) + deploy-pages.yml workflow builds dist/ on push; site: https://zrald1.github.io/Gameofwar/",
-  "Pages pipeline confirmed running (build+deploy in progress); site 404s until first artifact lands - normal cold start"
+  "Pages pipeline confirmed running (build+deploy in progress); site 404s until first artifact lands - normal cold start",
+  "Pages site LIVE - https://zrald1.github.io/Gameofwar/ returns 200; playable build deployed"
  ],
  "pending": [],
  "current": null,
- "iteration": 18
+ "iteration": 20
 }
