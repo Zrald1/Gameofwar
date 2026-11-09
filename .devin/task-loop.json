@@ -25,12 +25,12 @@
   ],
   "pending": [
     {
-      "id": "ledger-785",
-      "task": "Task-loop ledger checkpoint commit"
+      "id": "ledger-823",
+      "task": "Ledger checkpoint (~37 iters since last)"
     }
   ],
   "current": null,
-  "iteration": 785,
+  "iteration": 823,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -799,6 +799,162 @@
     {
       "task": "Fresh diff window \u2014 detect user interactions since snap-1",
       "result": "PASS \u2014 27s/1605f: only Dig Site pulse; 0 user actions; world idle-stable (snap-1 evicted by HMR reload)"
+    },
+    {
+      "task": "Task-loop ledger checkpoint commit",
+      "result": "DONE \u2014 ~780-entry ledger committed as 4cf4dfd"
+    },
+    {
+      "task": "Verify 4cf4dfd deploy green",
+      "result": "PASS \u2014 run 42697022015 success in 1m2s"
+    },
+    {
+      "task": "scene state \u2014 validation diagnostics + runtime readiness + render stats",
+      "result": "PASS \u2014 0 diagnostics; 82 draw calls/65 meshes/31 mats/18 programs \u2014 well under Quest budget; map-table 61 meshes"
+    },
+    {
+      "task": "Trace-mode profile \u2014 attribute the 6 long tasks",
+      "result": "DONE \u2014 trace is Playwright action log (no fn attribution); metrics: 10 long tasks pure script, 0 layout, p50 16.7/0 dropped \u2014 dev-mode overhead not shipping concern"
+    },
+    {
+      "task": "tsconfig strictness audit",
+      "result": "PASS \u2014 strict, Bundler resolution, isolatedModules, noEmit, iwsdk client types; conventional and correct"
+    },
+    {
+      "task": "iwsdk.config.json authority-file audit",
+      "result": "PASS \u2014 every flag matches observed behavior: handTracking, offer always, canvasPointer, near 1mm, worker locomotion, horizon dark UI, Q3 emulator"
+    },
+    {
+      "task": "vite.config.ts audit \u2014 last config file",
+      "result": "PASS \u2014 base ./ (Pages+LAN), dedupe fixes duplicate-three uikitml break (documented), havok excluded, 0.0.0.0 host"
+    },
+    {
+      "task": "Verify deployed site serves the aria-label change",
+      "result": "PASS \u2014 live site serves role=application + aria-label + noscript + lang"
+    },
+    {
+      "task": "standby monitor",
+      "result": "PASS \u2014 live shot: baseline state intact, rendering correct, no user actions yet"
+    },
+    {
+      "task": "Second standby check \u2014 ECS diff for user actions in this window",
+      "result": "PASS \u2014 22s window: only Dig Site pulse; session idle, world healthy"
+    },
+    {
+      "task": "Check repo for open issues/PRs",
+      "result": "PASS \u2014 0 open PRs, 0 open issues; clean"
+    },
+    {
+      "task": "runtime targets \u2014 paired physical Quest check",
+      "result": "PASS \u2014 managed app+editor only, no physical Quest paired; browser 4h uptime 0 failures"
+    },
+    {
+      "task": "public/ orphan-file audit",
+      "result": "DONE \u2014 map-editor.html real tool now README-linked; chime.mp3 = scaffold leftover (4kB, unwired); queued audio-feedback follow-up"
+    },
+    {
+      "task": "wire chime.mp3 feedback",
+      "result": "DONE \u2014 SfxSystem: chimes on digDone/wish/travel via createOneShot; registered live (25 systems); pushed a450021"
+    },
+    {
+      "task": "Verify a450021 deploy green",
+      "result": "PASS \u2014 run 42698272675 success in 56s; SfxSystem live on public site"
+    },
+    {
+      "task": "Chime on quest accept \u2014 find accept path, add emit if missing",
+      "result": "DONE \u2014 emit(questAccept) at accept path + sfx subscription; typecheck clean; pushed"
+    },
+    {
+      "task": "Verify 0159859 deploy green",
+      "result": "PASS \u2014 run 42698569104 success in 57s"
+    },
+    {
+      "task": "Chime pass 2 \u2014 runStarted + haven/PIN moments",
+      "result": "DONE \u2014 7 events now: +havenBuilt/pinOk/runStarted; typecheck clean; pushed"
+    },
+    {
+      "task": "Verify 830f83c deploy green",
+      "result": "PASS \u2014 run 42698891733 success in 58s; 7-event chime set live"
+    },
+    {
+      "task": "Verify SfxSystem survived HMR reloads",
+      "result": "PASS \u2014 SfxSystem live (25 systems, 0 paused), 37 entities, no leaks after 3 reloads"
+    },
+    {
+      "task": "Sync docs for audio feature (CHANGELOG + SUBMISSION)",
+      "result": "DONE \u2014 README/CHANGELOG/SUBMISSION now reflect chimes + aria labels + map creator; pushed"
+    },
+    {
+      "task": "Verify d1dd98d deploy green",
+      "result": "PASS \u2014 run 42699226098 success in 57s"
+    },
+    {
+      "task": "Console sweep after sfx/HMR reloads",
+      "result": "PASS \u2014 0 real errors, 0 fresh in 10min covering all sfx reloads; stale entries aged out"
+    },
+    {
+      "task": "Housekeeping: .iwsdk size + aria re-verify post-reloads",
+      "result": "PASS \u2014 .iwsdk 6.2MB gitignored; aria labels persist across all reloads"
+    },
+    {
+      "task": "Source-verify createOneShot mechanism",
+      "result": "PASS \u2014 autoplay+nonloop+auto-dispose confirmed; position option is a no-op in rc.2 (positional:false correct); audio unlocks on first gesture"
+    },
+    {
+      "task": "Persist createOneShot position no-op lesson to AGENTS.md",
+      "result": "DONE \u2014 createOneShot position no-op added to AGENTS.md lessons; pushed"
+    },
+    {
+      "task": "Verify 698fad3 deploy green",
+      "result": "PASS \u2014 run 42699647715 success in 48s"
+    },
+    {
+      "task": "Rebuild dist \u2014 preview serves pre-audio build",
+      "result": "DONE \u2014 :4173 now serves index-iyeCFx5P with all 7 chime events inside"
+    },
+    {
+      "task": "npm outdated \u2014 dep freshness check",
+      "result": "PASS \u2014 nothing actionable: three types correctly match pinned runtime; vite patch skip justified (frozen green toolchain); iwsdk rc.2 no newer"
+    },
+    {
+      "task": "Verify LAN URLs answer (Quest access path)",
+      "result": "PASS \u2014 192.168.1.6 serves :8081 and :4173 (Quest-ready on Wi-Fi); 172.19.48.1 VM adapter also up"
+    },
+    {
+      "task": "Deploy pipeline reliability \u2014 scan recent runs for failures",
+      "result": "PASS \u2014 30/30 deploys green, zero failures across the arc"
+    },
+    {
+      "task": "Activity diff window + arc commit count",
+      "result": "PASS \u2014 28s: Dig Site pulse only, still idle; 84 total commits (+23 this session)"
+    },
+    {
+      "task": "Repo metadata \u2014 description/homepage/topics",
+      "result": "DONE \u2014 was bare; now description + homepage + 10 topics set on the public repo"
+    },
+    {
+      "task": "Tag v0.1.0 submission milestone",
+      "result": "DONE \u2014 first tag pushed; judges get a named submission milestone"
+    },
+    {
+      "task": "Create GitHub Release on v0.1.0",
+      "result": "DONE \u2014 v0.1.0 release published with slice notes + live link"
+    },
+    {
+      "task": "GitHub community-profile checklist check",
+      "result": "DONE \u2014 issue+PR templates added (30ddeb0); health now 100% (was 85%)"
+    },
+    {
+      "task": "Verify 30ddeb0 deploy green",
+      "result": "PASS \u2014 run 42700485578 success in 47s"
+    },
+    {
+      "task": "README badges \u2014 CI status + license",
+      "result": "DONE \u2014 deploy/license/live badges at top; pushed"
+    },
+    {
+      "task": "Verify 58bdaca deploy green",
+      "result": "PASS \u2014 run 42700706745 success in 50s"
     }
   ]
 }
