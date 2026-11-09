@@ -1,5 +1,9 @@
 # ATLAS ETERNAL — The Living Map
 
+[![Deploy](https://github.com/Zrald1/Gameofwar/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/Zrald1/Gameofwar/actions/workflows/deploy-pages.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Live](https://img.shields.io/badge/Live-zrald1.github.io%2FGameofwar-5b8cff)](https://zrald1.github.io/Gameofwar/)
+
 A hands-first fantasy diorama for the Meta VR Start Developer Competition 2026.
 Sit before a living map table where an infinite, seeded world renders as a
 miniature — oceans, deserts, forests, snow peaks — and play the last
