@@ -20,6 +20,8 @@ Cartographer's heir entirely with your hands.
 - Weapons drop on a six-tier rarity ladder — Mythic sits at a 0.1% floor on
   any roll, and quest grade sharpens the odds
 - Level up as you dig and quest; equip the strongest weapon you find
+- Hands are verbs: **point** at the X to dwell-press it, **punch** it with a
+  fist, and answer patrons with a **thumbs-up** or an **open palm**
 - Carry your champion to the X and press it to dig gold, relics, and legendaries
 - Build a Haven of income-generating houses; whisper wishes at the pedestal
 - Event chimes answer every satisfying moment — digs, wishes, builds, unlocks
