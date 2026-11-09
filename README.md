@@ -32,3 +32,6 @@ Hands-first: every interaction is a pinch or a ray.
 - `public/ui/` — UIKitML panels
 - `public/maps/` — charted world definitions
 - `SUBMISSION.md` / `NEXT_STEPS.md` — Devpost package + remaining steps
+## License
+MIT — see [LICENSE](LICENSE). The `old-earth`/`terra-mirror` maps use
+public-domain [Natural Earth](https://www.naturalearthdata.com) country data.
