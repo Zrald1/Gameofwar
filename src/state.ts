@@ -84,12 +84,66 @@ export interface GameState {
   charHat: string;
   /** live peer count from presence */
   peers: number;
+  /** cartographer admin unlocked (PIN claimed on this device) */
+  admin: boolean;
+  /** PIN pad input buffer while the login pad is open */
+  pinBuf: string;
   /** set by systems when HUD text needs refresh */
   hudDirty: boolean;
   listeners: Map<string, ((...a: any[]) => void)[]>;
 }
 
 export const SAVE_KEY = 'atlas-eternal-save-v1';
+export const ADMIN_KEY = 'atlas-admin-v1';
+export const DEFAULT_MAP_KEY = 'atlas-default-map-v1';
+
+/** local admin claim: first PIN ever entered becomes the device key */
+export function adminLogin(pin: string): 'claimed' | 'ok' | 'denied' {
+  let stored: string | null = null;
+  try {
+    stored = JSON.parse(localStorage.getItem(ADMIN_KEY) ?? 'null')?.pin ?? null;
+  } catch { /* private mode */ }
+  if (!stored) {
+    if (pin.length < 4) return 'denied';
+    try {
+      localStorage.setItem(ADMIN_KEY, JSON.stringify({ pin, authed: true }));
+    } catch { /* private mode */ }
+    G.admin = true;
+    return 'claimed';
+  }
+  if (stored === pin) {
+    G.admin = true;
+    try {
+      localStorage.setItem(ADMIN_KEY, JSON.stringify({ pin: stored, authed: true }));
+    } catch { /* private mode */ }
+    return 'ok';
+  }
+  return 'denied';
+}
+
+/** boot: silently restore admin when this device is already authed */
+export function adminRestore(): void {
+  try {
+    const d = JSON.parse(localStorage.getItem(ADMIN_KEY) ?? 'null');
+    if (d?.authed) G.admin = true;
+  } catch { /* private mode */ }
+}
+
+export function adminLogout(): void {
+  G.admin = false;
+  try {
+    const d = JSON.parse(localStorage.getItem(ADMIN_KEY) ?? 'null');
+    if (d) localStorage.setItem(ADMIN_KEY, JSON.stringify({ pin: d.pin, authed: false }));
+  } catch { /* private mode */ }
+}
+
+/** forget the claimed key entirely (fresh claim next login) */
+export function adminReset(): void {
+  G.admin = false;
+  try {
+    localStorage.removeItem(ADMIN_KEY);
+  } catch { /* private mode */ }
+}
 
 export const G: GameState = {
   phase: 'race',
@@ -127,6 +181,8 @@ export const G: GameState = {
   charColor: 0,
   charHat: 'none',
   peers: 0,
+  admin: false,
+  pinBuf: '',
   hudDirty: true,
   listeners: new Map(),
 };

@@ -5,9 +5,12 @@
  */
 import { createSystem, UIKitMLAsset, VisibilityState } from '@iwsdk/core';
 import { GRADES, powerRank, QuestKinds } from '../gen/quests.js';
-import { nextMap } from '../gen/mapdef.js';
+import { clearDefaultMap, nextMap, saveDefaultMap } from '../gen/mapdef.js';
 import { applyCharacter, CHAR_COLORS, HATS } from '../character.js';
 import {
+  adminLogin,
+  adminLogout,
+  adminRestore,
   emit,
   feed,
   G,
@@ -94,14 +97,116 @@ export class HudSystem extends createSystem({}) {
     };
     nw?.addEventListener('click', onNew);
     this.cleanupFuncs.push(() => nw?.removeEventListener('click', onNew));
-    // cartographer mode - champion becomes the brush cursor
+    // cartographer mode - gated behind the admin PIN login
+    adminRestore();
     const editBtn = p.getElementById('btn-edit');
     const onEdit = () => {
+      if (!G.admin) {
+        G.pinBuf = '';
+        this.set('pin-display', { text: '[    ]' });
+        this.set('login-status', {
+          text: 'First login claims a new key (4+ digits).',
+        });
+        this.set('login-wrap', { display: 'flex' });
+        this.set('edit-wrap', { display: 'none' });
+        feed('The Cartographer\'s seal asks for your key.');
+        return;
+      }
       emit('editMode', !G.editing);
+      this.set('login-wrap', { display: 'none' });
       this.set('edit-wrap', { display: G.editing ? 'flex' : 'none' });
     };
     editBtn?.addEventListener('click', onEdit);
     this.cleanupFuncs.push(() => editBtn?.removeEventListener('click', onEdit));
+    // PIN pad
+    const showPin = () => {
+      this.set('pin-display', {
+        text: `[ ${'●'.repeat(G.pinBuf.length).padEnd(4, ' ')}]`,
+      });
+    };
+    for (let d = 0; d <= 9; d++) {
+      const b = p.getElementById(`pin-${d}`);
+      const fn = () => {
+        if (G.pinBuf.length < 8) {
+          G.pinBuf += String(d);
+          showPin();
+        }
+      };
+      b?.addEventListener('click', fn);
+      this.cleanupFuncs.push(() => b?.removeEventListener('click', fn));
+    }
+    const pinBack = p.getElementById('pin-back');
+    const onBack = () => {
+      G.pinBuf = G.pinBuf.slice(0, -1);
+      showPin();
+    };
+    pinBack?.addEventListener('click', onBack);
+    this.cleanupFuncs.push(() => pinBack?.removeEventListener('click', onBack));
+    const pinClear = p.getElementById('pin-clear');
+    const onClear = () => {
+      G.pinBuf = '';
+      showPin();
+    };
+    pinClear?.addEventListener('click', onClear);
+    this.cleanupFuncs.push(() => pinClear?.removeEventListener('click', onClear));
+    const pinEnter = p.getElementById('pin-enter');
+    const onEnter = () => {
+      const res = adminLogin(G.pinBuf);
+      G.pinBuf = '';
+      showPin();
+      if (res === 'claimed') {
+        feed('Key claimed - the Cartographer\'s seal is yours.');
+        this.set('login-status', { text: 'Key claimed. You are the Cartographer now.' });
+      } else if (res === 'ok') {
+        feed('Welcome back, Cartographer.');
+        this.set('login-status', { text: 'Seal recognized - welcome back.' });
+      } else {
+        feed('The seal rejects that key.');
+        this.set('login-status', { text: 'Wrong key - try again.' });
+        return;
+      }
+      emit('editMode', true);
+      this.set('login-wrap', { display: 'none' });
+      this.set('edit-wrap', { display: 'flex' });
+    };
+    pinEnter?.addEventListener('click', onEnter);
+    this.cleanupFuncs.push(() => pinEnter?.removeEventListener('click', onEnter));
+    // make my authored world the default map
+    const setHome = p.getElementById('btn-set-home');
+    const onSetHome = () => {
+      if (!G.map) {
+        feed('Nothing drawn yet - stamp the world first.');
+        return;
+      }
+      if (saveDefaultMap(G.map)) {
+        this.set('home-status', {
+          text: `Saved - '${G.map.name}' is now the default world.`,
+        });
+        feed(`'${G.map.name}' is now the home map.`);
+      } else {
+        this.set('home-status', { text: 'Save failed - storage is blocked.' });
+      }
+    };
+    setHome?.addEventListener('click', onSetHome);
+    this.cleanupFuncs.push(() => setHome?.removeEventListener('click', onSetHome));
+    const clearHome = p.getElementById('btn-clear-home');
+    const onClearHome = () => {
+      clearDefaultMap();
+      this.set('home-status', { text: 'Default cleared - back to the charted lands.' });
+      feed('Your default map was released to the Wild Ink.');
+    };
+    clearHome?.addEventListener('click', onClearHome);
+    this.cleanupFuncs.push(() => clearHome?.removeEventListener('click', onClearHome));
+    const signOut = p.getElementById('btn-signout');
+    const onSignOut = () => {
+      adminLogout();
+      emit('editMode', false);
+      this.set('edit-wrap', { display: 'none' });
+      this.set('login-wrap', { display: 'none' });
+      feed('Cartographer signed out - the seal sleeps.');
+    };
+    signOut?.addEventListener('click', onSignOut);
+    this.cleanupFuncs.push(() => signOut?.removeEventListener('click', onSignOut));
     for (const t of ['o', 's', 'd', 'g', 'f', 'r', 'n', 'road', 'dig', 'haven', 'champ', 'erase']) {
       const b = p.getElementById(`tool-${t}`);
       const fn = () => emit('editPaint', t);

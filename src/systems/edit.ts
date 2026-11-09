@@ -46,8 +46,12 @@ function ensureEditable(): void {
 export class MapEditSystem extends createSystem({}) {
   init(): void {
     on('editMode', (on2: boolean) => {
-      G.editing = on2;
-      if (on2) {
+      G.editing = on2 && G.admin;
+      if (on2 && !G.admin) {
+        feed('The seal stays shut - log in as Cartographer first.');
+        return;
+      }
+      if (G.editing) {
         ensureEditable();
         G.terrainDirty = true;
         feed('Carry your meeple onto a tile, then stamp a tool.');
@@ -62,7 +66,7 @@ export class MapEditSystem extends createSystem({}) {
 
   /** stamp the active tool at the champion's tile + brush radius */
   private paint(tool: string): void {
-    if (!G.editing) return;
+    if (!G.editing || !G.admin) return;
     ensureEditable();
     stampTile(G.map!, G.ci, G.cj, G.brushR, tool);
     G.terrainDirty = true;
@@ -71,7 +75,7 @@ export class MapEditSystem extends createSystem({}) {
 
   /** minecraft-style stamp: place or break blocks at the champion tile */
   private voxOp(op: string): void {
-    if (!G.editing) return;
+    if (!G.editing || !G.admin) return;
     ensureEditable();
     stampVox(G.map!, G.ci, G.cj, G.brushR, op, G.buildMat);
     G.terrainDirty = true;

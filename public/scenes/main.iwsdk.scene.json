@@ -208,7 +208,7 @@
       "name": "Atlas HUD",
       "framingRole": "content",
       "content": { "type": "asset", "asset": "hud-panel" },
-      "transform": { "position": [-0.78, 1.18, -0.52], "rotationDeg": [8, 48, 0] },
+      "transform": { "position": [-1.0, 1.3, -0.58], "rotationDeg": [8, 52, 0] },
       "components": { "RayInteractable": {} }
     },
     {

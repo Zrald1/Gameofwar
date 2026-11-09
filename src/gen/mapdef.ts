@@ -7,7 +7,7 @@
  * ?map=<name>).
  */
 import { Biome, Biomes, hash2, TileInfo, tileInfo } from './prng.js';
-import { feed, G } from '../state.js';
+import { DEFAULT_MAP_KEY, feed, G } from '../state.js';
 
 export interface MapDef {
   name: string;
@@ -178,7 +178,34 @@ export function applyMap(def: MapDef): void {
   feed(`You chart ${def.name}. ${def.story}`);
 }
 
-/** boot: ?map=<name> > saved map > index.json[0] > 'atlas-home' > procedural */
+/**
+ * The admin's own world, persisted locally. "Set as Home Map" writes the
+ * serialized MapDef here; it outranks every shipped map at boot.
+ */
+export function saveDefaultMap(m: MapDef): boolean {
+  try {
+    localStorage.setItem(DEFAULT_MAP_KEY, serializeMap(m));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function loadDefaultMap(): MapDef | null {
+  try {
+    return decodeMap(JSON.parse(localStorage.getItem(DEFAULT_MAP_KEY) ?? 'null'));
+  } catch {
+    return null;
+  }
+}
+
+export function clearDefaultMap(): void {
+  try {
+    localStorage.removeItem(DEFAULT_MAP_KEY);
+  } catch { /* private mode */ }
+}
+
+/** boot: ?map=<name> > my default map > saved map > index.json[0] > 'atlas-home' > procedural */
 export async function initMapLibrary(): Promise<void> {
   try {
     const res = await fetch('maps/index.json');
@@ -188,8 +215,17 @@ export async function initMapLibrary(): Promise<void> {
     }
   } catch { /* no index - procedural only */ }
   const param = new URLSearchParams(location.search).get('map');
-  const saved = savedMapName();
-  const def = await fetchMap(param ?? saved ?? G.mapList[0] ?? 'atlas-home');
+  if (param) {
+    const def = await fetchMap(param);
+    if (def) applyMap(def);
+    return;
+  }
+  const mine = loadDefaultMap();
+  if (mine) {
+    applyMap(mine);
+    return;
+  }
+  const def = await fetchMap(savedMapName() ?? G.mapList[0] ?? 'atlas-home');
   if (def) applyMap(def);
 }
 
