@@ -7,7 +7,7 @@ Everything is built, verified, and live. Remaining steps need you:
 - Open any screen recorder (OBS, Xbox Game Bar Win+G)
 - Play the scripted flow: pick race -> pinch champion to map edge -> accept a quest card -> carry to the X -> dig loot -> build a haven -> Cartographer PIN -> paint terrain -> Set as Home
 - Lead with the world shot + champion carry in the first 15s
-- Reference stills: `.iwsdk/shots/01-world.png` etc.
+- Reference stills: `docs/screenshots/01-world.png` etc.
 
 ## 2. Fill the Devpost form
 - Copy from `SUBMISSION.md` (tagline, description, track=Gaming, division=New Experience, hands section, video link)
