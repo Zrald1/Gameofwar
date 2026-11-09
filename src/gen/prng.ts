@@ -46,7 +46,7 @@ export function fbm(x: number, y: number, seed: number, octaves = 3): number {
     amp *= 0.5;
     freq *= 2;
   }
-  return v / (1 - Math.pow(0.5, octaves)) * 0.5;
+  return v / (1 - Math.pow(0.5, octaves));
 }
 
 export const Biomes = {
