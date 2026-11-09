@@ -8,9 +8,15 @@
   "Admin PIN login gating Cartographer mode + Set-as-Home-Map default-world persistence",
   "Rust async research report -> C:/Users/Zrald/research/rust-async/REPORT.md",
   "Row controls -> div chips (kit Buttons are fixed 80u); admin login verified END-TO-END in XR emulator: btn-edit -> PIN pad -> 'Key claimed' -> edit tools -> Set as Home -> 'atlas-home is now the default world'",
-  "Champion grab/carry verified: pinch -> carry -> drop -> \"Champion enters the forest lands (7,3)\"; meeple glides to new tile"
+  "Champion grab/carry verified: pinch -> carry -> drop -> \"Champion enters the forest lands (7,3)\"; meeple glides to new tile",
+  "Dig->loot verified: X press refused at range (\"Too far - carry your champion to the X\"), champion carried adjacent, press -> \"Dug up 29 gold\"",
+  "Quest accept verified: grab+release card -> \"Quest accepted [D] Sealed Barrow of the Glass Shore >ACTIVE\"",
+  "Panel grew past btn-map quad (layout size 0) - buttons near top clipped; needs panel scroll or taller anchor, noted as real defect",
+  "Next Expedition verified: btn-map -> \"Map: verdant-reach\" loaded; earlier misses were stale resolver coords after UI swap",
+  "Reverted forced panel height - zero-size elements were hidden game-wrap after reload, not clipping",
+  "Production build green (8.1s); all interactions verified end-to-end in XR emulator"
  ],
  "pending": [],
- "current": "Final typecheck+build, commit + push",
- "iteration": 3
+ "current": null,
+ "iteration": 8
 }
