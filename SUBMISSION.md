@@ -86,10 +86,11 @@ Capture the emulated Quest 3 session (production build, `:4173`):
   world recenters beneath it. Lead with this.
 - **0:15–0:45** — *Commission the Guild*: the engineer plans, the laborer
   raises a world live, and the new map lands on the table playable.
-- **0:45–1:15** — a patron offer appears: answer with voice or chips —
-  *bargain* for more gold, then *take it*.
-- **1:15–2:00** — carry to the X, dig, show the loot roll land a weapon
-  (the gear line updates) and the XP level-up.
+- **0:45–1:15** — a patron offer appears: answer with a **thumbs-up** to take
+  it (or voice/chips — *bargain* for more gold first).
+- **1:15–2:00** — **point** at the X to aim the beam, then **throw a fist** to
+  punch the ground open; show the loot roll land a weapon (gear line updates)
+  and the XP level-up.
 - **2:00–2:40** — build a Haven house, enter the Cartographer PIN, paint a
   mountain, Set as Home.
 - **2:40–3:00** — pull back to the whole table: patron, cards, map, hands.
