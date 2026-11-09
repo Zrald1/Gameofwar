@@ -75,7 +75,10 @@ Hands-only from boot: pinch-to-grab the champion, quest cards, and treasure
 scroll; ray-press dig sites, the wish pedestal, and all UIKitML panels;
 a tap-driven PIN pad for the Cartographer admin login; and the whole
 Cartographer toolset (biome brush, voxel blocks, export) driven by grab +
-press. No controller is ever required.
+press. Real hand-joint poses are game verbs: **point** a finger at the X to
+aim a beam and dwell-press it, **throw a fist** to punch the ground open,
+and answer a patron offer with a **thumbs-up** (take it) or an **open palm**
+(send them away). No controller is ever required.
 
 ### Demo video plan (≤3 min)
 Capture the emulated Quest 3 session (production build, `:4173`):
