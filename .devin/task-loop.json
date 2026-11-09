@@ -25,7 +25,7 @@
   ],
   "pending": [],
   "current": null,
-  "iteration": 845,
+  "iteration": 861,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1038,6 +1038,58 @@
     {
       "task": "live bundle check after docs",
       "result": "see output"
+    },
+    {
+      "task": "3-surface liveness",
+      "result": "DONE \u2014 :8081, :4173, live site all 200"
+    },
+    {
+      "task": "XR session status",
+      "result": "session dropped (sessionOffered:true, active:false) \u2014 click Enter XR to resume"
+    },
+    {
+      "task": "XR session restore",
+      "result": "offer:always already set \u2014 Enter XR button is the intended resume path; no change needed"
+    },
+    {
+      "task": "git housekeeping",
+      "result": "DONE \u2014 tree clean, only loop file dirty, dist/ ignored"
+    },
+    {
+      "task": "Guild HUD still",
+      "result": "PARTIAL \u2014 captured 04-guild-hud.png but XR cam aimed skyward; needs head-aim for a usable still"
+    },
+    {
+      "task": "head-aim for still",
+      "result": "BLOCKED \u2014 headset look-at requires active XR session; only user Enter-XR gesture can start one"
+    },
+    {
+      "task": "XR session restore via reload",
+      "result": "DONE \u2014 reload re-offered + auto-entered, sessionActive:true (Quest 3 immersive); headset re-aim refused headlessly, still stays user-framed"
+    },
+    {
+      "task": "hand mode restore",
+      "result": "DONE \u2014 set-input-mode hand ok; screenshot confirms wireframe hands both sides"
+    },
+    {
+      "task": "post-reload target audit",
+      "result": "DONE \u2014 30 targets incl stat-gear (Guild HUD line) live on fresh session"
+    },
+    {
+      "task": "hand gesture system",
+      "result": "DONE \u2014 GestureSystem: point-dwell press, fist punch, thumbsup/open NPC replies, all verified live; npcReply LLM-gate bug fixed; 170756d"
+    },
+    {
+      "task": "verify gesture deploy",
+      "result": "DONE \u2014 green in 57s, gestures live on Pages"
+    },
+    {
+      "task": "README gesture line",
+      "result": "DONE"
+    },
+    {
+      "task": "verify b49bbb3 deploy",
+      "result": "DONE \u2014 green in 51s"
     }
   ]
 }
