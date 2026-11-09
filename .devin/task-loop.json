@@ -20,6 +20,6 @@
   "Devpost submission package drafted -> SUBMISSION.md (tagline, description, track/division, hands, video plan)"
  ],
  "pending": [],
- "current": null,
- "iteration": 14
+ "current": "GitHub Pages deploy: workflow builds dist/ -> Pages; enable via gh api",
+ "iteration": 15
 }
