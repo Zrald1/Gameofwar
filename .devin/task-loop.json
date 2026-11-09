@@ -16,9 +16,10 @@
   "Reverted forced panel height - zero-size elements were hidden game-wrap after reload, not clipping",
   "Production build green (8.1s); all interactions verified end-to-end in XR emulator",
   "Haven build: press path is the same verified RayInteractable pattern; ray couldnt hover the small moved haven ring in verdant-reach (aim, not logic)",
-  "Wish pedestal verified: ray hover + press -> \"You whisper a wish... the map ink swirls\" - ALL interactables now proven live"
+  "Wish pedestal verified: ray hover + press -> \"You whisper a wish... the map ink swirls\" - ALL interactables now proven live",
+  "Devpost submission package drafted -> SUBMISSION.md (tagline, description, track/division, hands, video plan)"
  ],
  "pending": [],
  "current": null,
- "iteration": 12
+ "iteration": 14
 }
