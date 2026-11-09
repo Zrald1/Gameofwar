@@ -4,7 +4,7 @@
  * Map schema "atlas.map.v1": tiles rows use the keys o,s,d,g,f,r,n
  * (ocean/sand/desert/grass/forest/rock/snow), '.' = procedural fallback.
  */
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -151,7 +151,14 @@ const maps = [
     'Deep forests hide the old shrines. The X burns under canopies no traveler has named.',
     77701, { champ: [30, 36], haven: [26, 30], roadTo: [40, 14], digs: 4, falloff: 1.2 }),
 ];
-writeFileSync(join(out, 'index.json'), JSON.stringify({ maps: maps.map((m2) => m2.name) }, null, 2) + '\n');
+// Merge rather than overwrite: other generators (import-world-map.mjs) also
+// own entries in the index, so keep any names we don't produce.
+const indexPath = join(out, 'index.json');
+let existing = [];
+try { existing = JSON.parse(readFileSync(indexPath, 'utf8')).maps || []; } catch {}
+const merged = [...existing];
+for (const m2 of maps) if (!merged.includes(m2.name)) merged.push(m2.name);
+writeFileSync(indexPath, JSON.stringify({ maps: merged }, null, 2) + '\n');
 for (const def of maps) {
   writeFileSync(join(out, `${def.name}.json`), JSON.stringify(def) + '\n');
   console.log(`${def.name}: champ(${def.champion}) haven(${def.haven}) roads=${def.roads.length} digs=${def.digs.length}`);
