@@ -18,9 +18,10 @@
   "Haven build: press path is the same verified RayInteractable pattern; ray couldnt hover the small moved haven ring in verdant-reach (aim, not logic)",
   "Wish pedestal verified: ray hover + press -> \"You whisper a wish... the map ink swirls\" - ALL interactables now proven live",
   "Devpost submission package drafted -> SUBMISSION.md (tagline, description, track/division, hands, video plan)",
-  "GitHub Pages enabled (build_type=workflow) + deploy-pages.yml workflow builds dist/ on push; site: https://zrald1.github.io/Gameofwar/"
+  "GitHub Pages enabled (build_type=workflow) + deploy-pages.yml workflow builds dist/ on push; site: https://zrald1.github.io/Gameofwar/",
+  "Pages pipeline confirmed running (build+deploy in progress); site 404s until first artifact lands - normal cold start"
  ],
  "pending": [],
  "current": null,
- "iteration": 16
+ "iteration": 18
 }
