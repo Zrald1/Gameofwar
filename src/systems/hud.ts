@@ -271,7 +271,22 @@ export class HudSystem extends createSystem({}) {
       b?.addEventListener('click', fn);
       this.cleanupFuncs.push(() => b?.removeEventListener('click', fn));
     });
-    // returning champion?
+    // guildmaster reply chips — hands-first conversation with the quest NPC
+    for (const [id, intent] of [
+      ['npc-take', 'take'],
+      ['npc-bargain', 'bargain'],
+      ['npc-harder', 'harder'],
+      ['npc-refuse', 'refuse'],
+    ] as const) {
+      const b = p.getElementById(id);
+      const fn = () => emit('npcReply', intent);
+      b?.addEventListener('click', fn);
+      this.cleanupFuncs.push(() => b?.removeEventListener('click', fn));
+    }
+    const talk = p.getElementById('npc-talk');
+    const onTalk = () => emit('voiceToggle');
+    talk?.addEventListener('click', onTalk);
+    this.cleanupFuncs.push(() => talk?.removeEventListener('click', onTalk));
     if (load()) {
       this.enterPlaying();
     } else {
@@ -302,9 +317,13 @@ export class HudSystem extends createSystem({}) {
 
   private refresh(): void {
     if (!this.panel) return;
-    this.set('stat-race', { text: `${G.race ?? '-'} | Lv ${1 + Math.floor(G.power / 25)}` });
+    this.set('stat-race', { text: `${G.race ?? '-'} | Lv ${G.level} (${G.xp}xp)` });
     this.set('stat-power', { text: `Power ${G.power} | Rank ${powerRank(G.power)}` });
     this.set('stat-gold', { text: `${G.gold} gold` });
+    const w = G.equipped >= 0 ? G.inventory[G.equipped] : null;
+    this.set('stat-gear', {
+      text: w ? `${w.rarity} ${w.name} +${w.power}p` : 'No weapon wielded',
+    });
     this.set(
       'stat-haven',
       { text: G.houses > 0 ? `Haven: ${G.houses} house${G.houses > 1 ? 's' : ''} (+${G.houses * 2}g/10s)` : 'Haven: unbuilt - press the golden ring' },
@@ -326,6 +345,16 @@ export class HudSystem extends createSystem({}) {
     }
     for (let f = 0; f < 3; f++) {
       this.set(`feed-${f}`, { text: G.feed[f] ?? '' });
+    }
+    // guildmaster offer panel
+    const o = G.offer;
+    this.set('npc-wrap', { display: o ? 'flex' : 'none' });
+    if (o) {
+      this.set('npc-name', { text: `${o.npc.name} — ${o.npc.title}` });
+      this.set('npc-offer', {
+        text: `[${GRADES[o.quest.gradeIdx]}] ${o.quest.title} — +${o.quest.rewardGold}g +${o.quest.rewardPower}p`,
+      });
+      this.set('npc-line', { text: o.line });
     }
   }
 

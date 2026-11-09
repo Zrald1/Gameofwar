@@ -7,6 +7,7 @@
  * ?map=<name>).
  */
 import { Biome, Biomes, hash2, TileInfo, tileInfo } from './prng.js';
+import { brainBoot } from './brain.js';
 import { DEFAULT_MAP_KEY, feed, G } from '../state.js';
 
 export interface MapDef {
@@ -207,6 +208,7 @@ export function clearDefaultMap(): void {
 
 /** boot: ?map=<name> > my default map > saved map > index.json[0] > 'atlas-home' > procedural */
 export async function initMapLibrary(): Promise<void> {
+  brainBoot();
   try {
     const res = await fetch('maps/index.json');
     if (res.ok) {

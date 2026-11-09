@@ -8,16 +8,21 @@ import { createSystem, Grabbed, Pressed } from '@iwsdk/core';
 import { Biomes } from '../gen/prng.js';
 import { mapTileInfo } from '../gen/mapdef.js';
 import { rollLoot } from '../gen/quests.js';
+import { rollWeapon, weaponDropChance } from '../gen/loot.js';
 import {
   addGold,
   addPower,
+  addWeapon,
+  addXp,
   Anchors,
   digGoldMul,
   emit,
   feed,
   G,
+  levelLuck,
   luckBonus,
   save,
+  weaponPower,
 } from '../state.js';
 import { tileDist, worldTilePos } from '../layout.js';
 import { ChestProp, DigMarker, HavenTag, ScrollProp, WishTag } from '../components.js';
@@ -68,11 +73,15 @@ export class InteractSystem extends createSystem({
       emit('digDone', dig.questId, dig.i, dig.j);
       return;
     }
-    // free treasure from the held scroll
-    const loot = rollLoot(G.rng, luckBonus(info.biome === Biomes.OCEAN));
+    // free treasure from the held scroll — luck from race AND level
+    const loot = rollLoot(
+      G.rng,
+      luckBonus(info.biome === Biomes.OCEAN) + levelLuck(),
+    );
     const gold = Math.round(loot.gold * digGoldMul());
     addGold(gold);
-    addPower(loot.power);
+    addPower(loot.power + Math.round(weaponPower() * 0.1));
+    addXp(15);
     if (loot.legendary) {
       G.relics.push(loot.item);
       G.terrainDirty = true;
@@ -81,6 +90,12 @@ export class InteractSystem extends createSystem({
       feed(`Found ${loot.item} (+${loot.power}p, +${gold}g)`);
     } else {
       feed(`Dug up ${gold} gold`);
+    }
+    // weapon drop — a free dig can still yield a legendary (0.1% mythic floor)
+    if (G.rng() < weaponDropChance(-1)) {
+      const w = rollWeapon(G.rng, -1, '');
+      addWeapon(w);
+      feed(`${w.rarity.toUpperCase()} DROP — ${w.name} (+${w.power}p)`);
     }
     save();
     G.freeDig = null;

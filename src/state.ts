@@ -5,6 +5,7 @@
  */
 import { mulberry32 } from './gen/prng.js';
 import { Quest, rollLoot, powerRank } from './gen/quests.js';
+import type { Weapon } from './gen/loot.js';
 import type { MapDef } from './gen/mapdef.js';
 import type { Object3D } from '@iwsdk/core';
 
@@ -40,6 +41,14 @@ export interface GameState {
   rng: () => number;
   gold: number;
   power: number;
+  /** leveling: xp drives level; level adds a small luck edge */
+  xp: number;
+  level: number;
+  /** weapon arsenal; equipped = index of the wielded one (-1 none) */
+  inventory: Weapon[];
+  equipped: number;
+  /** the guildmaster offer currently on the table (null = none pending) */
+  offer: import('./gen/npc.js').NpcOffer | null;
   /** champion logical tile */
   ci: number;
   cj: number;
@@ -152,6 +161,11 @@ export const G: GameState = {
   rng: mulberry32(1337),
   gold: 0,
   power: 0,
+  xp: 0,
+  level: 1,
+  inventory: [],
+  equipped: -1,
+  offer: null,
   ci: 0,
   cj: 0,
   centerI: 0,
@@ -217,6 +231,39 @@ export function addPower(n: number): void {
   save();
 }
 
+/** xp thresholds — level N needs 60*N^1.5 cumulative-ish xp */
+const XP_STEP = (lv: number) => Math.round(60 * Math.pow(lv, 1.5));
+export function addXp(n: number): void {
+  G.xp += n;
+  while (G.xp >= XP_STEP(G.level)) {
+    G.xp -= XP_STEP(G.level);
+    G.level++;
+    feed(`Level up! You are now Lv ${G.level} — the map respects you more.`);
+  }
+  G.hudDirty = true;
+}
+
+/** power bonus from the equipped weapon (added into dig loot) */
+export function weaponPower(): number {
+  const w = G.equipped >= 0 ? G.inventory[G.equipped] : null;
+  return w ? w.power : 0;
+}
+
+/** stow a weapon; auto-equip if it's the strongest thing you own */
+export function addWeapon(w: Weapon): void {
+  G.inventory.push(w);
+  if (G.equipped < 0 || w.power > weaponPower()) {
+    G.equipped = G.inventory.length - 1;
+  }
+  G.hudDirty = true;
+  save();
+}
+
+/** level luck edge: +0.5% per level, capped at +5% */
+export function levelLuck(): number {
+  return Math.min(0.05, (G.level - 1) * 0.005);
+}
+
 export function raceGoldMul(): number {
   return G.race === 'Human' ? 1.15 : 1;
 }
@@ -241,6 +288,10 @@ export function save(): void {
         seed: G.seed,
         gold: G.gold,
         power: G.power,
+        xp: G.xp,
+        level: G.level,
+        inventory: G.inventory,
+        equipped: G.equipped,
         ci: G.ci,
         cj: G.cj,
         houses: G.houses,
@@ -266,6 +317,10 @@ export function load(): boolean {
     G.rng = mulberry32(G.seed + 77);
     G.gold = d.gold ?? 0;
     G.power = d.power ?? 0;
+    G.xp = d.xp ?? 0;
+    G.level = d.level ?? 1;
+    G.inventory = Array.isArray(d.inventory) ? d.inventory : [];
+    G.equipped = typeof d.equipped === 'number' ? d.equipped : -1;
     G.ci = d.ci ?? 0;
     G.cj = d.cj ?? 0;
     G.centerI = G.ci;

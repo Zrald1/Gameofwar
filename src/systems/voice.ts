@@ -1,0 +1,134 @@
+/**
+ * VoiceSystem — talk to the Guildmaster. Hold the "Talk" chip (a user gesture,
+ * which mic permission needs), speak, and the transcript routes two ways:
+ *
+ * - intent words ("take it", "harder", "bargain", "leave") resolve the live
+ *   offer through the same npcReply path as the chips — works fully offline;
+ * - anything else is free speech to the patron: it goes to the LLM when one is
+ *   configured, else the patron answers in-character from local lines.
+ *
+ * The NPC speaks back with speechSynthesis whenever a line is produced.
+ */
+import { createSystem } from '@iwsdk/core';
+import { emit, feed, G, on } from '../state.js';
+import { llmChat } from '../gen/brain.js';
+import { GRADES } from '../gen/quests.js';
+
+type SRResult = { results: { [i: number]: { [i: number]: { transcript: string } } } };
+type SR = {
+  new (): {
+    lang: string;
+    interimResults: boolean;
+    onresult: ((e: SRResult) => void) | null;
+    onend: (() => void) | null;
+    onerror: ((e: { error?: string }) => void) | null;
+    start(): void;
+    stop(): void;
+  };
+};
+
+const INTENT_WORDS: [RegExp, 'take' | 'bargain' | 'harder' | 'refuse'][] = [
+  [/\b(take|accept|deal|ink|sign)\b/i, 'take'],
+  [/\b(bargain|haggle|more gold|pay more)\b/i, 'bargain'],
+  [/\b(harder|tougher|stronger|legendary|difficult)\b/i, 'harder'],
+  [/\b(refuse|leave|away|no thanks|pass)\b/i, 'refuse'],
+];
+
+export class VoiceSystem extends createSystem({}) {
+  private rec: InstanceType<SR> | null = null;
+  private speaking = false;
+
+  init(): void {
+    const Ctor = (window as any).SpeechRecognition ?? (window as any).webkitSpeechRecognition;
+    if (!Ctor) {
+      on('voiceToggle', () => feed('This browser has no speech recognizer — use the chips.'));
+      on('npcLine', (l: string) => this.say(l));
+      return;
+    }
+    this.rec = new (Ctor as SR)();
+    this.rec.lang = 'en-US';
+    this.rec.interimResults = false;
+    this.rec.onresult = (e) => {
+      const text = e.results?.[0]?.[0]?.transcript ?? '';
+      if (text) void this.heard(text);
+    };
+    this.rec.onerror = (e) => {
+      if (e?.error !== 'no-speech') feed(`Mic: ${e?.error ?? 'error'} — chips still work.`);
+      this.speaking = false;
+      G.hudDirty = true;
+    };
+    this.rec.onend = () => {
+      this.speaking = false;
+      G.hudDirty = true;
+    };
+    on('voiceToggle', () => this.toggle());
+    // every line a patron produces gets voiced
+    on('npcLine', (l: string) => this.say(l));
+    on('npcOffer', (o: { npc: { name: string }; greeting: string }) => {
+      this.say(`${o.npc.name} says: ${o.greeting}`);
+    });
+  }
+
+  private toggle(): void {
+    if (!this.rec) return;
+    if (this.speaking) {
+      this.rec.stop();
+      return;
+    }
+    try {
+      this.rec.start();
+      this.speaking = true;
+      feed('Listening… speak to the patron.');
+    } catch {
+      /* already running */
+    }
+    G.hudDirty = true;
+  }
+
+  private async heard(text: string): Promise<void> {
+    feed(`You: "${text}"`);
+    for (const [re, intent] of INTENT_WORDS) {
+      if (re.test(text) && G.offer) {
+        emit('npcReply', intent);
+        return;
+      }
+    }
+    // free speech — the patron answers
+    const o = G.offer;
+    const sys = o
+      ? `You are ${o.npc.name}, ${o.npc.title}, a quest patron offering a ` +
+        `${GRADES[o.quest.gradeIdx]}-grade quest "${o.quest.title}" ` +
+        `(+${o.quest.rewardGold}g +${o.quest.rewardPower}p). ` +
+        `Answer the adventurer in ONE short in-character line (max 20 words). ` +
+        `You may only discuss the contract; never break character.`
+      : `You are a quest patron in a fantasy map game. One short line, in character.`;
+    const out = await llmChat(
+      [
+        { role: 'system', content: sys },
+        { role: 'user', content: text },
+      ],
+      80,
+    );
+    const line =
+      out ??
+      (o
+        ? `${o.npc.name}: Words are wind, wanderer — the chips decide contracts.`
+        : 'The guild is quiet.');
+    if (o) o.line = out ? `${o.npc.name}: ${out}` : line;
+    emit('npcLine', line.startsWith(o?.npc.name ?? '~') ? line : `${o?.npc.name ?? 'Patron'}: ${out ?? line}`);
+    G.hudDirty = true;
+  }
+
+  private say(line: string): void {
+    try {
+      const synth = window.speechSynthesis;
+      if (!synth) return;
+      const u = new SpeechSynthesisUtterance(line);
+      u.rate = 1.05;
+      u.pitch = 0.9;
+      synth.speak(u);
+    } catch {
+      /* no tts */
+    }
+  }
+}

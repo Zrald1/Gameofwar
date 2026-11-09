@@ -132,6 +132,19 @@
     gap: 0.9px;
   }
 
+  .npc-wrap {
+    flex-direction: column;
+    gap: 0.9px;
+    background-color: #1a2233;
+    border-radius: 2.2px;
+    border-width: 0.2px;
+    border-color: #4a5a80;
+    padding-top: 1.4px;
+    padding-bottom: 1.4px;
+    padding-left: 1.4px;
+    padding-right: 1.4px;
+  }
+
   .xrb {
     margin-left: 4.0px;
     margin-right: 4.0px;
@@ -163,9 +176,27 @@
       <div id="stat-race" class="stats">-</div>
       <div id="stat-power" class="stats">Power 0</div>
       <div id="stat-gold" class="gold">0 gold</div>
+      <div id="stat-gear" class="stats">No weapon wielded</div>
       <div id="stat-haven" class="sub">Haven: unbuilt</div>
       <div id="stat-map" class="sub">Map: the Wild Ink</div>
       <div id="stat-peers" class="sub">Table: solo</div>
+      <div id="npc-wrap" class="npc-wrap" style="display: none">
+        <div class="sub">GUILD PATRON</div>
+        <div id="npc-name" class="stats">-</div>
+        <div id="npc-offer" class="quest">-</div>
+        <div id="npc-line" class="feed">-</div>
+        <div class="row">
+          <div id="npc-take" class="chip">Take it</div>
+          <div id="npc-bargain" class="chip">Bargain</div>
+        </div>
+        <div class="row">
+          <div id="npc-harder" class="chip">Harder!</div>
+          <div id="npc-refuse" class="chip">Send away</div>
+        </div>
+        <div class="row">
+          <div id="npc-talk" class="chip">Talk (hold)</div>
+        </div>
+      </div>
       <div class="divider"></div>
       <Button id="btn-home" class="btn"><ButtonLabel class="btn-label">Return to Haven</ButtonLabel></Button>
       <Button id="btn-map" class="btn"><ButtonLabel class="btn-label">Next Expedition</ButtonLabel></Button>

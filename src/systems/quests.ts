@@ -13,11 +13,15 @@ import {
   MeshBasicMaterial,
 } from '@iwsdk/core';
 import { genQuest, GRADES, GRADE_COLORS, Quest, QuestKinds } from '../gen/quests.js';
+import { rollWeapon, weaponDropChance } from '../gen/loot.js';
+import { makeOffer, reply, ReplyIntent } from '../gen/npc.js';
 import { Biomes } from '../gen/prng.js';
 import { mapTileInfo } from '../gen/mapdef.js';
 import {
   addGold,
   addPower,
+  addWeapon,
+  addXp,
   Anchors,
   emit,
   feed,
@@ -54,6 +58,7 @@ export class QuestSystem extends createSystem({
     on('freeDigSpent', () => this.placeFreeDig());
     on('wish', () => this.onWish());
     on('runStarted', () => this.dealInitial());
+    on('npcReply', (intent: ReplyIntent) => this.respondTo(intent));
   }
 
   // ---------- dealing ----------
@@ -75,6 +80,11 @@ export class QuestSystem extends createSystem({
   dealToSlot(slot: number, boost = 0): void {
     if (slot < 0) return;
     const q = genQuest(G.rng, G.seed, G.nextQuestId++, G.ci, G.cj, boost, mapTileInfo);
+    this.placeCard(slot, q);
+  }
+
+  /** put a quest physically on a rail slot */
+  private placeCard(slot: number, q: Quest): void {
     G.quests.set(q.id, q);
     G.cardSlots[slot] = q.id;
     const e = this.cardEnts[slot];
@@ -85,6 +95,38 @@ export class QuestSystem extends createSystem({
     obj.position.set(CARD_X, 0.1, CARD_Z0 + slot * CARD_DZ);
     obj.rotation.set(-0.3, 0.25, 0);
     this.drawCard(e, q);
+    G.hudDirty = true;
+  }
+
+  // ---------- guildmaster offers (the NPC is the quest source) ----------
+
+  /** a patron walks up with a contract destined for `slot` */
+  requestOffer(slot: number): void {
+    if (slot < 0) return;
+    const o = makeOffer(G.ci, G.cj);
+    o.slot = slot;
+    G.offer = o;
+    emit('npcOffer', o);
+    G.hudDirty = true;
+  }
+
+  /** the player's chip reply to the current offer */
+  private async respondTo(intent: ReplyIntent): Promise<void> {
+    const o = G.offer;
+    if (!o || G.phase !== 'playing') return;
+    const res = await reply(o, intent);
+    o.line = res.line;
+    feed(res.line);
+    if (res.outcome === 'accept') {
+      this.placeCard(o.slot, o.quest);
+      feed(`Contract inked [${GRADES[o.quest.gradeIdx]}] ${o.quest.title}`);
+      G.offer = null;
+    } else if (res.outcome === 'withdrawn') {
+      const slot = o.slot;
+      G.offer = null;
+      setTimeout(() => this.requestOffer(slot), 1400);
+    }
+    emit('npcLine', res.line);
     G.hudDirty = true;
   }
 
@@ -218,10 +260,17 @@ export class QuestSystem extends createSystem({
     const power = Math.round(q.rewardPower * powerMul(q.kind));
     addGold(gold);
     addPower(power);
+    addXp(Math.round((q.gradeIdx + 1) * 25 + gold * 0.1));
     if (q.legendary) {
       const relic = `Relic of ${q.title.split(' ').slice(-2).join(' ')}`;
       G.relics.push(relic);
       feed(`LEGENDARY RELIC earned — ${relic}!`);
+    }
+    // weapon drop — rarity window scales with the quest's grade
+    if (G.rng() < weaponDropChance(q.gradeIdx)) {
+      const w = rollWeapon(G.rng, q.gradeIdx, GRADES[q.gradeIdx]);
+      addWeapon(w);
+      feed(`${w.rarity.toUpperCase()} DROP — ${w.name} (+${w.power}p)`);
     }
     feed(`Quest complete [${GRADES[q.gradeIdx]}]: +${gold}g +${power}p`);
     const idx = G.cardSlots.indexOf(q.id);
@@ -236,7 +285,8 @@ export class QuestSystem extends createSystem({
     G.terrainDirty = true;
     G.hudDirty = true;
     save();
-    setTimeout(() => this.dealToSlot(this.freeSlot()), 1500);
+    // the guild sends a new patron — the NPC deals the replacement
+    setTimeout(() => this.requestOffer(this.freeSlot()), 1500);
   }
 
   private onWish(): void {
