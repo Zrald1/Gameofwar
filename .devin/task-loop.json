@@ -23,9 +23,10 @@
   "Pages site LIVE - https://zrald1.github.io/Gameofwar/ returns 200; playable build deployed",
   "Deployed site verified: index.html + JS bundle + maps/index.json all serve 200 - playable build publicly live",
   "SUBMISSION.md updated with live URL https://zrald1.github.io/Gameofwar/",
-  "Demo storyboard shots captured -> .iwsdk/shots/{01-world,02-table,03-panel}.png for video reference"
+  "Demo storyboard shots captured -> .iwsdk/shots/{01-world,02-table,03-panel}.png for video reference",
+  "PWA manifest + icons added (public/manifest.webmanifest, icons-192/512); linked in index.html - app now installable"
  ],
  "pending": [],
  "current": null,
- "iteration": 26
+ "iteration": 28
 }

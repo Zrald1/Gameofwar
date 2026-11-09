@@ -1,0 +1,16 @@
+{
+  "name": "ATLAS ETERNAL - The Living Map",
+  "short_name": "Atlas Eternal",
+  "description": "A hands-first living-map fantasy diorama. Carry your champion, dig the X, take graded quests, and forge your own world.",
+  "id": "/Gameofwar/",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#0d1220",
+  "theme_color": "#0d1220",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
