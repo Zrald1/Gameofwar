@@ -29,7 +29,9 @@ wss.on('connection', (ws) => {
       if (!rooms.has(room)) rooms.set(room, new Map());
       const peers = rooms.get(room);
       for (const pid of peers.keys()) ws.send(JSON.stringify({ t: 'peer+', p: pid }));
-      for (const p of peers.values()) p.send(JSON.stringify({ t: 'peer+', p: id }));
+      for (const p of peers.values()) {
+        try { p.send(JSON.stringify({ t: 'peer+', p: id })); } catch {}
+      }
       peers.set(id, ws);
       console.log(`+ ${id} -> ${room} (${peers.size} in room)`);
       return;
@@ -46,7 +48,9 @@ wss.on('connection', (ws) => {
     const peers = room && rooms.get(room);
     if (!peers) return;
     peers.delete(id);
-    for (const p of peers.values()) p.send(JSON.stringify({ t: 'peer-', p: id }));
+    for (const p of peers.values()) {
+      try { p.send(JSON.stringify({ t: 'peer-', p: id })); } catch {}
+    }
     if (peers.size === 0) rooms.delete(room);
     console.log(`- ${id} <- ${room}`);
   });
