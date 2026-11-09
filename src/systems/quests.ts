@@ -59,6 +59,9 @@ export class QuestSystem extends createSystem({
     on('wish', () => this.onWish());
     on('runStarted', () => this.dealInitial());
     on('npcReply', (intent: ReplyIntent) => this.respondTo(intent));
+    on('npcSummon', () => {
+      if (!G.offer) this.requestOffer(this.freeSlot());
+    });
   }
 
   // ---------- dealing ----------

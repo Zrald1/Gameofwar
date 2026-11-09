@@ -8,6 +8,7 @@
 import { World } from '@iwsdk/core';
 import projectOptions from 'virtual:iwsdk-project';
 import { initMapLibrary } from './gen/mapdef.js';
+import { emit, G, on } from './state.js';
 import { HudSystem } from './systems/hud.js';
 import { InteractSystem } from './systems/interact.js';
 import { MapEditSystem } from './systems/edit.js';
@@ -20,7 +21,9 @@ import { TerrainSystem } from './systems/terrain.js';
 
 const container = document.getElementById('scene-container') as HTMLDivElement;
 World.create(container, projectOptions).then(async (world) => {
-  container.querySelector('canvas')?.setAttribute('aria-label', 'ATLAS ETERNAL â€” The Living Map, WebXR viewport');
+  container.querySelector('canvas')?.setAttribute('aria-label', 'ATLAS ETERNAL — The Living Map, WebXR viewport');
+  // dev/debug bridge — lets Playwright scripts inspect and drive the real loop
+  (window as unknown as { __atlas: unknown }).__atlas = { G, emit, on };
   await initMapLibrary();
   world.registerSystem(TerrainSystem);
   world.registerSystem(NavSystem);
