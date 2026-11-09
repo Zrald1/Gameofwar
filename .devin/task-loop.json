@@ -32,9 +32,10 @@
   "FIXED stuck Pages deploy: cancel-in-progress:true broke stale environment lock; manifest+icons now live (200)",
   "NEXT_STEPS.md handoff written - video recording + Devpost form + dev account steps for the user",
   "README replaced with real game overview + live URL + feature list (was scaffold boilerplate)",
-  "AGENTS.md: project lessons recorded (LocomotionEnvironment, kit Button 80u, XR click path, panel face, Pages lock, assets realm)"
+  "AGENTS.md: project lessons recorded (LocomotionEnvironment, kit Button 80u, XR click path, panel face, Pages lock, assets realm)",
+  "chunkSizeWarningLimit set to 3000 - build no longer warns on the expected 2.4MB WebXR bundle"
  ],
  "pending": [],
  "current": null,
- "iteration": 53
+ "iteration": 91
 }

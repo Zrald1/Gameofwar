@@ -15,6 +15,7 @@ export default defineConfig({
     outDir: 'dist',
     sourcemap: process.env.NODE_ENV !== 'production',
     target: 'esnext',
+    chunkSizeWarningLimit: 3000,
     rollupOptions: { input: './index.html' },
   },
   esbuild: { target: 'esnext' },
