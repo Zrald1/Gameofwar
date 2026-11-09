@@ -6,7 +6,7 @@
  */
 import { createSystem, Grabbed, Object3D, Vector3 } from '@iwsdk/core';
 import { GRID_H, GRID_W, TILE } from '../scene-assets/game.scene-asset.js';
-import { tileInfo } from '../gen/prng.js';
+import { mapTileInfo } from '../gen/mapdef.js';
 import { Anchors, emit, feed, G } from '../state.js';
 import { HALF_H, HALF_W } from '../layout.js';
 import { Champion } from '../components.js';
@@ -40,7 +40,7 @@ export class NavSystem extends createSystem({
           G.centerJ = G.cj;
         }
         G.terrainDirty = true;
-        const biome = tileInfo(G.ci, G.cj, G.seed).biome;
+        const biome = mapTileInfo(G.ci, G.cj).biome;
         feed(`Champion enters the ${biome} lands (${G.ci}, ${G.cj})`);
         emit('travel', G.ci, G.cj);
       }),

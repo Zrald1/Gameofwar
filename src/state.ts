@@ -5,6 +5,7 @@
  */
 import { mulberry32 } from './gen/prng.js';
 import { Quest, rollLoot, powerRank } from './gen/quests.js';
+import type { MapDef } from './gen/mapdef.js';
 import type { Object3D } from '@iwsdk/core';
 
 /** runtime scene objects resolved at init: node-id -> Object3D */
@@ -66,12 +67,29 @@ export interface GameState {
   relics: string[];
   incomeAcc: number;
   feed: string[];
+  /** loaded authored map (null = pure procedural world) */
+  map: MapDef | null;
+  mapName: string;
+  /** charted expedition names from public/maps/index.json */
+  mapList: string[];
+  /** cartographer mode: champion becomes the brush cursor */
+  editing: boolean;
+  /** active palette tool (biome key | road | dig | haven | champ | erase) */
+  editTool: string;
+  brushR: number;
+  /** minecraft build mode: active block material (char from VOX_MATS) */
+  buildMat: string;
+  /** character creator: meeple tint + headgear */
+  charColor: number;
+  charHat: string;
+  /** live peer count from presence */
+  peers: number;
   /** set by systems when HUD text needs refresh */
   hudDirty: boolean;
   listeners: Map<string, ((...a: any[]) => void)[]>;
 }
 
-const SAVE_KEY = 'atlas-eternal-save-v1';
+export const SAVE_KEY = 'atlas-eternal-save-v1';
 
 export const G: GameState = {
   phase: 'race',
@@ -99,6 +117,16 @@ export const G: GameState = {
   relics: [],
   incomeAcc: 0,
   feed: [],
+  map: null,
+  mapName: '',
+  mapList: [],
+  editing: false,
+  editTool: 'g',
+  brushR: 0,
+  buildMat: 's',
+  charColor: 0,
+  charHat: 'none',
+  peers: 0,
   hudDirty: true,
   listeners: new Map(),
 };
@@ -161,6 +189,9 @@ export function save(): void {
         cj: G.cj,
         houses: G.houses,
         relics: G.relics,
+        map: G.mapName,
+        charColor: G.charColor,
+        charHat: G.charHat,
       }),
     );
   } catch {
@@ -185,6 +216,8 @@ export function load(): boolean {
     G.centerJ = G.cj;
     G.houses = d.houses ?? 0;
     G.relics = d.relics ?? [];
+    G.charColor = d.charColor ?? 0;
+    G.charHat = d.charHat ?? 'none';
     G.phase = 'playing';
     G.terrainDirty = true;
     feed(`Welcome back, ${G.race} wanderer.`);

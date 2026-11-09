@@ -5,7 +5,6 @@
  */
 import {
   BoxGeometry,
-  CircleGeometry,
   ConeGeometry,
   CylinderGeometry,
   Group,
@@ -36,13 +35,13 @@ const mat = (color: number, opts: Partial<{ rough: number; metal: number; e: num
     ...(opts.e ? { emissive: opts.e, emissiveIntensity: opts.ei ?? 1 } : {}),
   });
 
-/** dark disc ground for the browser view */
+/** dark disc ground — a 1m-deep solid so the locomotion capsule can never tunnel through */
 export function createGroundFloor(): Group {
   const g = new Group();
-  const floor = new Mesh(new CircleGeometry(4.2, 48), mat(0x11141c, { rough: 1 }));
-  floor.rotation.x = -Math.PI / 2;
+  const floor = new Mesh(new CylinderGeometry(9, 9, 1, 64), mat(0x11141c, { rough: 1 }));
+  floor.position.y = -0.5;
   g.add(floor);
-  const rim = new Mesh(new RingGeometry(4.2, 4.32, 48), mat(0x2a3550, { e: 0x16223a, ei: 0.6 }));
+  const rim = new Mesh(new RingGeometry(8.94, 9.06, 64), mat(0x2a3550, { e: 0x16223a, ei: 0.6 }));
   rim.rotation.x = -Math.PI / 2;
   rim.position.y = 0.002;
   g.add(rim);
@@ -52,9 +51,9 @@ export function createGroundFloor(): Group {
 /** floating map table: slab, brass rim, glowing under-disc, recessed pad */
 export function createMapTable(): Group {
   const g = new Group();
-  const slab = new Mesh(new BoxGeometry(1.52, 0.06, 0.98), mat(0x4a3220, { rough: 0.9 }));
+  const slab = new Mesh(new BoxGeometry(1.52, 0.06, 0.98), mat(0x3d2a18, { rough: 0.85 }));
   g.add(slab);
-  const pad = new Mesh(new BoxGeometry(GRID_W * TILE + 0.04, 0.008, GRID_H * TILE + 0.04), mat(0x0d1420, { rough: 1 }));
+  const pad = new Mesh(new BoxGeometry(GRID_W * TILE + 0.04, 0.008, GRID_H * TILE + 0.04), mat(0x18202e, { rough: 1 }));
   pad.position.y = 0.03;
   g.add(pad);
   const rimMat = mat(0x8a6a2f, { rough: 0.4, metal: 0.7 });
@@ -69,6 +68,30 @@ export function createMapTable(): Group {
   mkRail(1.52, 0.025, 0, -hd + 0.012);
   mkRail(0.025, 0.98, hw - 0.012, 0);
   mkRail(0.025, 0.98, -hw + 0.012, 0);
+  // brass corner studs on the slab margins
+  for (const [sx, sz] of [[1, 1], [1, -1], [-1, 1], [-1, -1]] as const) {
+    const stud = new Mesh(new CylinderGeometry(0.011, 0.013, 0.012, 10), rimMat);
+    stud.position.set(sx * (hw - 0.028), 0.036, sz * (hd - 0.028));
+    g.add(stud);
+  }
+  // engraved compass rose on the right margin — flat brass inlay
+  const rose = new Group();
+  rose.name = 'compass-rose';
+  const roseMat = mat(0xb08a3f, { e: 0x6a4d18, ei: 0.45, metal: 0.6, rough: 0.45 });
+  const ring = new Mesh(new RingGeometry(0.017, 0.022, 24), roseMat);
+  ring.rotation.x = -Math.PI / 2;
+  rose.add(ring);
+  for (let k = 0; k < 4; k++) {
+    const long = k < 2;
+    const spoke = new Mesh(new BoxGeometry(long ? 0.004 : 0.0025, 0.0015, long ? 0.032 : 0.024), roseMat);
+    spoke.rotation.y = (k * Math.PI) / 4;
+    spoke.position.y = 0.0005;
+    rose.add(spoke);
+  }
+  const hub = new Mesh(new CylinderGeometry(0.0045, 0.0045, 0.002, 10), roseMat);
+  rose.add(hub);
+  rose.position.set(hw - 0.048, 0.031, 0.34);
+  g.add(rose);
   const glow = new Mesh(
     new CylinderGeometry(0.62, 0.72, 0.02, 32),
     mat(0x1a6a4a, { e: 0x1a8a5a, ei: 0.9 }),

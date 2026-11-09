@@ -5,19 +5,17 @@
  * game start).
  */
 import {
+  BoxGeometry,
   Color,
   createSystem,
   InstancedMesh,
   Matrix4,
+  MeshStandardMaterial,
   Object3D,
   Vector3,
 } from '@iwsdk/core';
-import {
-  BIOME_COLORS,
-  Biomes,
-  hash2,
-  tileInfo,
-} from '../gen/prng.js';
+import { Biomes, hash2, TileInfo } from '../gen/prng.js';
+import { mapTileInfo, VOX_DEFS } from '../gen/mapdef.js';
 import { QuestKinds } from '../gen/quests.js';
 import {
   GRID_H,
@@ -33,13 +31,35 @@ import { Grabbed } from '@iwsdk/core';
 
 const PROP_COLORS = [0, 0x2f7a3a, 0x3f8a4f, 0x8a8a8a, 0xdfeaf0];
 
+const VOX_MAX = 1200;
+const VOX = 0.042; // block edge, slightly under TILE so stacks show seams
+
+/** cartographic palette — atlas tints, not raw biome fills */
+const SEA_DEEP = 0x0b2b52;
+const SEA_SHELF = 0x1a5f9c;
+const SEA_SHALLOW = 0x49b3c9;
+const SEA_FOAM = 0xbfe8dd;
+const SAND_COL = 0xe6d6a2;
+const DESERT_DRY = 0xd9a850;
+const DESERT_WET = 0xc79b5e;
+const GRASS_DRY = 0x8fae5a;
+const GRASS_WET = 0x55a455;
+const FOREST_COL = 0x2f7a45;
+const ROCK_LOW = 0x8a7a5f;
+const ROCK_HIGH = 0x7d7d84;
+const SNOW_COL = 0xeef3f8;
+
 export class TerrainSystem extends createSystem({
   champGrabbed: { required: [Champion, Grabbed] },
 }) {
   private terrain!: InstancedMesh;
   private props!: InstancedMesh;
+  private vox!: InstancedMesh;
   private m4 = new Matrix4();
   private col = new Color();
+  private col2 = new Color();
+  private infoArr: TileInfo[] = [];
+  private hArr = new Float32Array(GRID_W * GRID_H);
   private p = { x: 0, y: 0, z: 0 };
   private v = new Vector3();
   private meepleTarget = new Vector3();
@@ -50,6 +70,16 @@ export class TerrainSystem extends createSystem({
     Anchors.set('table', table);
     this.terrain = this.world.requireSceneObject('terrain-mesh') as unknown as InstancedMesh;
     this.props = this.world.requireSceneObject('prop-mesh') as unknown as InstancedMesh;
+    // minecraft-style block layer — one instanced draw under the table node
+    this.vox = new InstancedMesh(
+      new BoxGeometry(VOX, VOX, VOX),
+      new MeshStandardMaterial({ roughness: 0.85, metalness: 0.05 }),
+      VOX_MAX,
+    );
+    this.vox.instanceMatrix.setUsage(this.props.instanceMatrix.usage);
+    this.vox.frustumCulled = false;
+    table.add(this.vox);
+    this.infoArr = new Array(GRID_W * GRID_H);
     for (const id of [
       'champion', 'scroll-map', 'dig-x', 'chest', 'beacon', 'wish',
       'haven-marker', 'house-0', 'house-1', 'house-2',
@@ -69,26 +99,30 @@ export class TerrainSystem extends createSystem({
     Anchors.get('wish')!.position.set(-0.68, 0.032, -0.38);
   }
 
-  /** world tile -> grid height above pad */
-  private tileH(wx: number, wz: number): number {
-    const info = tileInfo(wx, wz, G.seed);
-    return info.biome === Biomes.OCEAN ? 0.004 : 0.006 + info.e * HEIGHT_SCALE;
-  }
-
   rebuild(): void {
+    // pass 1: sample the world once per slot — neighbor lookups read this cache
+    for (let gj = 0; gj < GRID_H; gj++) {
+      for (let gi = 0; gi < GRID_W; gi++) {
+        const idx = gj * GRID_W + gi;
+        const wx = Math.round(G.centerI + gi - HALF_W);
+        const wz = Math.round(G.centerJ + gj - HALF_H);
+        const info = mapTileInfo(wx, wz);
+        this.infoArr[idx] = info;
+        this.hArr[idx] = info.biome === Biomes.OCEAN ? 0.004 : 0.006 + info.e * HEIGHT_SCALE;
+      }
+    }
+    const champGi = Math.round(G.ci - G.centerI + HALF_W);
+    const champGj = Math.round(G.cj - G.centerJ + HALF_H);
     let pi = 0;
     for (let gj = 0; gj < GRID_H; gj++) {
       for (let gi = 0; gi < GRID_W; gi++) {
-        const wx = Math.round(G.centerI + gi - HALF_W);
-        const wz = Math.round(G.centerJ + gj - HALF_H);
-        const info = tileInfo(wx, wz, G.seed);
-        const h = this.tileH(wx, wz);
         const idx = gj * GRID_W + gi;
+        const info = this.infoArr[idx];
+        const h = this.hArr[idx];
         this.m4.makeScale(1, h, 1);
         this.m4.setPosition((gi - HALF_W) * TILE, TILE_TOP + h / 2, (gj - HALF_H) * TILE);
         this.terrain.setMatrixAt(idx, this.m4);
-        const jitter = 0.9 + hash2(wx, wz, G.seed ^ 0x77) * 0.2;
-        this.col.setHex(BIOME_COLORS[info.biome]).multiplyScalar(jitter);
+        this.tileColor(info, gi, gj, idx, gi === champGi && gj === champGj);
         this.terrain.setColorAt(idx, this.col);
         // decor
         if (info.prop > 0 && pi < 240) {
@@ -100,7 +134,8 @@ export class TerrainSystem extends createSystem({
             (gj - HALF_H) * TILE,
           );
           this.props.setMatrixAt(pi, this.m4);
-          this.col.setHex(PROP_COLORS[info.prop]);
+          const jitter = 0.85 + hash2(gi, gj, 0x51e) * 0.3;
+          this.col.setHex(PROP_COLORS[info.prop]).multiplyScalar(jitter);
           this.props.setColorAt(pi, this.col);
           pi++;
         }
@@ -109,11 +144,124 @@ export class TerrainSystem extends createSystem({
     // hide unused props
     this.m4.makeScale(0, 0, 0);
     for (; pi < 240; pi++) this.props.setMatrixAt(pi, this.m4);
+    this.rebuildVox();
     this.terrain.instanceMatrix.needsUpdate = true;
     if (this.terrain.instanceColor) this.terrain.instanceColor.needsUpdate = true;
     this.props.instanceMatrix.needsUpdate = true;
     if (this.props.instanceColor) this.props.instanceColor.needsUpdate = true;
+    this.vox.instanceMatrix.needsUpdate = true;
+    if (this.vox.instanceColor) this.vox.instanceColor.needsUpdate = true;
     this.reanchor();
+  }
+
+  /** draw every block stack in the authored map that falls inside the window */
+  private rebuildVox(): void {
+    const m = G.map;
+    let vi = 0;
+    if (m) {
+      for (const [k, stack] of m.vox) {
+        const wx = m.ox + (k % m.w), wz = m.oz + Math.floor(k / m.w);
+        const gi = Math.round(wx - G.centerI + HALF_W);
+        const gj = Math.round(wz - G.centerJ + HALF_H);
+        if (gi < 0 || gj < 0 || gi >= GRID_W || gj >= GRID_H) continue;
+        const base = TILE_TOP + this.hArr[gj * GRID_W + gi];
+        for (let lv = 0; lv < stack.length && vi < VOX_MAX; lv++) {
+          const def = VOX_DEFS[stack[lv]] ?? VOX_DEFS.s;
+          this.m4.makeScale(def.sx, def.sy, def.sz);
+          this.m4.setPosition(
+            (gi - HALF_W) * TILE,
+            base + VOX * (lv + def.sy / 2),
+            (gj - HALF_H) * TILE,
+          );
+          this.vox.setMatrixAt(vi, this.m4);
+          const j = 0.85 + hash2(wx + lv, wz, 0x5b0c) * 0.3;
+          this.col.setHex(def.c).multiplyScalar(j);
+          this.vox.setColorAt(vi, this.col);
+          vi++;
+        }
+      }
+    }
+    this.m4.makeScale(0, 0, 0);
+    for (; vi < VOX_MAX; vi++) this.vox.setMatrixAt(vi, this.m4);
+  }
+
+  /** neighbor helpers over the cached pass-1 grid (edges clamp) */
+  private infoAt(gi: number, gj: number): TileInfo {
+    gi = gi < 0 ? 0 : gi >= GRID_W ? GRID_W - 1 : gi;
+    gj = gj < 0 ? 0 : gj >= GRID_H ? GRID_H - 1 : gj;
+    return this.infoArr[gj * GRID_W + gi];
+  }
+  private hAt(gi: number, gj: number): number {
+    gi = gi < 0 ? 0 : gi >= GRID_W ? GRID_W - 1 : gi;
+    gj = gj < 0 ? 0 : gj >= GRID_H ? GRID_H - 1 : gj;
+    return this.hArr[gj * GRID_W + gi];
+  }
+
+  /**
+   * Atlas-style tile shading: bathymetric ocean + coastal foam, hypsometric
+   * land ramp, NW hillshade, faint contours, parchment edge vignette, and a
+   * brightened champion tile. Pure color math — no extra draws or allocs.
+   */
+  private tileColor(info: TileInfo, gi: number, gj: number, idx: number, isChamp: boolean): void {
+    const col = this.col;
+    if (info.biome === Biomes.OCEAN) {
+      const t = Math.min(1, info.e / 0.3);
+      if (t < 0.55) {
+        col.setHex(SEA_DEEP).lerp(this.col2.setHex(SEA_SHELF), t / 0.55);
+      } else {
+        col.setHex(SEA_SHELF).lerp(this.col2.setHex(SEA_SHALLOW), (t - 0.55) / 0.45);
+      }
+      // foam edge where sea meets land
+      if (
+        this.infoAt(gi + 1, gj).biome !== Biomes.OCEAN ||
+        this.infoAt(gi - 1, gj).biome !== Biomes.OCEAN ||
+        this.infoAt(gi, gj + 1).biome !== Biomes.OCEAN ||
+        this.infoAt(gi, gj - 1).biome !== Biomes.OCEAN
+      ) {
+        col.lerp(this.col2.setHex(SEA_FOAM), 0.35);
+      }
+    } else {
+      switch (info.biome) {
+        case Biomes.SAND:
+          col.setHex(SAND_COL);
+          break;
+        case Biomes.DESERT:
+          col.setHex(DESERT_DRY).lerp(this.col2.setHex(DESERT_WET), info.m);
+          break;
+        case Biomes.GRASS:
+          col.setHex(GRASS_DRY).lerp(this.col2.setHex(GRASS_WET), Math.min(1, info.m * 1.5));
+          break;
+        case Biomes.FOREST:
+          col.setHex(FOREST_COL).multiplyScalar(0.85 + info.m * 0.4);
+          break;
+        case Biomes.ROCK:
+          col.setHex(ROCK_LOW).lerp(this.col2.setHex(ROCK_HIGH), Math.min(1, (info.e - 0.56) / 0.18));
+          break;
+        default:
+          col.setHex(SNOW_COL);
+          break;
+      }
+      // authored road — packed-dirt tint over the land color
+      if (info.road) col.lerp(this.col2.setHex(0xbfa87a), 0.55);
+      // NW hillshade — light falls from the table's upper-left
+      const slope = this.hAt(gi + 1, gj) - this.hAt(gi - 1, gj) + (this.hAt(gi, gj + 1) - this.hAt(gi, gj - 1));
+      const shade = Math.max(0.7, Math.min(1.18, 1 - slope * 9));
+      col.multiplyScalar(shade);
+      // faint elevation contour
+      if ((info.e * 9) % 1 < 0.07) col.multiplyScalar(0.88);
+    }
+    // parchment vignette — edges fade like unexplored ink
+    const edge = Math.max(Math.abs(gi - HALF_W) / HALF_W, Math.abs(gj - HALF_H) / HALF_H);
+    if (edge > 0.72) {
+      const k = (edge - 0.72) / 0.28;
+      col.multiplyScalar(1 - k * k * 0.38);
+    }
+    // deterministic ink jitter
+    const wx = Math.round(G.centerI + gi - HALF_W);
+    const wz = Math.round(G.centerJ + gj - HALF_H);
+    col.multiplyScalar(0.94 + hash2(wx, wz, G.seed ^ 0x77) * 0.12);
+    // "you are here" — warm lift on the champion's tile
+    if (isChamp) col.lerp(this.col2.setHex(0xffd76a), 0.28);
   }
 
   /** place all world-anchored props on their current tiles */

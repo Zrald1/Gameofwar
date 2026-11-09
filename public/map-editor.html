@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Atlas Eternal - Map Creator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font: 14px/1.45 system-ui, sans-serif;
+    background: #0b0f18; color: #dfe6f2;
+    display: flex; gap: 14px; padding: 14px; min-height: 100vh;
+  }
+  #side { width: 240px; flex: none; display: flex; flex-direction: column; gap: 10px; }
+  h1 { font-size: 18px; margin: 0 0 2px; color: #f5d90a; }
+  .card { background: #141a28; border: 1px solid #2a3550; border-radius: 10px; padding: 10px; }
+  .card h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: #8fb8d8; margin: 0 0 8px; }
+  .tools { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .swatch {
+    aspect-ratio: 1; border: 2px solid transparent; border-radius: 8px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #04121f; text-shadow: 0 1px 0 #ffffff55;
+  }
+  .swatch.sel { border-color: #ffd76a; }
+  .swatch span { pointer-events: none; }
+  button, input[type=text], textarea {
+    background: #1d2436; color: #e8ecf4; border: 1px solid #34405e;
+    border-radius: 8px; padding: 7px 9px; font: inherit; width: 100%;
+  }
+  button { cursor: pointer; font-weight: 600; }
+  button:hover { background: #273150; }
+  textarea { resize: vertical; min-height: 54px; }
+  label { font-size: 12px; color: #9aa4b8; display: block; margin: 6px 0 2px; }
+  input[type=range] { width: 100%; }
+  #wrap { flex: 1; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  #cvwrap { overflow: auto; background: #0d1220; border: 1px solid #2a3550; border-radius: 10px; padding: 8px; }
+  canvas { image-rendering: pixelated; cursor: crosshair; display: block; }
+  #status { font-size: 12px; color: #8fb8d8; min-height: 1.4em; }
+  .row { display: flex; gap: 8px; }
+  .row > * { flex: 1; }
+  kbd { background: #232b3d; padding: 0 5px; border-radius: 4px; font-size: 11px; }
+  .help { font-size: 12px; color: #9aa4b8; }
+</style>
+</head>
+<body>
+<div id="side">
+  <div>
+    <h1>ATLAS ETERNAL</h1>
+    <div class="help">Map Creator - paint a world, export it, drop it in <code>public/maps/</code>.</div>
+  </div>
+  <div class="card">
+    <h2>Terrain</h2>
+    <div class="tools" id="biomes"></div>
+    <h2 style="margin-top:10px">Features</h2>
+    <div class="tools" id="feats"></div>
+  </div>
+  <div class="card">
+    <h2>Brush</h2>
+    <label>Size <span id="bsz">1</span></label>
+    <input id="brush" type="range" min="1" max="5" value="1" />
+    <div class="row" style="margin-top:8px">
+      <button id="fill-btn" title="Flood-fill the region under the cursor">Fill</button>
+      <button id="island-btn" title="Generate a random island to edit">New Island</button>
+    </div>
+    <div class="row" style="margin-top:8px">
+      <button id="clear-btn">Clear Sea</button>
+      <button id="holes-btn" title="Erase painted cells back to procedural '.'">Holes .</button>
+    </div>
+  </div>
+  <div class="card">
+    <h2>Map</h2>
+    <label>Name (file-safe)</label>
+    <input id="mname" type="text" value="my-map" />
+    <label>Story line</label>
+    <textarea id="mstory">A new land rises from the ink.</textarea>
+    <div class="row" style="margin-top:8px">
+      <button id="export-btn">Export JSON</button>
+      <button id="import-btn">Import</button>
+    </div>
+    <input id="file" type="file" accept=".json" style="display:none" />
+  </div>
+  <div class="card help">
+    <h2>Deploy</h2>
+    1. Export -> save as <code>public/maps/&lt;name&gt;.json</code><br>
+    2. Add <code>"&lt;name&gt;"</code> to <code>public/maps/index.json</code><br>
+    3. In-game: press <b>Next Expedition</b>, or open <code>?map=&lt;name&gt;</code><br><br>
+    <kbd>1-9</kbd> tools &nbsp; <kbd>[</kbd><kbd>]</kbd> brush
+  </div>
+</div>
+<div id="wrap">
+  <div id="cvwrap"><canvas id="cv"></canvas></div>
+  <div id="status"></div>
+</div>
+<script>
+'use strict';
+const W = 64, H = 48, CS = 13;
+const cv = document.getElementById('cv');
+cv.width = W * CS; cv.height = H * CS;
+const ctx = cv.getContext('2d');
+
+const BIOMES = [
+  ['o', 'Ocean',  '#1a5f9c'], ['s', 'Sand',  '#e6d6a2'],
+  ['d', 'Desert', '#d9a850'], ['g', 'Grass', '#55a455'],
+  ['f', 'Forest', '#2f7a45'], ['r', 'Rock',  '#7d7d84'],
+  ['n', 'Snow',   '#eef3f8'], ['.', 'Hole',  '#0b0f18'],
+];
+const FEATS = [
+  ['road',  'Road',  '#bfa87a'], ['dig',   'Dig X', '#e04848'],
+  ['haven', 'Haven', '#ffd76a'], ['champ', 'Spawn', '#4fd8c8'],
+];
+
+// grid state
+let tiles = new Array(W * H).fill('o');   // biome keys
+let roads = new Set();                     // 'x,z'
+let digs = new Set();
+let haven = null, champ = [16, 24];
+let tool = 'g', brush = 1, painting = false;
+
+const $ = (id) => document.getElementById(id);
+const status = (m) => ($('status').textContent = m);
+const key = (x, z) => x + ',' + z;
+const inb = (x, z) => x >= 0 && z >= 0 && x < W && z < H;
+
+// palette buttons
+function palette(el, items, pick) {
+  items.forEach(([k, name, c]) => {
+    const b = document.createElement('button');
+    b.className = 'swatch'; b.style.background = c; b.dataset.k = k;
+    b.title = name; b.innerHTML = `<span>${name.split(' ')[0]}</span>`;
+    b.onclick = () => pick(k, b);
+    el.appendChild(b);
+  });
+}
+function select(k) {
+  tool = k;
+  document.querySelectorAll('.swatch').forEach((s) => s.classList.toggle('sel', s.dataset.k === k));
+  status('Tool: ' + k);
+}
+palette($('biomes'), BIOMES, select);
+palette($('feats'), FEATS, select);
+select('g');
+
+// ---- painting ----
+function cellAt(ev) {
+  const r = cv.getBoundingClientRect();
+  return [Math.floor((ev.clientX - r.left) / CS), Math.floor((ev.clientY - r.top) / CS)];
+}
+function stamp(x, z) {
+  if (!inb(x, z)) return;
+  const k = key(x, z);
+  if (tool === 'champ') { champ = [x, z]; return; }
+  if (tool === 'haven') { haven = [x, z]; return; }
+  if (tool === 'dig') { digs.has(k) ? digs.delete(k) : digs.add(k); return; }
+  if (tool === 'road') { roads.has(k) ? roads.delete(k) : roads.add(k); return; }
+  const r = brush - 1;
+  for (let dz = -r; dz <= r; dz++) for (let dx = -r; dx <= r; dx++)
+    if (inb(x + dx, z + dz)) tiles[(z + dz) * W + x + dx] = tool;
+}
+cv.addEventListener('mousedown', (e) => { painting = true; stamp(...cellAt(e)); draw(); });
+cv.addEventListener('mousemove', (e) => { if (painting) { stamp(...cellAt(e)); draw(); } });
+addEventListener('mouseup', () => (painting = false));
+
+// flood fill
+$('fill-btn').onclick = () => status('Fill: click a tile with a terrain tool selected');
+cv.addEventListener('mousedown', (e) => {
+  if (e.shiftKey || tool.startsWith('.fill')) return;
+}, true);
+let fillArmed = false;
+$('fill-btn').addEventListener('click', () => { fillArmed = true; status('Fill armed - click the map'); });
+cv.addEventListener('click', (e) => {
+  if (!fillArmed) return;
+  fillArmed = false;
+  const [sx, sz] = cellAt(e);
+  const from = tiles[sz * W + sx];
+  if (BIOMES.every(([k]) => k !== tool) || from === tool) return;
+  const q = [[sx, sz]];
+  while (q.length) {
+    const [x, z] = q.pop();
+    if (!inb(x, z) || tiles[z * W + x] !== from) continue;
+    tiles[z * W + x] = tool;
+    q.push([x + 1, z], [x - 1, z], [x, z + 1], [x, z - 1]);
+  }
+  draw();
+}, true);
+
+// ---- generators ----
+function hash2(x, y, s) {
+  let h = Math.imul(x | 0, 374761393) ^ Math.imul(y | 0, 668265263) ^ Math.imul(s | 0, 2246822519);
+  h = Math.imul(h ^ (h >>> 13), 1274126177);
+  return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
+}
+const sm = (t) => t * t * (3 - 2 * t);
+function vn(x, y, s) {
+  const xi = Math.floor(x), yi = Math.floor(y);
+  const xf = sm(x - xi), yf = sm(y - yi);
+  const a = hash2(xi, yi, s), b = hash2(xi + 1, yi, s), c = hash2(xi, yi + 1, s), d = hash2(xi + 1, yi + 1, s);
+  return a + (b - a) * xf + (c - a) * yf + (a - b - c + d) * xf * yf;
+}
+function fbm(x, y, s, o) {
+  let v = 0, am = 0.5, f = 1;
+  for (let i = 0; i < o; i++) { v += am * vn(x * f, y * f, s + i * 101); am *= 0.5; f *= 2; }
+  return v / (1 - Math.pow(0.5, o));
+}
+$('island-btn').onclick = () => {
+  const s = Math.floor(Math.random() * 1e9);
+  for (let z = 0; z < H; z++) for (let x = 0; x < W; x++) {
+    const dx = (x / W - 0.5) * 1.3, dz = z / H - 0.5;
+    const e = fbm(x * 0.08, z * 0.08, s, 4) - Math.pow(Math.hypot(dx, dz) * 2, 2.2) * 1.35 + 0.42;
+    const m = fbm(x * 0.11 + 40, z * 0.11 + 9, s ^ 0x9e37, 3);
+    tiles[z * W + x] =
+      e < 0.3 ? 'o' : e < 0.36 ? 's' :
+      e < 0.56 ? (m < 0.38 ? 'd' : m > 0.6 ? 'f' : 'g') :
+      e < 0.72 ? 'r' : 'n';
+  }
+  champ = [16, 24]; haven = null;
+  draw(); status('Island generated (seed ' + s + ') - paint away');
+};
+$('clear-btn').onclick = () => { tiles.fill('o'); roads.clear(); digs.clear(); haven = null; draw(); };
+$('holes-btn').onclick = () => {
+  const r = brush - 1; let armed = false;
+  status('Hole brush armed - drag over cells to punch procedural holes');
+  const h = (e) => {
+    const [x, z] = cellAt(e);
+    for (let dz = -r; dz <= r; dz++) for (let dx = -r; dx <= r; dx++)
+      if (inb(x + dx, z + dz)) tiles[(z + dz) * W + x + dx] = '.';
+    draw();
+    cv.removeEventListener('mousedown', h);
+  };
+  cv.addEventListener('mousedown', h, { once: true });
+};
+
+// ---- draw ----
+const BMAP = Object.fromEntries(BIOMES);
+function draw() {
+  for (let z = 0; z < H; z++) for (let x = 0; x < W; x++) {
+    const t = tiles[z * W + x];
+    ctx.fillStyle = BMAP[t][2];
+    ctx.fillRect(x * CS, z * CS, CS, CS);
+    if (t === '.') { ctx.strokeStyle = '#2a3550'; ctx.strokeRect(x * CS + .5, z * CS + .5, CS - 1, CS - 1); }
+  }
+  ctx.fillStyle = '#bfa87a';
+  for (const k of roads) { const [x, z] = k.split(',').map(Number); ctx.fillRect(x * CS + 3, z * CS + 3, CS - 6, CS - 6); }
+  ctx.font = `${CS}px system-ui`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  for (const k of digs) { const [x, z] = k.split(',').map(Number); ctx.fillStyle = '#e04848'; ctx.fillText('X', x * CS + CS / 2, z * CS + CS / 2 + 1); }
+  if (haven) { ctx.fillStyle = '#ffd76a'; ctx.beginPath(); ctx.arc(haven[0] * CS + CS / 2, haven[1] * CS + CS / 2, CS / 2.4, 0, 7); ctx.fill(); ctx.fillStyle = '#8a6a1a'; ctx.fillText('H', haven[0] * CS + CS / 2, haven[1] * CS + CS / 2 + 1); }
+  ctx.fillStyle = '#4fd8c8'; ctx.beginPath(); ctx.arc(champ[0] * CS + CS / 2, champ[1] * CS + CS / 2, CS / 2.6, 0, 7); ctx.fill(); ctx.fillStyle = '#0b3a36'; ctx.fillText('C', champ[0] * CS + CS / 2, champ[1] * CS + CS / 2 + 1);
+  ctx.strokeStyle = '#2a355033';
+  for (let x = 0; x <= W; x += 4) { ctx.beginPath(); ctx.moveTo(x * CS, 0); ctx.lineTo(x * CS, H * CS); ctx.stroke(); }
+  for (let z = 0; z <= H; z += 4) { ctx.beginPath(); ctx.moveTo(0, z * CS); ctx.lineTo(W * CS, z * CS); ctx.stroke(); }
+}
+draw();
+
+// ---- import/export ----
+$('export-btn').onclick = async () => {
+  const rows = [];
+  for (let z = 0; z < H; z++) rows.push(tiles.slice(z * W, z * W + W).join(''));
+  const def = {
+    version: 'atlas.map.v1',
+    name: $('mname').value.replace(/[^\w-]+/g, '-').toLowerCase() || 'my-map',
+    story: $('mstory').value.trim(), w: W, h: H,
+    origin: [-32, -24],
+    champion: champ, haven: haven ?? [champ[0] + 3, champ[1]],
+    tiles: rows,
+    roads: [...roads].map((k) => k.split(',').map(Number)),
+    digs: [...digs].map((k) => k.split(',').map(Number)),
+  };
+  const js = JSON.stringify(def);
+  try { await navigator.clipboard.writeText(js); status('Exported + copied to clipboard'); } catch { status('Exported'); }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([js], { type: 'application/json' }));
+  a.download = def.name + '.json'; a.click();
+};
+$('import-btn').onclick = () => $('file').click();
+$('file').onchange = async (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  const d = JSON.parse(await f.text());
+  if (d.version !== 'atlas.map.v1') return status('Not an atlas.map.v1 file');
+  tiles = new Array(W * H).fill('o');
+  d.tiles.forEach((row, z) => { for (let x = 0; x < W && x < row.length; x++) tiles[z * W + x] = row[x]; });
+  roads = new Set((d.roads ?? []).map((p) => key(p[0], p[1])));
+  digs = new Set((d.digs ?? []).map((p) => key(p[0], p[1])));
+  haven = d.haven ?? null; champ = d.champion ?? [16, 24];
+  $('mname').value = d.name ?? 'my-map'; $('mstory').value = d.story ?? '';
+  draw(); status('Imported ' + (d.name ?? 'map'));
+};
+
+addEventListener('keydown', (e) => {
+  const i = Number(e.key) - 1;
+  if (i >= 0 && i < BIOMES.length + FEATS.length) {
+    const all = [...BIOMES, ...FEATS];
+    if (all[i]) select(all[i][0]);
+  }
+  if (e.key === '[') $('brush').value = Math.max(1, +$('brush').value - 1), $('brush').oninput();
+  if (e.key === ']') $('brush').value = Math.min(5, +$('brush').value + 1), $('brush').oninput();
+});
+$('brush').oninput = () => ($('bsz').textContent = $('brush').value);
+</script>
+</body>
+</html>

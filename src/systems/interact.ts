@@ -5,7 +5,8 @@
  * building, passive income.
  */
 import { createSystem, Grabbed, Pressed } from '@iwsdk/core';
-import { tileInfo, Biomes } from '../gen/prng.js';
+import { Biomes } from '../gen/prng.js';
+import { mapTileInfo } from '../gen/mapdef.js';
 import { rollLoot } from '../gen/quests.js';
 import {
   addGold,
@@ -50,7 +51,7 @@ export class InteractSystem extends createSystem({
       feed('Too far — carry your champion to the X');
       return;
     }
-    const info = tileInfo(dig.i, dig.j, G.seed);
+    const info = mapTileInfo(dig.i, dig.j);
     // chest reveal on the tile
     const chest = Anchors.get('chest')!;
     if (worldTilePos(dig.i, dig.j, this.p)) {

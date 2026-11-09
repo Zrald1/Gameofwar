@@ -56,6 +56,26 @@
     font-size: 1.5px;
   }
 
+  .intro-wrap {
+    flex-direction: column;
+    gap: 1.0px;
+  }
+
+  .story {
+    color: #d8cfe0;
+    font-size: 1.6px;
+  }
+
+  .hint {
+    color: #8fb8d8;
+    font-size: 1.4px;
+  }
+
+  .btn-begin {
+    background-color: #2d4a35;
+    border-color: #4a7a55;
+  }
+
   .race-wrap {
     flex-direction: column;
     gap: 0.8px;
@@ -85,6 +105,16 @@
     margin-bottom: 0.5px;
   }
 
+  .row {
+    flex-direction: row;
+    gap: 0.5px;
+  }
+
+  .edit-wrap {
+    flex-direction: column;
+    gap: 0.5px;
+  }
+
   .xrb {
     margin-left: 2.2px;
     margin-right: 2.2px;
@@ -96,7 +126,13 @@
     <div class="eyebrow">ATLAS ETERNAL</div>
     <div class="heading">The Living Map</div>
     <div class="sub">Carry your champion. Dig the X. Rise to SSSS.</div>
-    <div id="race-wrap" class="race-wrap">
+    <div id="intro-wrap" class="intro-wrap">
+      <div class="story">Long ago the world was folded into one living map. Its ink still moves - seas breathe, forests creep, mountains wake.</div>
+      <div id="intro-map-story" class="story">You are the last Cartographer's heir. Carry your meeple across the tiles, dig where the red X burns, and climb from rank F to SSSS.</div>
+      <div class="hint">HOW TO PLAY - pinch the blue meeple and drop it on a tile to travel beyond the edge of the map. Press glowing things. Accept quest cards for riches.</div>
+      <Button id="btn-begin" class="btn btn-begin"><ButtonLabel class="btn-label">Begin the Crossing</ButtonLabel></Button>
+    </div>
+    <div id="race-wrap" class="race-wrap" style="display: none">
       <div class="sub">Bind your soul - pick a race:</div>
       <Button id="btn-race-0" class="btn"><ButtonLabel class="btn-label">Human</ButtonLabel></Button>
       <Button id="btn-race-1" class="btn"><ButtonLabel class="btn-label">Dwarf</ButtonLabel></Button>
@@ -109,6 +145,95 @@
       <div id="stat-power" class="stats">Power 0</div>
       <div id="stat-gold" class="gold">0 gold</div>
       <div id="stat-haven" class="sub">Haven: unbuilt</div>
+      <div id="stat-map" class="sub">Map: the Wild Ink</div>
+      <div id="stat-peers" class="sub">Table: solo</div>
+      <div class="divider"></div>
+      <Button id="btn-home" class="btn"><ButtonLabel class="btn-label">Return to Haven</ButtonLabel></Button>
+      <Button id="btn-map" class="btn"><ButtonLabel class="btn-label">Next Expedition</ButtonLabel></Button>
+      <Button id="btn-new" class="btn"><ButtonLabel class="btn-label">New Journey</ButtonLabel></Button>
+      <Button id="btn-edit" class="btn"><ButtonLabel class="btn-label">Cartographer Mode</ButtonLabel></Button>
+      <div id="edit-wrap" class="edit-wrap" style="display: none">
+        <div class="sub">WORLD TOOLS - carry meeple, then stamp:</div>
+        <div class="row">
+          <Button id="tool-o" class="btn"><ButtonLabel class="btn-label">Sea</ButtonLabel></Button>
+          <Button id="tool-s" class="btn"><ButtonLabel class="btn-label">Sand</ButtonLabel></Button>
+          <Button id="tool-d" class="btn"><ButtonLabel class="btn-label">Dsrt</ButtonLabel></Button>
+          <Button id="tool-g" class="btn"><ButtonLabel class="btn-label">Gras</ButtonLabel></Button>
+        </div>
+        <div class="row">
+          <Button id="tool-f" class="btn"><ButtonLabel class="btn-label">Frst</ButtonLabel></Button>
+          <Button id="tool-r" class="btn"><ButtonLabel class="btn-label">Rock</ButtonLabel></Button>
+          <Button id="tool-n" class="btn"><ButtonLabel class="btn-label">Snow</ButtonLabel></Button>
+          <Button id="tool-road" class="btn"><ButtonLabel class="btn-label">Road</ButtonLabel></Button>
+        </div>
+        <div class="row">
+          <Button id="tool-dig" class="btn"><ButtonLabel class="btn-label">Dig X</ButtonLabel></Button>
+          <Button id="tool-haven" class="btn"><ButtonLabel class="btn-label">Haven</ButtonLabel></Button>
+          <Button id="tool-champ" class="btn"><ButtonLabel class="btn-label">Spawn</ButtonLabel></Button>
+          <Button id="tool-erase" class="btn"><ButtonLabel class="btn-label">Erase</ButtonLabel></Button>
+        </div>
+        <div class="row">
+          <Button id="btn-brush-minus" class="btn"><ButtonLabel class="btn-label">-</ButtonLabel></Button>
+          <div id="brush-label" class="sub">Brush 1</div>
+          <Button id="btn-brush-plus" class="btn"><ButtonLabel class="btn-label">+</ButtonLabel></Button>
+        </div>
+        <div class="sub">BUILD BLOCKS - minecraft style:</div>
+        <div class="row">
+          <Button id="mat-d" class="btn"><ButtonLabel class="btn-label">Dirt</ButtonLabel></Button>
+          <Button id="mat-s" class="btn"><ButtonLabel class="btn-label">Stone</ButtonLabel></Button>
+          <Button id="mat-w" class="btn"><ButtonLabel class="btn-label">Wood</ButtonLabel></Button>
+          <Button id="mat-b" class="btn"><ButtonLabel class="btn-label">Brick</ButtonLabel></Button>
+        </div>
+        <div class="row">
+          <Button id="mat-g" class="btn"><ButtonLabel class="btn-label">Glass</ButtonLabel></Button>
+          <Button id="mat-o" class="btn"><ButtonLabel class="btn-label">Gold</ButtonLabel></Button>
+          <Button id="mat-l" class="btn"><ButtonLabel class="btn-label">Leaf</ButtonLabel></Button>
+          <div id="mat-label" class="sub">Stone</div>
+        </div>
+        <div class="row">
+          <Button id="mat-c" class="btn"><ButtonLabel class="btn-label">Concr</ButtonLabel></Button>
+          <Button id="mat-m" class="btn"><ButtonLabel class="btn-label">Marbl</ButtonLabel></Button>
+          <Button id="mat-i" class="btn"><ButtonLabel class="btn-label">Iron</ButtonLabel></Button>
+          <Button id="mat-k" class="btn"><ButtonLabel class="btn-label">Obsid</ButtonLabel></Button>
+        </div>
+        <div class="row">
+          <Button id="mat-a" class="btn"><ButtonLabel class="btn-label">Water</ButtonLabel></Button>
+          <Button id="mat-v" class="btn"><ButtonLabel class="btn-label">Lava</ButtonLabel></Button>
+          <Button id="mat-t" class="btn"><ButtonLabel class="btn-label">Torch</ButtonLabel></Button>
+        </div>
+        <div class="sub">PIECES - walls doors &amp; more:</div>
+        <div class="row">
+          <Button id="mat-W" class="btn"><ButtonLabel class="btn-label">Wall</ButtonLabel></Button>
+          <Button id="mat-D" class="btn"><ButtonLabel class="btn-label">Door</ButtonLabel></Button>
+          <Button id="mat-S" class="btn"><ButtonLabel class="btn-label">Stair</ButtonLabel></Button>
+          <Button id="mat-F" class="btn"><ButtonLabel class="btn-label">Fence</ButtonLabel></Button>
+        </div>
+        <div class="row">
+          <Button id="mat-P" class="btn"><ButtonLabel class="btn-label">Pane</ButtonLabel></Button>
+          <Button id="mat-R" class="btn"><ButtonLabel class="btn-label">Roof</ButtonLabel></Button>
+        </div>
+        <div class="row">
+          <Button id="btn-vox-add" class="btn"><ButtonLabel class="btn-label">Place Block</ButtonLabel></Button>
+          <Button id="btn-vox-del" class="btn"><ButtonLabel class="btn-label">Break Block</ButtonLabel></Button>
+          <Button id="btn-vox-clear" class="btn"><ButtonLabel class="btn-label">Clear</ButtonLabel></Button>
+        </div>
+        <Button id="btn-export" class="btn"><ButtonLabel class="btn-label">Export Map JSON</ButtonLabel></Button>
+        <div class="sub">AVATAR - your champion:</div>
+        <div class="row">
+          <Button id="char-c-0" class="btn"><ButtonLabel class="btn-label">Az</ButtonLabel></Button>
+          <Button id="char-c-1" class="btn"><ButtonLabel class="btn-label">Em</ButtonLabel></Button>
+          <Button id="char-c-2" class="btn"><ButtonLabel class="btn-label">Vd</ButtonLabel></Button>
+          <Button id="char-c-3" class="btn"><ButtonLabel class="btn-label">Ro</ButtonLabel></Button>
+          <Button id="char-c-4" class="btn"><ButtonLabel class="btn-label">Cr</ButtonLabel></Button>
+          <Button id="char-c-5" class="btn"><ButtonLabel class="btn-label">Gd</ButtonLabel></Button>
+        </div>
+        <div class="row">
+          <Button id="hat-0" class="btn"><ButtonLabel class="btn-label">Bare</ButtonLabel></Button>
+          <Button id="hat-1" class="btn"><ButtonLabel class="btn-label">Cap</ButtonLabel></Button>
+          <Button id="hat-2" class="btn"><ButtonLabel class="btn-label">Horns</ButtonLabel></Button>
+          <Button id="hat-3" class="btn"><ButtonLabel class="btn-label">Crown</ButtonLabel></Button>
+        </div>
+      </div>
       <div class="divider"></div>
       <div class="sub">QUEST RAIL</div>
       <div id="quest-0" class="quest"></div>
@@ -119,9 +244,6 @@
       <div id="feed-0" class="feed"></div>
       <div id="feed-1" class="feed"></div>
       <div id="feed-2" class="feed"></div>
-      <div class="divider"></div>
-      <Button id="btn-home" class="btn"><ButtonLabel class="btn-label">Return to Haven</ButtonLabel></Button>
-      <Button id="btn-map" class="btn"><ButtonLabel class="btn-label">Re-ink the Map</ButtonLabel></Button>
     </div>
   </div>
   <Button id="xr-button" class="xrb"><ButtonLabel class="btn-label">Enter XR</ButtonLabel></Button>

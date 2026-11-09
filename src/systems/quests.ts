@@ -13,7 +13,8 @@ import {
   MeshBasicMaterial,
 } from '@iwsdk/core';
 import { genQuest, GRADES, GRADE_COLORS, Quest, QuestKinds } from '../gen/quests.js';
-import { tileInfo, Biomes } from '../gen/prng.js';
+import { Biomes } from '../gen/prng.js';
+import { mapTileInfo } from '../gen/mapdef.js';
 import {
   addGold,
   addPower,
@@ -72,7 +73,7 @@ export class QuestSystem extends createSystem({
 
   dealToSlot(slot: number, boost = 0): void {
     if (slot < 0) return;
-    const q = genQuest(G.rng, G.seed, G.nextQuestId++, G.ci, G.cj, boost);
+    const q = genQuest(G.rng, G.seed, G.nextQuestId++, G.ci, G.cj, boost, mapTileInfo);
     G.quests.set(q.id, q);
     G.cardSlots[slot] = q.id;
     const e = this.cardEnts[slot];
@@ -174,7 +175,7 @@ export class QuestSystem extends createSystem({
     const d = 5 + G.rng() * 7;
     let ti = Math.round(G.ci + Math.cos(ang) * d);
     let tj = Math.round(G.cj + Math.sin(ang) * d);
-    for (let t = 0; t < 40 && tileInfo(ti, tj, G.seed).biome === Biomes.OCEAN; t++) {
+    for (let t = 0; t < 40 && mapTileInfo(ti, tj).biome === Biomes.OCEAN; t++) {
       const a2 = G.rng() * Math.PI * 2;
       ti = Math.round(G.ci + Math.cos(a2) * d);
       tj = Math.round(G.cj + Math.sin(a2) * d);

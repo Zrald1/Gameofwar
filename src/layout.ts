@@ -4,7 +4,8 @@
  * slot currently displays = (G.centerI + gi - HALF_W, G.centerJ + gj - HALF_H).
  */
 import { GRID_H, GRID_W, HEIGHT_SCALE, TILE, TILE_TOP } from './scene-assets/game.scene-asset.js';
-import { tileInfo, Biomes } from './gen/prng.js';
+import { Biomes } from './gen/prng.js';
+import { mapTileInfo } from './gen/mapdef.js';
 import { G } from './state.js';
 
 export const HALF_W = (GRID_W - 1) / 2;
@@ -23,7 +24,7 @@ export function slotVisible(wx: number, wz: number): boolean {
 /** table-local position of a grid slot's top surface */
 export function slotPos(gi: number, gj: number, out: { x: number; y: number; z: number }): void {
   const [wx, wz] = slotToWorld(gi, gj);
-  const info = tileInfo(wx, wz, G.seed);
+  const info = mapTileInfo(wx, wz);
   const h = info.biome === Biomes.OCEAN ? 0.004 : 0.006 + info.e * HEIGHT_SCALE;
   out.x = (gi - HALF_W) * TILE;
   out.y = TILE_TOP + h;

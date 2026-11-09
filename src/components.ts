@@ -47,6 +47,9 @@ export const WishTag = createComponent('WishTag', {});
 /** tag: haven plot marker (press -> build house) */
 export const HavenTag = createComponent('HavenTag', {});
 
+/** tag: ghost avatar mirroring a remote peer (net presence) */
+export const RemoteAvatar = createComponent('RemoteAvatar', {});
+
 export default defineComponents([
   Champion,
   ScrollProp,
@@ -56,4 +59,5 @@ export default defineComponents([
   BeaconProp,
   WishTag,
   HavenTag,
+  RemoteAvatar,
 ]);

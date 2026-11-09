@@ -68,6 +68,8 @@ export interface TileInfo {
   m: number;
   /** decor kind: 0 none, 1 tree, 2 cactus, 3 rock, 4 snowtree */
   prop: number;
+  /** authored road overlay (map maps only) */
+  road?: boolean;
 }
 
 const SCALE = 0.09;

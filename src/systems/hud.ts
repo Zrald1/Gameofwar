@@ -3,10 +3,11 @@
  * status, event feed, Return Home / New Expedition buttons, and the
  * XR enter/exit buttons (scaffold pattern).
  */
-import { createSystem, MeshStandardMaterial, UIKitMLAsset, VisibilityState } from '@iwsdk/core';
+import { createSystem, UIKitMLAsset, VisibilityState } from '@iwsdk/core';
 import { GRADES, powerRank, QuestKinds } from '../gen/quests.js';
+import { nextMap } from '../gen/mapdef.js';
+import { applyCharacter, CHAR_COLORS, HATS } from '../character.js';
 import {
-  Anchors,
   emit,
   feed,
   G,
@@ -14,6 +15,8 @@ import {
   RACE_COLORS,
   RACES,
   RACE_PERKS,
+  save,
+  SAVE_KEY,
   startRun,
 } from '../state.js';
 
@@ -46,6 +49,19 @@ export class HudSystem extends createSystem({}) {
         );
       }
     }
+    // authored map: its name + story join the intro
+    if (G.map) {
+      this.set('intro-map-story', { text: `You chart ${G.map.name} - ${G.map.story}` });
+    }
+    // intro -> race select
+    const begin = p.getElementById('btn-begin');
+    const onBegin = () => {
+      this.set('intro-wrap', { display: 'none' });
+      this.set('race-wrap', { display: 'flex' });
+      feed('The map stirs. Choose the soul you will carry.');
+    };
+    begin?.addEventListener('click', onBegin);
+    this.cleanupFuncs.push(() => begin?.removeEventListener('click', onBegin));
     // race select
     RACES.forEach((race, i) => {
       const btn = p.getElementById(`btn-race-${i}`);
@@ -65,12 +81,90 @@ export class HudSystem extends createSystem({}) {
     this.cleanupFuncs.push(() => home?.removeEventListener('click', onHome));
     const map = p.getElementById('btn-map');
     const onMap = () => {
-      if (G.freeDig) return feed('The X already calls - dig it first');
-      emit('freeDigSpent');
-      feed('The map re-inks a fresh X');
+      void nextMap();
     };
     map?.addEventListener('click', onMap);
     this.cleanupFuncs.push(() => map?.removeEventListener('click', onMap));
+    const nw = p.getElementById('btn-new');
+    const onNew = () => {
+      try {
+        localStorage.removeItem(SAVE_KEY);
+      } catch { /* private mode */ }
+      location.reload();
+    };
+    nw?.addEventListener('click', onNew);
+    this.cleanupFuncs.push(() => nw?.removeEventListener('click', onNew));
+    // cartographer mode - champion becomes the brush cursor
+    const editBtn = p.getElementById('btn-edit');
+    const onEdit = () => {
+      emit('editMode', !G.editing);
+      this.set('edit-wrap', { display: G.editing ? 'flex' : 'none' });
+    };
+    editBtn?.addEventListener('click', onEdit);
+    this.cleanupFuncs.push(() => editBtn?.removeEventListener('click', onEdit));
+    for (const t of ['o', 's', 'd', 'g', 'f', 'r', 'n', 'road', 'dig', 'haven', 'champ', 'erase']) {
+      const b = p.getElementById(`tool-${t}`);
+      const fn = () => emit('editPaint', t);
+      b?.addEventListener('click', fn);
+      this.cleanupFuncs.push(() => b?.removeEventListener('click', fn));
+    }
+    const setBrush = (r: number) => {
+      G.brushR = Math.max(0, Math.min(3, r));
+      this.set('brush-label', { text: `Brush ${G.brushR + 1}` });
+    };
+    for (const [id, d] of [['btn-brush-minus', -1], ['btn-brush-plus', 1]] as const) {
+      const b = p.getElementById(id);
+      const fn = () => setBrush(G.brushR + d);
+      b?.addEventListener('click', fn);
+      this.cleanupFuncs.push(() => b?.removeEventListener('click', fn));
+    }
+    // minecraft block tools - material picker + place/break at the cursor
+    const MAT_NAMES: Record<string, string> = {
+      d: 'Dirt', s: 'Stone', w: 'Wood', b: 'Brick', g: 'Glass', o: 'Gold', l: 'Leaf',
+      c: 'Concrete', m: 'Marble', i: 'Iron', k: 'Obsidian', a: 'Water', v: 'Lava',
+      t: 'Torch', W: 'Wall', D: 'Door', S: 'Stair', F: 'Fence', P: 'Pane', R: 'Roof',
+    };
+    for (const t of Object.keys(MAT_NAMES)) {
+      const b = p.getElementById(`mat-${t}`);
+      const fn = () => {
+        G.buildMat = t;
+        this.set('mat-label', { text: MAT_NAMES[t] });
+      };
+      b?.addEventListener('click', fn);
+      this.cleanupFuncs.push(() => b?.removeEventListener('click', fn));
+    }
+    for (const [id, op] of [['btn-vox-add', 'add'], ['btn-vox-del', 'del'], ['btn-vox-clear', 'clear']] as const) {
+      const b = p.getElementById(id);
+      const fn = () => emit('voxOp', op);
+      b?.addEventListener('click', fn);
+      this.cleanupFuncs.push(() => b?.removeEventListener('click', fn));
+    }
+    const ex = p.getElementById('btn-export');
+    const onEx = () => emit('editExport');
+    ex?.addEventListener('click', onEx);
+    this.cleanupFuncs.push(() => ex?.removeEventListener('click', onEx));
+    // character creator - tint + headgear on the champion meeple
+    CHAR_COLORS.forEach((c, i) => {
+      const b = p.getElementById(`char-c-${i}`);
+      const fn = () => {
+        G.charColor = c.hex;
+        applyCharacter();
+        save();
+        feed(`Champion wears ${c.name}`);
+      };
+      b?.addEventListener('click', fn);
+      this.cleanupFuncs.push(() => b?.removeEventListener('click', fn));
+    });
+    HATS.forEach((h, i) => {
+      const b = p.getElementById(`hat-${i}`);
+      const fn = () => {
+        G.charHat = h;
+        applyCharacter();
+        save();
+      };
+      b?.addEventListener('click', fn);
+      this.cleanupFuncs.push(() => b?.removeEventListener('click', fn));
+    });
     // returning champion?
     if (load()) {
       this.enterPlaying();
@@ -81,15 +175,16 @@ export class HudSystem extends createSystem({}) {
 
   private pickRace(i: number): void {
     startRun(RACES[i]);
-    // tint the meeple
-    const body = Anchors.get('champion')?.getObjectByName('meeple-body') as any;
-    if (body) body.material = new MeshStandardMaterial({ color: RACE_COLORS[RACES[i]] });
+    G.charColor = G.charColor || RACE_COLORS[RACES[i]];
+    applyCharacter();
     this.enterPlaying();
   }
 
   private enterPlaying(): void {
+    this.set('intro-wrap', { display: 'none' });
     this.set('race-wrap', { display: 'none' });
     this.set('game-wrap', { display: 'flex' });
+    applyCharacter();
     emit('runStarted');
     G.terrainDirty = true;
     this.refresh();
@@ -108,6 +203,8 @@ export class HudSystem extends createSystem({}) {
       'stat-haven',
       { text: G.houses > 0 ? `Haven: ${G.houses} house${G.houses > 1 ? 's' : ''} (+${G.houses * 2}g/10s)` : 'Haven: unbuilt - press the golden ring' },
     );
+    this.set('stat-map', { text: `Map: ${G.mapName || 'the Wild Ink'}` });
+    this.set('stat-peers', { text: G.peers > 0 ? `Table: ${G.peers} wanderer${G.peers > 1 ? 's' : ''}` : 'Table: solo' });
     // quest rail status
     for (let s = 0; s < 4; s++) {
       const qid = G.cardSlots[s];

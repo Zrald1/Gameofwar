@@ -3,7 +3,9 @@
  * authors them") — grades D..SSSS by complexity, matching the user's spec:
  * rarer grade = harder objective = better reward, up to legendary relics.
  */
-import { Biome, Biomes, tileInfo } from './prng.js';
+import { Biome, Biomes, TileInfo, tileInfo } from './prng.js';
+
+type InfoFn = (wx: number, wz: number) => TileInfo;
 
 export const GRADES = ['D', 'C', 'B', 'A', 'S', 'SS', 'SSS', 'SSSS'] as const;
 export type Grade = (typeof GRADES)[number];
@@ -91,14 +93,15 @@ function pickTile(
   cj: number,
   minD: number,
   maxD: number,
-  want?: Biome,
+  want: Biome | undefined,
+  infoFn: InfoFn,
 ): [number, number] {
   for (let t = 0; t < 60; t++) {
     const ang = rng() * Math.PI * 2;
     const d = minD + rng() * (maxD - minD);
     const ti = Math.round(ci + Math.cos(ang) * d);
     const tj = Math.round(cj + Math.sin(ang) * d);
-    const info = tileInfo(ti, tj, seed);
+    const info = infoFn(ti, tj);
     if (want) {
       if (info.biome === want) return [ti, tj];
     } else if (info.biome !== Biomes.OCEAN) {
@@ -117,6 +120,7 @@ export function genQuest(
   ci: number,
   cj: number,
   boost = 0,
+  infoFn: InfoFn = (wx, wz) => tileInfo(wx, wz, seed),
 ): Quest {
   const gradeIdx = rollGrade(rng, boost);
   const dist = 5 + gradeIdx * 3 + rng() * 6;
@@ -132,18 +136,18 @@ export function genQuest(
   let ti2 = 0;
   let tj2 = 0;
   if (kind === QuestKinds.SURVEY) {
-    [ti, tj] = pickTile(rng, seed, ci, cj, dist, dist + 14, biomeTarget);
+    [ti, tj] = pickTile(rng, seed, ci, cj, dist, dist + 14, biomeTarget, infoFn);
   } else {
-    [ti, tj] = pickTile(rng, seed, ci, cj, dist, dist + 10);
+    [ti, tj] = pickTile(rng, seed, ci, cj, dist, dist + 10, undefined, infoFn);
     if (kind === QuestKinds.RELIC) {
-      [ti2, tj2] = pickTile(rng, seed, ti, tj, 4, 9);
+      [ti2, tj2] = pickTile(rng, seed, ti, tj, 4, 9, undefined, infoFn);
     }
   }
   const titles =
     kind === QuestKinds.EXCAVATE ? EXCAVATE_TITLES :
     kind === QuestKinds.SURVEY ? SURVEY_TITLES : RELIC_TITLES;
   const base = titles[Math.floor(rng() * titles.length)];
-  const suffixBiome = tileInfo(ti, tj, seed).biome;
+  const suffixBiome = infoFn(ti, tj).biome;
   const title = `${base} ${BIOME_WORDS[kind === QuestKinds.SURVEY ? biomeTarget : suffixBiome]}`;
   const scale = Math.pow(gradeIdx + 1, 1.6);
   return {
