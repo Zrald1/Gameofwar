@@ -1,2 +1,3 @@
 User-agent: *
 Allow: /
+Sitemap: https://zrald1.github.io/Gameofwar/sitemap.xml
