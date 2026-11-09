@@ -28,9 +28,10 @@
   "dist/ confirmed contains manifest+icons; Pages deploy runs still queued (slow) - live URL will serve them once the queued run lands",
   "PWA assets still 404 live - GitHub Pages deploys remain queued on their side; local dist correct",
   "Submission goal met: verified build + live URL + PWA + package all on Gameofwar. Only a queued Pages deploy remains (GitHub-side wait, dist is correct)",
-  "Runtime left clean: XR session exited, inputs released"
+  "Runtime left clean: XR session exited, inputs released",
+  "FIXED stuck Pages deploy: cancel-in-progress:true broke stale environment lock; manifest+icons now live (200)"
  ],
  "pending": [],
  "current": null,
- "iteration": 37
+ "iteration": 44
 }
