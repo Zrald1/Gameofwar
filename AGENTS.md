@@ -237,3 +237,4 @@ skill directory and state when they apply.
   `github-pages` environment lock that leaves runs stuck `pending`.
 - `assets.ts` runs in a separate realm — no DOM/canvas; create card
   canvases lazily in the system (DOM realm), not the asset factory.
+- `AudioUtils.createOneShot` ignores `options.position` in rc.2 (empty branch) — positional one-shots still play but sit at the listener; use `positional:false` or place a persistent AudioSource entity instead.
