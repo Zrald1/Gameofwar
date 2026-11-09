@@ -1,7 +1,8 @@
 # Changelog — ATLAS ETERNAL: The Living Map
 
 ## Guild update — patrons, weapons, voice, and the Architect
-- Guild patrons deal the quests: three personas assign the difficulty (safe → S-grade); reply by chip or voice — take, bargain, harder, refuse
+- GestureSystem: real hand-joint poses are verbs — point to beam-aim + dwell-press the X/wish/haven, throw a fist to punch the ground open, thumbs-up to take a patron offer, open palm to send them away
+- Guild patrons deal the quests: three personas assign the difficulty (safe → S-grade); reply by chip, gesture, or voice — take, bargain, harder, refuse
 - VoiceSystem: SpeechRecognition hears you, patrons answer via speechSynthesis; intent words work fully offline
 - Weapon rarity ladder: Normal → Mythic with a 0.1% mythic floor on any roll; quest grade sharpens odds; equipped weapon adds dig power
 - XP + levels: digs and quest completions level you; level adds a luck edge
