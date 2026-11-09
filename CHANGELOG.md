@@ -7,6 +7,7 @@
 - Race pick (Human/Dwarf/Elf/Naga/Demon), progression, avatar customization
 - Cartographer admin (PIN-gated): biome brush, voxel blocks, export, set-as-home map
 - 4 authored maps incl. real + mirrored Earth; local multiplayer presence seam
+- Event chimes on digs, wishes, builds, quest accepts, PIN unlocks, journey start
 - PWA-installable; GitHub Pages auto-deploy on push
 
 ## Fixes shipped after end-to-end audit
@@ -18,6 +19,6 @@
 - tools: starter-map generator now merges `index.json` instead of clobbering other maps; `clear-save` resets all three persisted keys
 
 ## Repo / docs
-- MIT license, CONTRIBUTING, SECURITY, CODE_OF_CONDUCT, README multiplayer + map deep-links + license attribution
-- OG/Twitter cards, noscript + lang, PWA manifest categories + screenshot
+- MIT license, CONTRIBUTING, SECURITY, CODE_OF_CONDUCT, README multiplayer + map deep-links + 2D map creator + license attribution
+- OG/Twitter cards, noscript + lang, ARIA labels on app + canvas, PWA manifest categories + screenshot
 - Site files: robots.txt, sitemap.xml, branded 404, .well-known/security.txt, humans.txt

@@ -44,9 +44,9 @@ world with zero backend. UIKitML spatial panels, instanced terrain,
 procedural quest generation tuned by complexity grade.
 
 **Hands-first by design:** every interaction — carrying, pressing, grabbing,
-painting, PIN login — is a pinch or ray. Seated-friendly and legible inside
-a two-foot reach: passes the airplane-seat test, and a full loop
-(pick race → travel → quest → dig → build) fits a ten-minute bus stop.
+painting, PIN login — is a pinch or ray, answered with a chime. Seated-friendly
+and legible inside a two-foot reach: passes the airplane-seat test, and a full
+loop (pick race → travel → quest → dig → build) fits a ten-minute bus stop.
 
 **Future plans:** real multiplayer presence (the seam is in), on-device
 procedural quest AI, more biomes/civilizations, and a full Horizon Store

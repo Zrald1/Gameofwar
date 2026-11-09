@@ -14,6 +14,7 @@ Cartographer's heir entirely with your hands.
 - Grab glowing quest cards graded D through legendary SSSS and release to accept
 - Carry your champion to the X and press it to dig gold, relics, and legendaries
 - Build a Haven of income-generating houses; whisper wishes at the pedestal
+- Event chimes answer every satisfying moment — digs, wishes, builds, unlocks
 - Everything persists — race, gold, map, home
 
 ## Author your own world
