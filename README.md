@@ -29,6 +29,10 @@ Hands-first: every interaction is a pinch or a ray.
 **Deep-link a world:** `?map=atlas-home` | `verdant-reach` | `old-earth` |
 `terra-mirror` — jump straight into a specific charted world.
 
+**2D map creator:** open `map-editor.html` on the same host — a flat editor
+for painting biomes/roads and exporting world JSON (how the bundled maps
+were authored).
+
 ## Repo
 - `src/` — game systems (terrain, nav, quests, interact, edit, hud, presence)
 - `public/scenes/` — scene composition
