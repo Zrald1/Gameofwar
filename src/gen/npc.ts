@@ -10,6 +10,7 @@
  */
 import { genQuest, GRADES, Quest } from './quests.js';
 import { mapTileInfo } from './mapdef.js';
+import { emit } from '../state.js';
 import { llmChat } from './brain.js';
 import { G } from '../state.js';
 
@@ -154,8 +155,10 @@ export async function reply(o: NpcOffer, intent: ReplyIntent): Promise<ReplyResu
       }
     }
   }
-  // LLM voice override — same resolved outcome, richer line. Local stays fallback.
-  const llmLine = await llmChat([
+  // LLM voice override — fired in the background. The local line lands
+  // instantly; if the model answers, it re-voices the same outcome later so
+  // a dead/slow key never gates the reply.
+  llmChat([
     {
       role: 'system',
       content:
@@ -165,7 +168,8 @@ export async function reply(o: NpcOffer, intent: ReplyIntent): Promise<ReplyResu
         `Reply with ONE short in-character line (max 20 words), second person.`,
     },
     { role: 'user', content: `intent=${intent}` },
-  ]);
-  if (llmLine) line = `${npc.name}: ${llmLine}`;
+  ]).then((llmLine) => {
+    if (llmLine) emit('npcLine', `${npc.name}: ${llmLine}`);
+  });
   return { intent, line, outcome };
 }

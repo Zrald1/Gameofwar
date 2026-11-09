@@ -21,6 +21,7 @@ import {
   G,
   levelLuck,
   luckBonus,
+  on,
   save,
   weaponPower,
 } from '../state.js';
@@ -46,6 +47,12 @@ export class InteractSystem extends createSystem({
       this.queries.wishPressed.subscribe('qualify', () => emit('wish')),
       this.queries.havenPressed.subscribe('qualify', () => this.tryBuild()),
     );
+    // gesture-driven presses (point-dwell / fist-punch) hit the same paths
+    on('gesturePress', (key: string) => {
+      if (key === 'dig-x') this.tryDig();
+      else if (key === 'wish') emit('wish');
+      else if (key === 'haven') this.tryBuild();
+    });
   }
 
   private tryDig(): void {

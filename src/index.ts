@@ -10,6 +10,7 @@ import projectOptions from 'virtual:iwsdk-project';
 import { initMapLibrary } from './gen/mapdef.js';
 import { commissionTheGuild } from './gen/architect.js';
 import { emit, G, on } from './state.js';
+import { GestureSystem } from './systems/gesture.js';
 import { HudSystem } from './systems/hud.js';
 import { InteractSystem } from './systems/interact.js';
 import { MapEditSystem } from './systems/edit.js';
@@ -35,4 +36,5 @@ World.create(container, projectOptions).then(async (world) => {
   world.registerSystem(HudSystem);
   world.registerSystem(SfxSystem);
   world.registerSystem(VoiceSystem);
+  world.registerSystem(GestureSystem);
 });
