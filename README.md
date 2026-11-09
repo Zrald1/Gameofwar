@@ -26,6 +26,9 @@ Immersive Web SDK (IWSDK) + WebXR + Three.js. Deterministic seeded terrain
 (zero backend), UIKitML spatial panels, instanced terrain, procedural quests.
 Hands-first: every interaction is a pinch or a ray.
 
+**Deep-link a world:** `?map=atlas-home` | `verdant-reach` | `old-earth` |
+`terra-mirror` — jump straight into a specific charted world.
+
 ## Repo
 - `src/` — game systems (terrain, nav, quests, interact, edit, hud, presence)
 - `public/scenes/` — scene composition
