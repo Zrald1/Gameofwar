@@ -18,4 +18,6 @@
 - tools: starter-map generator now merges `index.json` instead of clobbering other maps; `clear-save` resets all three persisted keys
 
 ## Repo / docs
-- MIT license, CONTRIBUTING, README multiplayer + license attribution, OG/Twitter cards, noscript + lang, PWA manifest categories + screenshot
+- MIT license, CONTRIBUTING, SECURITY, CODE_OF_CONDUCT, README multiplayer + map deep-links + license attribution
+- OG/Twitter cards, noscript + lang, PWA manifest categories + screenshot
+- Site files: robots.txt, sitemap.xml, branded 404, .well-known/security.txt, humans.txt
