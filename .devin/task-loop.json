@@ -25,7 +25,7 @@
   ],
   "pending": [],
   "current": null,
-  "iteration": 865,
+  "iteration": 872,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1098,6 +1098,30 @@
     {
       "task": "CHANGELOG gesture entry",
       "result": "DONE"
+    },
+    {
+      "task": "verify e55a6b8 deploy",
+      "result": "DONE \u2014 green in 69s"
+    },
+    {
+      "task": "storyboard gestures",
+      "result": "DONE \u2014 thumbs-up accept + fist-punch dig now in the video plan"
+    },
+    {
+      "task": "verify 2ddf8aa deploy",
+      "result": "DONE \u2014 green in 56s"
+    },
+    {
+      "task": "session health",
+      "result": "dev :8081 up; XR idled out (offered) \u2014 Enter XR resumes"
+    },
+    {
+      "task": "restore XR session",
+      "result": "DONE \u2014 entered + hand mode set"
+    },
+    {
+      "task": "post-restore gesture regression",
+      "result": "DONE \u2014 POINT classifies on fresh session; fixed stale probe frame-matcher"
     }
   ]
 }
