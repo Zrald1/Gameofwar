@@ -13,6 +13,7 @@ export class SfxSystem extends createSystem({}) {
     const chime = (volume = 0.5) => {
       AudioUtils.createOneShot(this.world, CHIME, { volume, positional: false });
     };
+    on('questAccept', () => chime(0.55));
     on('digDone', () => chime(0.7));
     on('wish', () => chime(0.5));
     on('travel', () => chime(0.35));

@@ -19,6 +19,7 @@ import {
   addGold,
   addPower,
   Anchors,
+  emit,
   feed,
   G,
   on,
@@ -152,6 +153,7 @@ export class QuestSystem extends createSystem({
       obj.rotation.set(-0.3, -0.25, 0);
       this.spawnObjective(q);
       feed(`Quest accepted [${GRADES[q.gradeIdx]}] ${q.title}`);
+      emit('questAccept');
       G.hudDirty = true;
     } else {
       obj.position.set(state === 'idle' ? CARD_X : DOCK_X, 0.1, CARD_Z0 + slot * CARD_DZ);
