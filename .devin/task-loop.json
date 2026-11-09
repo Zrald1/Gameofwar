@@ -23,14 +23,9 @@
     "chunkSizeWarningLimit set to 3000 - build no longer warns on the expected 2.4MB WebXR bundle",
     "favicon linked to icon-192.png (was empty data: placeholder)"
   ],
-  "pending": [
-    {
-      "id": "ledger-823",
-      "task": "Ledger checkpoint (~37 iters since last)"
-    }
-  ],
+  "pending": [],
   "current": null,
-  "iteration": 823,
+  "iteration": 845,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -955,6 +950,94 @@
     {
       "task": "Verify 58bdaca deploy green",
       "result": "PASS \u2014 run 42700706745 success in 50s"
+    },
+    {
+      "task": "Ledger checkpoint (~37 iters since last)",
+      "result": "DONE \u2014 committed as ec7b482"
+    },
+    {
+      "task": "Verify ec7b482 deploy green",
+      "result": "PASS \u2014 run 42700908679 success in 47s"
+    },
+    {
+      "task": "Activity diff \u2014 user interactions since last check",
+      "result": "IDLE \u2014 24s/1466 frames, Dig Site pulse only"
+    },
+    {
+      "task": "Verify fresh-boot world state after dev-server restart",
+      "result": "PASS \u2014 fresh boot: 25 systems, 37 entities, zero console errors"
+    },
+    {
+      "task": "Verify deployed Pages site serves current build (aria + sfx)",
+      "result": "PASS \u2014 live site serves iyeCFx5P with aria labels + all chime events"
+    },
+    {
+      "task": "README run section",
+      "result": "DONE \u2014 added Run it locally, pushed"
+    },
+    {
+      "task": "Verify 5999b84 deploy green",
+      "result": "PASS \u2014 run 42701461515 success in 57s"
+    },
+    {
+      "task": "Verify docs/screenshots exists + populated (README claims storyboard stills)",
+      "result": "PASS \u2014 3 storyboard stills present (world/table/panel)"
+    },
+    {
+      "task": "Verify map-editor.html serves on :4173 + live site",
+      "result": "PASS \u2014 200 on preview :4173 + live site"
+    },
+    {
+      "task": "Fresh-server monitoring: XR status + screenshot + activity diff",
+      "result": "PASS \u2014 XR session active (immersive-vr + hand-tracking), world rendering, idle"
+    },
+    {
+      "task": "xr list-targets in the live immersive session",
+      "result": "PASS \u2014 9 world interactables + full HUD element tree resolve in-session"
+    },
+    {
+      "task": "Scripted XR ray: look-at + select Quest Card, verify accept in ECS",
+      "result": "PASS \u2014 look-at+select work; ray hit produced Hovered on Atlas HUD; cards correctly need grab-release"
+    },
+    {
+      "task": "Wish Pedestal press at true position \u2014 verify ray target fires",
+      "result": "PASS \u2014 wish fired: boosted quest dealt to slot 3 (questId 4), audio entity spawned"
+    },
+    {
+      "task": "Dig Site ray press \u2014 verify dig fires in-session",
+      "result": "PASS \u2014 hand press landed on X; range guard correctly refused (champion 5+ tiles out)"
+    },
+    {
+      "task": "AI feature build",
+      "result": "DONE \u2014 loot/brain/npc/voice/haven-stead shipped + offer loop verified live (bargain\u2192take)"
+    },
+    {
+      "task": "Verify deploy 2ef3887+ green; demo voice/NPC for user",
+      "result": "DONE \u2014 architect.ts engineer+laborer; Thornmere Barrens generated+loaded live"
+    },
+    {
+      "task": "Verify cd4fb98 deploy green + live bundle hash",
+      "result": "PASS \u2014 run 42705678530 green 52s; live bundle has architect code"
+    },
+    {
+      "task": "Docs sync for AI feature set (patrons/weapons/voice/architect/haven-stead)",
+      "result": "DONE \u2014 README/SUBMISSION/CHANGELOG cover patrons, weapons, voice, Architect, haven-stead, BYOK"
+    },
+    {
+      "task": "Verify 00ac4d7 deploy",
+      "result": "DONE \u2014 green in 57s"
+    },
+    {
+      "task": "demo storyboard sync",
+      "result": "DONE \u2014 SUBMISSION/NEXT_STEPS storyboard leads with Architect + patron offer + loot/level"
+    },
+    {
+      "task": "verify be79ca0 deploy",
+      "result": "checked"
+    },
+    {
+      "task": "live bundle check after docs",
+      "result": "see output"
     }
   ]
 }
