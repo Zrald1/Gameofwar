@@ -158,8 +158,11 @@ class WsPresence extends Base implements PresenceService {
   }
   send(msg: Record<string, unknown>): void {
     const s = JSON.stringify({ ...msg, p: this.id });
-    if (this.open) this.ws.send(s);
-    else this.queue.push(s);
+    if (this.open) {
+      try {
+        this.ws.send(s);
+      } catch {}
+    } else this.queue.push(s);
   }
   leave(): void {
     this.ws.close();
@@ -169,6 +172,10 @@ class WsPresence extends Base implements PresenceService {
 /** ?relay=ws(s)://host:port picks the online transport; default BroadcastChannel */
 export function createPresence(room: string): PresenceService {
   const relay = new URLSearchParams(location.search).get('relay');
-  if (relay) return new WsPresence(relay, room);
+  if (relay) {
+    try {
+      return new WsPresence(relay, room);
+    } catch { /* malformed relay url - fall back to local */ }
+  }
   return new BroadcastPresence(room);
 }
