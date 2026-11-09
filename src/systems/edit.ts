@@ -61,6 +61,11 @@ export class MapEditSystem extends createSystem({}) {
     });
     on('editPaint', (tool: string) => this.paint(tool));
     on('voxOp', (op: string) => this.voxOp(op));
+    // hand verbs while building: fist-punch places, palm-swipe breaks
+    on('gesturePress', (key: string) => {
+      if (key === 'vox-add') this.voxOp('add');
+      else if (key === 'vox-break') this.voxOp('del');
+    });
     on('editExport', () => this.exportMap());
   }
 

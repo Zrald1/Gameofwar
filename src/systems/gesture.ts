@@ -240,9 +240,14 @@ export class GestureSystem extends createSystem({}) {
         };
       }
 
-      // ---- fist: thrown punch ----
+      // ---- fist: thrown punch (edit mode: place block at the cursor) ----
       if (pose === 'fist' && st.vel > PUNCH_SPEED && st.punchCooldown <= 0) {
         st.punchCooldown = 0.6;
+        if (G.editing) {
+          feed('POW — block placed');
+          emit('gesturePress', 'vox-add');
+          continue;
+        }
         const digx = Anchors.get('dig-x');
         if (digx?.visible && G.activeDigId >= 0) {
           digx.getWorldPosition(this.toT);
@@ -262,6 +267,14 @@ export class GestureSystem extends createSystem({}) {
           }
         }
         feed('Punch! (nothing in reach)');
+      }
+
+      // ---- open-palm swipe (edit mode, no offer live): break a block ----
+      if (pose === 'open' && G.editing && !G.offer && st.vel > PUNCH_SPEED && st.punchCooldown <= 0) {
+        st.punchCooldown = 0.6;
+        feed('Swipe — block broken');
+        emit('gesturePress', 'vox-break');
+        continue;
       }
 
       // ---- NPC replies: thumbs-up = take, open palm = refuse ----

@@ -26,7 +26,7 @@ import {
   weaponPower,
 } from '../state.js';
 import { tileDist, worldTilePos } from '../layout.js';
-import { ChestProp, DigMarker, HavenTag, ScrollProp, WishTag } from '../components.js';
+import { ChestProp, DigMarker, HavenTag, PatronTag, ScrollProp, WishTag } from '../components.js';
 
 const DIG_RANGE = 4;
 const HOUSE_COSTS = [50, 120, 300];
@@ -36,6 +36,7 @@ export class InteractSystem extends createSystem({
   digPressed: { required: [DigMarker, Pressed] },
   wishPressed: { required: [WishTag, Pressed] },
   havenPressed: { required: [HavenTag, Pressed] },
+  patronPressed: { required: [PatronTag, Pressed] },
   chests: { required: [ChestProp] },
 }) {
   private glowT = 0;
@@ -46,6 +47,7 @@ export class InteractSystem extends createSystem({
       this.queries.digPressed.subscribe('qualify', () => this.tryDig()),
       this.queries.wishPressed.subscribe('qualify', () => emit('wish')),
       this.queries.havenPressed.subscribe('qualify', () => this.tryBuild()),
+      this.queries.patronPressed.subscribe('qualify', () => this.patronPress()),
     );
     // gesture-driven presses (point-dwell / fist-punch) hit the same paths
     on('gesturePress', (key: string) => {
@@ -53,11 +55,14 @@ export class InteractSystem extends createSystem({
       else if (key === 'wish') emit('wish');
       else if (key === 'haven') this.tryBuild();
       // point at / fist-bump the envoy: take its contract, else beckon one
-      else if (key === 'patron') {
-        if (G.offer) emit('npcReply', 'take');
-        else emit('npcSummon');
-      }
+      else if (key === 'patron') this.patronPress();
     });
+  }
+
+  /** click / point-dwell / fist-bump the envoy — take the contract, or call one */
+  private patronPress(): void {
+    if (G.offer) emit('npcReply', 'take');
+    else emit('npcSummon');
   }
 
   private tryDig(): void {

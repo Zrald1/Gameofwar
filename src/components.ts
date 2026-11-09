@@ -47,6 +47,9 @@ export const WishTag = createComponent('WishTag', {});
 /** tag: haven plot marker (press -> build house) */
 export const HavenTag = createComponent('HavenTag', {});
 
+/** tag: guild patron envoy (press -> take offer / summon one) */
+export const PatronTag = createComponent('PatronTag', {});
+
 /** tag: ghost avatar mirroring a remote peer (net presence) */
 export const RemoteAvatar = createComponent('RemoteAvatar', {});
 
@@ -59,5 +62,6 @@ export default defineComponents([
   BeaconProp,
   WishTag,
   HavenTag,
+  PatronTag,
   RemoteAvatar,
 ]);
