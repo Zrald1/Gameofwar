@@ -16,10 +16,9 @@ import { NetAvatarSystem } from './systems/net.js';
 import { QuestSystem } from './systems/quests.js';
 import { TerrainSystem } from './systems/terrain.js';
 
-World.create(
-  document.getElementById('scene-container') as HTMLDivElement,
-  projectOptions,
-).then(async (world) => {
+const container = document.getElementById('scene-container') as HTMLDivElement;
+World.create(container, projectOptions).then(async (world) => {
+  container.querySelector('canvas')?.setAttribute('aria-label', 'ATLAS ETERNAL — The Living Map, WebXR viewport');
   await initMapLibrary();
   world.registerSystem(TerrainSystem);
   world.registerSystem(NavSystem);
