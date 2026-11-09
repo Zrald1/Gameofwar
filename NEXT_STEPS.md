@@ -3,11 +3,12 @@
 Everything is built, verified, and live. Remaining steps need you:
 
 ## 1. Record the demo video (≤3 min)
-- `npm run build && npm run preview` then open the served URL — record on the **production** build (what judges get), not the dev server
+- `npm run build && npm run preview` then open `https://localhost:4173/` — record on the **production** build (what judges get), not the dev server
 - `npx @iwsdk/cli dev up` then `npx @iwsdk/cli xr enter` if you want the emulator's XR controls for the immersive shots
 - Open any screen recorder (OBS, Xbox Game Bar Win+G)
 - Play the scripted flow: pick race -> pinch champion to map edge -> accept a quest card -> carry to the X -> dig loot -> build a haven -> Cartographer PIN -> paint terrain -> Set as Home
 - Lead with the world shot + champion carry in the first 15s
+- Upload to YouTube (unlisted is fine) — Devpost needs a video **URL**, not a file upload
 - Reference stills: `docs/screenshots/01-world.png` etc.
 
 ## 2. Fill the Devpost form
