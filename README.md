@@ -26,6 +26,18 @@ Unlock the Cartographer with an admin PIN, then paint biomes, roads, dig sites,
 spawn points — plus a Minecraft-style voxel layer for walls, doors, stairs,
 towers — all with your hands. Save it as the default map everyone lands in.
 
+## Run it locally
+```bash
+npm install
+npm run dev          # dev server + emulated XR browser → https://localhost:8081/
+```
+Production build (what judges get):
+```bash
+npm run build && npm run preview   # → https://localhost:4173/
+```
+On a Quest: open `https://<your-LAN-IP>:8081/` in the headset browser
+(same Wi-Fi, accept the dev certificate).
+
 ## Stack
 Immersive Web SDK (IWSDK) + WebXR + Three.js. Deterministic seeded terrain
 (zero backend), UIKitML spatial panels, instanced terrain, procedural quests.
