@@ -200,6 +200,7 @@
       <div class="divider"></div>
       <Button id="btn-home" class="btn"><ButtonLabel class="btn-label">Return to Haven</ButtonLabel></Button>
       <Button id="btn-map" class="btn"><ButtonLabel class="btn-label">Next Expedition</ButtonLabel></Button>
+      <Button id="btn-architect" class="btn"><ButtonLabel class="btn-label">Commission the Guild</ButtonLabel></Button>
       <Button id="btn-new" class="btn"><ButtonLabel class="btn-label">New Journey</ButtonLabel></Button>
       <Button id="btn-edit" class="btn"><ButtonLabel class="btn-label">Cartographer Mode</ButtonLabel></Button>
       <div id="login-wrap" class="edit-wrap" style="display: none">

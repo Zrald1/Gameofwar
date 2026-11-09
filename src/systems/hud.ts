@@ -6,6 +6,7 @@
 import { createSystem, UIKitMLAsset, VisibilityState } from '@iwsdk/core';
 import { GRADES, powerRank, QuestKinds } from '../gen/quests.js';
 import { clearDefaultMap, nextMap, saveDefaultMap } from '../gen/mapdef.js';
+import { commissionTheGuild } from '../gen/architect.js';
 import { applyCharacter, CHAR_COLORS, HATS } from '../character.js';
 import {
   adminLogin,
@@ -88,6 +89,12 @@ export class HudSystem extends createSystem({}) {
     };
     map?.addEventListener('click', onMap);
     this.cleanupFuncs.push(() => map?.removeEventListener('click', onMap));
+    const arch = p.getElementById('btn-architect');
+    const onArch = () => {
+      void commissionTheGuild();
+    };
+    arch?.addEventListener('click', onArch);
+    this.cleanupFuncs.push(() => arch?.removeEventListener('click', onArch));
     const nw = p.getElementById('btn-new');
     const onNew = () => {
       try {
