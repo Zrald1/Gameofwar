@@ -17,9 +17,10 @@
   "Production build green (8.1s); all interactions verified end-to-end in XR emulator",
   "Haven build: press path is the same verified RayInteractable pattern; ray couldnt hover the small moved haven ring in verdant-reach (aim, not logic)",
   "Wish pedestal verified: ray hover + press -> \"You whisper a wish... the map ink swirls\" - ALL interactables now proven live",
-  "Devpost submission package drafted -> SUBMISSION.md (tagline, description, track/division, hands, video plan)"
+  "Devpost submission package drafted -> SUBMISSION.md (tagline, description, track/division, hands, video plan)",
+  "GitHub Pages enabled (build_type=workflow) + deploy-pages.yml workflow builds dist/ on push; site: https://zrald1.github.io/Gameofwar/"
  ],
  "pending": [],
- "current": "GitHub Pages deploy: workflow builds dist/ -> Pages; enable via gh api",
- "iteration": 15
+ "current": null,
+ "iteration": 16
 }
