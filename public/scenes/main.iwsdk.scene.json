@@ -1,238 +1,512 @@
 {
-  "version": "iwsdk.scene.v1",
-  "units": "meters",
   "components": {
     "com.iwsdk.components.DomeGradient": {
-      "sky": [0.08, 0.11, 0.22, 1],
-      "equator": [0.3, 0.2, 0.38, 1],
-      "ground": [0.05, 0.06, 0.11, 1],
-      "elevationDeg": 18,
       "azimuthDeg": -20,
-      "dither": true
+      "dither": true,
+      "elevationDeg": 18,
+      "equator": [
+        0.3,
+        0.2,
+        0.38,
+        1
+      ],
+      "ground": [
+        0.05,
+        0.06,
+        0.11,
+        1
+      ],
+      "sky": [
+        0.08,
+        0.11,
+        0.22,
+        1
+      ]
     },
     "com.iwsdk.components.IBLGradient": {
-      "sky": [0.42, 0.48, 0.68, 1],
-      "equator": [0.55, 0.48, 0.58, 1],
-      "ground": [0.17, 0.18, 0.24, 1],
-      "intensity": 0.55
+      "equator": [
+        0.55,
+        0.48,
+        0.58,
+        1
+      ],
+      "ground": [
+        0.17,
+        0.18,
+        0.24,
+        1
+      ],
+      "intensity": 0.55,
+      "sky": [
+        0.42,
+        0.48,
+        0.68,
+        1
+      ]
     }
   },
   "environment": {
-    "toneMapping": "aces",
     "exposure": 1.3,
+    "shadowMapType": "pcf",
     "shadows": true,
-    "shadowMapType": "pcf"
+    "toneMapping": "aces"
   },
-  "resources": {},
   "nodes": [
     {
-      "id": "game-floor",
-      "name": "Ground",
-      "framingRole": "support",
-      "content": { "type": "asset", "asset": "ground", "receiveShadow": true },
       "components": {
         "LocomotionEnvironment": {}
+      },
+      "content": {
+        "asset": "ground",
+        "receiveShadow": true,
+        "type": "asset"
+      },
+      "framingRole": "support",
+      "id": "game-floor",
+      "name": "Ground"
+    },
+    {
+      "framingRole": "support",
+      "id": "player",
+      "name": "Player",
+      "transform": {
+        "position": [
+          0,
+          0,
+          0
+        ]
       }
     },
     {
-      "id": "player",
-      "name": "Player",
+      "content": {
+        "asset": "backdrop",
+        "type": "asset"
+      },
       "framingRole": "support",
-      "transform": { "position": [0, 0, 0] }
-    },
-    {
       "id": "backdrop",
       "name": "Backdrop",
-      "framingRole": "support",
-      "content": { "type": "asset", "asset": "backdrop" },
-      "transform": { "position": [0, 0.02, -0.4] }
+      "transform": {
+        "position": [
+          0,
+          0.02,
+          -0.4
+        ]
+      }
     },
     {
-      "id": "map-table",
-      "name": "Map Table",
-      "framingRole": "content",
-      "content": { "type": "asset", "asset": "map-table", "castShadow": true },
-      "transform": { "position": [0, 0.82, -0.55] },
       "children": [
         {
+          "content": {
+            "asset": "terrain-grid",
+            "type": "asset"
+          },
           "id": "terrain-mesh",
-          "name": "Terrain",
-          "content": { "type": "asset", "asset": "terrain-grid" }
+          "name": "Terrain"
         },
         {
+          "content": {
+            "asset": "terrain-props",
+            "type": "asset"
+          },
           "id": "prop-mesh",
-          "name": "Decor",
-          "content": { "type": "asset", "asset": "terrain-props" }
+          "name": "Decor"
         },
         {
-          "id": "champion",
-          "name": "Champion",
-          "content": { "type": "asset", "asset": "meeple", "castShadow": true },
-          "transform": { "position": [0, 0.06, 0] },
           "components": {
             "Champion": {},
-            "OneHandGrabbable": {},
-            "DistanceGrabbable": { "movementMode": "MoveTowardsTarget" }
+            "DistanceGrabbable": {
+              "movementMode": "MoveTowardsTarget"
+            },
+            "OneHandGrabbable": {}
+          },
+          "content": {
+            "asset": "meeple",
+            "castShadow": true,
+            "type": "asset"
+          },
+          "id": "champion",
+          "name": "Champion",
+          "transform": {
+            "position": [
+              0,
+              0.06,
+              0
+            ]
           }
         },
         {
+          "components": {
+            "DistanceGrabbable": {
+              "movementMode": "MoveTowardsTarget"
+            },
+            "OneHandGrabbable": {},
+            "ScrollProp": {}
+          },
+          "content": {
+            "asset": "scroll",
+            "type": "asset"
+          },
           "id": "scroll-map",
           "name": "Treasure Map",
-          "content": { "type": "asset", "asset": "scroll" },
-          "transform": { "position": [0.1, 0.05, 0.36] },
-          "components": {
-            "ScrollProp": {},
-            "OneHandGrabbable": {},
-            "DistanceGrabbable": { "movementMode": "MoveTowardsTarget" }
+          "transform": {
+            "position": [
+              0.1,
+              0.05,
+              0.36
+            ]
           }
         },
         {
+          "components": {
+            "DigMarker": {
+              "digId": -1
+            },
+            "RayInteractable": {}
+          },
+          "content": {
+            "asset": "digx",
+            "type": "asset"
+          },
           "id": "dig-x",
           "name": "Dig Site",
-          "content": { "type": "asset", "asset": "digx" },
-          "transform": { "position": [0, 0.05, 0] },
-          "components": {
-            "RayInteractable": {},
-            "DigMarker": { "digId": -1 }
+          "transform": {
+            "position": [
+              0,
+              0.05,
+              0
+            ]
           }
         },
         {
+          "components": {
+            "ChestProp": {
+              "openT": -1
+            }
+          },
+          "content": {
+            "asset": "chest",
+            "type": "asset"
+          },
           "id": "chest",
-          "name": "Chest",
-          "content": { "type": "asset", "asset": "chest" },
-          "components": { "ChestProp": { "openT": -1 } }
+          "name": "Chest"
         },
         {
+          "components": {
+            "BeaconProp": {
+              "questId": -1
+            }
+          },
+          "content": {
+            "asset": "beacon",
+            "type": "asset"
+          },
           "id": "beacon",
-          "name": "Survey Beacon",
-          "content": { "type": "asset", "asset": "beacon" },
-          "components": { "BeaconProp": { "questId": -1 } }
+          "name": "Survey Beacon"
         },
         {
+          "components": {
+            "DistanceGrabbable": {
+              "movementMode": "MoveTowardsTarget"
+            },
+            "OneHandGrabbable": {},
+            "QuestCard": {
+              "cardState": "idle",
+              "questId": -1,
+              "slot": 0
+            }
+          },
+          "content": {
+            "asset": "quest-card",
+            "type": "asset"
+          },
           "id": "card-0",
           "name": "Quest Card 0",
-          "content": { "type": "asset", "asset": "quest-card" },
-          "transform": { "position": [-0.7, 0.1, -0.28], "rotationDeg": [-17, 14, 0] },
-          "components": {
-            "QuestCard": { "slot": 0, "questId": -1, "cardState": "idle" },
-            "OneHandGrabbable": {},
-            "DistanceGrabbable": { "movementMode": "MoveTowardsTarget" }
+          "transform": {
+            "position": [
+              -0.7,
+              0.1,
+              -0.28
+            ],
+            "rotationDeg": [
+              -17,
+              14,
+              0
+            ]
           }
         },
         {
+          "components": {
+            "DistanceGrabbable": {
+              "movementMode": "MoveTowardsTarget"
+            },
+            "OneHandGrabbable": {},
+            "QuestCard": {
+              "cardState": "idle",
+              "questId": -1,
+              "slot": 1
+            }
+          },
+          "content": {
+            "asset": "quest-card",
+            "type": "asset"
+          },
           "id": "card-1",
           "name": "Quest Card 1",
-          "content": { "type": "asset", "asset": "quest-card" },
-          "transform": { "position": [-0.7, 0.1, -0.11], "rotationDeg": [-17, 14, 0] },
-          "components": {
-            "QuestCard": { "slot": 1, "questId": -1, "cardState": "idle" },
-            "OneHandGrabbable": {},
-            "DistanceGrabbable": { "movementMode": "MoveTowardsTarget" }
+          "transform": {
+            "position": [
+              -0.7,
+              0.1,
+              -0.11
+            ],
+            "rotationDeg": [
+              -17,
+              14,
+              0
+            ]
           }
         },
         {
+          "components": {
+            "DistanceGrabbable": {
+              "movementMode": "MoveTowardsTarget"
+            },
+            "OneHandGrabbable": {},
+            "QuestCard": {
+              "cardState": "idle",
+              "questId": -1,
+              "slot": 2
+            }
+          },
+          "content": {
+            "asset": "quest-card",
+            "type": "asset"
+          },
           "id": "card-2",
           "name": "Quest Card 2",
-          "content": { "type": "asset", "asset": "quest-card" },
-          "transform": { "position": [-0.7, 0.1, 0.06], "rotationDeg": [-17, 14, 0] },
-          "components": {
-            "QuestCard": { "slot": 2, "questId": -1, "cardState": "idle" },
-            "OneHandGrabbable": {},
-            "DistanceGrabbable": { "movementMode": "MoveTowardsTarget" }
+          "transform": {
+            "position": [
+              -0.7,
+              0.1,
+              0.06
+            ],
+            "rotationDeg": [
+              -17,
+              14,
+              0
+            ]
           }
         },
         {
+          "components": {
+            "DistanceGrabbable": {
+              "movementMode": "MoveTowardsTarget"
+            },
+            "OneHandGrabbable": {},
+            "QuestCard": {
+              "cardState": "idle",
+              "questId": -1,
+              "slot": 3
+            }
+          },
+          "content": {
+            "asset": "quest-card",
+            "type": "asset"
+          },
           "id": "card-3",
           "name": "Quest Card 3",
-          "content": { "type": "asset", "asset": "quest-card" },
-          "transform": { "position": [-0.7, 0.1, 0.23], "rotationDeg": [-17, 14, 0] },
-          "components": {
-            "QuestCard": { "slot": 3, "questId": -1, "cardState": "idle" },
-            "OneHandGrabbable": {},
-            "DistanceGrabbable": { "movementMode": "MoveTowardsTarget" }
+          "transform": {
+            "position": [
+              -0.7,
+              0.1,
+              0.23
+            ],
+            "rotationDeg": [
+              -17,
+              14,
+              0
+            ]
           }
         },
         {
-          "id": "wish",
-          "name": "Wish Pedestal",
-          "content": { "type": "asset", "asset": "wish" },
-          "transform": { "position": [-0.68, 0.032, -0.38] },
           "components": {
             "RayInteractable": {},
             "WishTag": {}
+          },
+          "content": {
+            "asset": "wish",
+            "type": "asset"
+          },
+          "id": "wish",
+          "name": "Wish Pedestal",
+          "transform": {
+            "position": [
+              -0.68,
+              0.032,
+              -0.38
+            ]
           }
         },
         {
-          "id": "haven-marker",
-          "name": "Haven",
-          "content": { "type": "asset", "asset": "haven" },
           "components": {
-            "RayInteractable": {},
-            "HavenTag": {}
-          }
+            "HavenTag": {},
+            "RayInteractable": {}
+          },
+          "content": {
+            "asset": "haven",
+            "type": "asset"
+          },
+          "id": "haven-marker",
+          "name": "Haven"
         },
         {
+          "content": {
+            "asset": "house",
+            "type": "asset"
+          },
           "id": "house-0",
-          "name": "House 0",
-          "content": { "type": "asset", "asset": "house" }
+          "name": "House 0"
         },
         {
+          "content": {
+            "asset": "house",
+            "type": "asset"
+          },
           "id": "house-1",
-          "name": "House 1",
-          "content": { "type": "asset", "asset": "house" }
+          "name": "House 1"
         },
         {
+          "content": {
+            "asset": "house",
+            "type": "asset"
+          },
           "id": "house-2",
-          "name": "House 2",
-          "content": { "type": "asset", "asset": "house" }
+          "name": "House 2"
         },
         {
+          "content": {
+            "asset": "relic",
+            "type": "asset"
+          },
           "id": "relic-0",
-          "name": "Relic 0",
-          "content": { "type": "asset", "asset": "relic" }
+          "name": "Relic 0"
         },
         {
+          "content": {
+            "asset": "relic",
+            "type": "asset"
+          },
           "id": "relic-1",
-          "name": "Relic 1",
-          "content": { "type": "asset", "asset": "relic" }
+          "name": "Relic 1"
         },
         {
+          "content": {
+            "asset": "relic",
+            "type": "asset"
+          },
           "id": "relic-2",
-          "name": "Relic 2",
-          "content": { "type": "asset", "asset": "relic" }
+          "name": "Relic 2"
         }
-      ]
+      ],
+      "content": {
+        "asset": "map-table",
+        "castShadow": true,
+        "type": "asset"
+      },
+      "framingRole": "content",
+      "id": "map-table",
+      "name": "Map Table",
+      "transform": {
+        "position": [
+          0,
+          0.82,
+          -0.55
+        ]
+      }
     },
     {
+      "components": {
+        "RayInteractable": {}
+      },
+      "content": {
+        "asset": "hud-panel",
+        "type": "asset"
+      },
+      "framingRole": "content",
       "id": "hud-panel",
       "name": "Atlas HUD",
-      "framingRole": "content",
-      "content": { "type": "asset", "asset": "hud-panel" },
-      "transform": { "position": [-1.0, 1.3, -0.58], "rotationDeg": [8, 52, 0] },
-      "components": { "RayInteractable": {} }
+      "transform": {
+        "position": [
+          -1,
+          1.3,
+          -0.58
+        ],
+        "rotationDeg": [
+          8,
+          52,
+          0
+        ]
+      }
     },
     {
-      "id": "key-light",
-      "name": "Key Light",
-      "transform": { "position": [0.9, 2.6, 0.6], "rotationDeg": [58, -28, 0] },
       "components": {
         "com.iwsdk.components.DirectionalLight": {
-          "color": [1, 0.9, 0.78, 1],
-          "intensity": 2.1,
           "castShadow": true,
+          "color": [
+            1,
+            0.9,
+            0.78,
+            1
+          ],
+          "intensity": 2.1,
           "shadowMapSize": "1024"
         }
+      },
+      "id": "key-light",
+      "name": "Key Light",
+      "transform": {
+        "position": [
+          0.9,
+          2.6,
+          0.6
+        ],
+        "rotationDeg": [
+          58,
+          -28,
+          0
+        ]
       }
     },
     {
-      "id": "fill-light",
-      "name": "Fill",
       "components": {
         "com.iwsdk.components.AmbientLight": {
-          "color": [0.5, 0.56, 0.75, 1],
+          "color": [
+            0.5,
+            0.56,
+            0.75,
+            1
+          ],
           "intensity": 0.75
         }
+      },
+      "id": "fill-light",
+      "name": "Fill"
+    },
+    {
+      "content": {
+        "asset": "terrain-grid",
+        "type": "asset"
+      },
+      "id": "terrain-grid-1",
+      "transform": {
+        "position": [
+          -0.45,
+          0.5,
+          2.25
+        ]
       }
     }
-  ]
+  ],
+  "resources": {},
+  "units": "meters",
+  "version": "iwsdk.scene.v1"
 }
