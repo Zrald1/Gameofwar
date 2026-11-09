@@ -21,9 +21,10 @@
   "GitHub Pages enabled (build_type=workflow) + deploy-pages.yml workflow builds dist/ on push; site: https://zrald1.github.io/Gameofwar/",
   "Pages pipeline confirmed running (build+deploy in progress); site 404s until first artifact lands - normal cold start",
   "Pages site LIVE - https://zrald1.github.io/Gameofwar/ returns 200; playable build deployed",
-  "Deployed site verified: index.html + JS bundle + maps/index.json all serve 200 - playable build publicly live"
+  "Deployed site verified: index.html + JS bundle + maps/index.json all serve 200 - playable build publicly live",
+  "SUBMISSION.md updated with live URL https://zrald1.github.io/Gameofwar/"
  ],
  "pending": [],
  "current": null,
- "iteration": 22
+ "iteration": 24
 }

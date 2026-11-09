@@ -68,5 +68,5 @@ haven build → open Cartographer PIN → paint a mountain → Set as Home.
 Lead with the world-shot + champion carry in the first 15 seconds.
 
 ### Access
-IWSDK WebXR build → hosted URL (deploy to Vercel/GitHub Pages).
+IWSDK WebXR build — LIVE at https://zrald1.github.io/Gameofwar/ (auto-deploys on every push).
 Repo: https://github.com/Zrald1/Gameofwar
