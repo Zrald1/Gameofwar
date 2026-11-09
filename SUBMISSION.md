@@ -78,10 +78,18 @@ Cartographer toolset (biome brush, voxel blocks, export) driven by grab +
 press. No controller is ever required.
 
 ### Demo video plan (≤3 min)
-Capture the emulated Quest 3 session: race pick → carry champion to the map
-edge → world recenters → accept a D quest → carry to the X → dig loot →
-haven build → open Cartographer PIN → paint a mountain → Set as Home.
-Lead with the world-shot + champion carry in the first 15 seconds.
+Capture the emulated Quest 3 session (production build, `:4173`):
+- **0:00–0:15** — world shot + pinch-carry the champion to the map edge; the
+  world recenters beneath it. Lead with this.
+- **0:15–0:45** — *Commission the Guild*: the engineer plans, the laborer
+  raises a world live, and the new map lands on the table playable.
+- **0:45–1:15** — a patron offer appears: answer with voice or chips —
+  *bargain* for more gold, then *take it*.
+- **1:15–2:00** — carry to the X, dig, show the loot roll land a weapon
+  (the gear line updates) and the XP level-up.
+- **2:00–2:40** — build a Haven house, enter the Cartographer PIN, paint a
+  mountain, Set as Home.
+- **2:40–3:00** — pull back to the whole table: patron, cards, map, hands.
 
 ### Access
 IWSDK WebXR build — LIVE at https://zrald1.github.io/Gameofwar/ (auto-deploys on every push).
