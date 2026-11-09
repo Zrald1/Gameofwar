@@ -165,6 +165,7 @@ export class HudSystem extends createSystem({}) {
         this.set('login-status', { text: 'Wrong key - try again.' });
         return;
       }
+      emit('pinOk');
       emit('editMode', true);
       this.set('login-wrap', { display: 'none' });
       this.set('edit-wrap', { display: 'flex' });

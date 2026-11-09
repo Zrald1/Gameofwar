@@ -15,7 +15,10 @@ export class SfxSystem extends createSystem({}) {
     };
     on('questAccept', () => chime(0.55));
     on('digDone', () => chime(0.7));
+    on('havenBuilt', () => chime(0.65));
+    on('pinOk', () => chime(0.6));
     on('wish', () => chime(0.5));
     on('travel', () => chime(0.35));
+    on('runStarted', () => chime(0.45));
   }
 }

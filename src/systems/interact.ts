@@ -100,6 +100,7 @@ export class InteractSystem extends createSystem({
     }
     addGold(-cost);
     G.houses++;
+    emit('havenBuilt');
     G.terrainDirty = true;
     feed(`House raised! Haven income: +${G.houses * 2}g / 10s`);
     save();
