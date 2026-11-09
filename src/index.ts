@@ -14,6 +14,7 @@ import { MapEditSystem } from './systems/edit.js';
 import { NavSystem } from './systems/nav.js';
 import { NetAvatarSystem } from './systems/net.js';
 import { QuestSystem } from './systems/quests.js';
+import { SfxSystem } from './systems/sfx.js';
 import { TerrainSystem } from './systems/terrain.js';
 
 const container = document.getElementById('scene-container') as HTMLDivElement;
@@ -27,4 +28,5 @@ World.create(container, projectOptions).then(async (world) => {
   world.registerSystem(MapEditSystem);
   world.registerSystem(NetAvatarSystem);
   world.registerSystem(HudSystem);
+  world.registerSystem(SfxSystem);
 });
