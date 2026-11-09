@@ -25,12 +25,12 @@
   ],
   "pending": [
     {
-      "id": "looplog-723",
-      "task": "Commit accumulated task-loop.json history"
+      "id": "ledger-785",
+      "task": "Task-loop ledger checkpoint commit"
     }
   ],
   "current": null,
-  "iteration": 723,
+  "iteration": 785,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -551,6 +551,254 @@
     {
       "task": "Final gate: live site + manifest + bundle + map all 200",
       "result": "PASS \u2014 site/manifest/map/robots all 200, Dv7x5xuU bundle live"
+    },
+    {
+      "task": "Commit accumulated task-loop.json history",
+      "result": "DONE \u2014 task-loop.json history committed; pushed b9ac2b2"
+    },
+    {
+      "task": "Verify b9ac2b2 deploy green",
+      "result": "PASS \u2014 b9ac2b2 deploy green (36s/11s)"
+    },
+    {
+      "task": "Final state: git status shows only task-loop.json dirty",
+      "result": "PASS \u2014 only task-loop.json dirty (by design), 0 unpushed commits"
+    },
+    {
+      "task": "Add public/404.html branded error page",
+      "result": "DONE \u2014 branded public/404.html added; pushed 4a0c5d0"
+    },
+    {
+      "task": "Verify 4a0c5d0 deploy green",
+      "result": "PASS \u2014 4a0c5d0 deploy green (31s/26s)"
+    },
+    {
+      "task": "Add .well-known/security.txt (RFC 9116)",
+      "result": "DONE \u2014 .well-known/security.txt added (RFC 9116); pushed c168350"
+    },
+    {
+      "task": "Verify c168350 deploy green",
+      "result": "PASS \u2014 c168350 deploy green"
+    },
+    {
+      "task": "Add humans.txt credit file",
+      "result": "DONE \u2014 humans.txt added; pushed 7f3432a"
+    },
+    {
+      "task": "Verify 7f3432a deploy green",
+      "result": "PASS \u2014 7f3432a deploy green (32s/10s)"
+    },
+    {
+      "task": "Update CHANGELOG.md with recent docs/chores commits",
+      "result": "DONE \u2014 CHANGELOG.md updated to cover docs/chores arc; pushed df5e64b"
+    },
+    {
+      "task": "Verify df5e64b deploy green",
+      "result": "PASS \u2014 df5e64b deploy green (32s/9s)"
+    },
+    {
+      "task": "Check for favicon link in index.html; add if missing",
+      "result": "NO-OP \u2014 favicon already linked (icon-192.png exists)"
+    },
+    {
+      "task": "Add apple-touch-icon link to index.html",
+      "result": "DONE \u2014 apple-touch-icon added to index.html; pushed c1b73d2"
+    },
+    {
+      "task": "Verify c1b73d2 deploy green",
+      "result": "PASS \u2014 c1b73d2 deploy green (35s/11s)"
+    },
+    {
+      "task": "Add mobile-web-app-capable + apple-mobile-web-app-capable metas",
+      "result": "DONE \u2014 mobile/apple-mobile-web-app-capable + status-bar metas added; pushed 55f27a4"
+    },
+    {
+      "task": "Verify 55f27a4 deploy green",
+      "result": "PASS \u2014 55f27a4 deploy green (36s/47s)"
+    },
+    {
+      "task": "Add theme-color meta to index.html",
+      "result": "NO-OP \u2014 theme-color meta already at line 15 (#0d1220 matching manifest)"
+    },
+    {
+      "task": "Add .gitattributes (* text=auto) to end CRLF noise",
+      "result": "DONE \u2014 .gitattributes added (* text=auto + binary types); pushed 002b0d8"
+    },
+    {
+      "task": "Verify 002b0d8 deploy green",
+      "result": "PASS \u2014 002b0d8 deploy green (30s/9s)"
+    },
+    {
+      "task": "Verify index.html title is branded",
+      "result": "NO-OP \u2014 title already branded (ATLAS ETERNAL \u2014 The Living Map)"
+    },
+    {
+      "task": "Rename package.json name to atlas-eternal",
+      "result": "DONE \u2014 package name metaverse->atlas-eternal + lockfile synced; pushed 7da8449"
+    },
+    {
+      "task": "Verify 7da8449 deploy green",
+      "result": "PASS \u2014 7da8449 deploy green (34s/22s)"
+    },
+    {
+      "task": "Link docs/screenshots from README repo section",
+      "result": "DONE \u2014 README repo section now links docs/screenshots; pushed 6e6694e"
+    },
+    {
+      "task": "Verify 6e6694e deploy green",
+      "result": "PASS \u2014 6e6694e deploy green (35s/11s)"
+    },
+    {
+      "task": "Terminal seal: git status, typecheck, live check",
+      "result": "PASS \u2014 task-loop.json only dirty, typecheck clean, 0 unpushed, live 200"
+    },
+    {
+      "task": "Add Node version pin (.nvmrc or engines)",
+      "result": "NO-OP \u2014 engines already pins >=20.19/>=22.12/>=24 covering running v24"
+    },
+    {
+      "task": "Add display_override to manifest",
+      "result": "DONE \u2014 display_override added to manifest; pushed 6dfdb56"
+    },
+    {
+      "task": "Verify 6dfdb56 deploy green",
+      "result": "PASS \u2014 6dfdb56 deploy green (31s/53s)"
+    },
+    {
+      "task": "Add PWA shortcuts to the 4 worlds in manifest",
+      "result": "DONE \u2014 4 world shortcuts added to manifest; pushed ca24c96"
+    },
+    {
+      "task": "Verify ca24c96 deploy green",
+      "result": "PASS \u2014 ca24c96 deploy green (34s/30s)"
+    },
+    {
+      "task": "Add lang/dir to manifest",
+      "result": "DONE \u2014 lang:en + dir:ltr added to manifest; pushed af9f0c9"
+    },
+    {
+      "task": "deploy check",
+      "result": "PASS \u2014 af9f0c9 deploy green (manifest lang/dir live)"
+    },
+    {
+      "task": "Live console sweep while user tests",
+      "result": "PASS \u2014 0 post-boot errors; 2 InvalidStateError logs are stale pre-guard buffer entries (presence.ts:47/50 vs current guarded :71); ERR_ABORTED = HMR noise"
+    },
+    {
+      "task": "Live render-stats probe during user testing",
+      "result": "PASS \u2014 p50 16.7ms / p95 16.8ms / 0 dropped frames over 818 samples (~60Hz compositor lock); 6 long tasks/937ms dev-scale"
+    },
+    {
+      "task": "Read-only ECS entity check during live testing",
+      "result": "PASS \u2014 4 RayInteractable + 6 grab targets (champion/map/cards0-3) live and registered"
+    },
+    {
+      "task": "ECS snapshot of live session (read-only)",
+      "result": "PASS \u2014 37 ents/140 comps; card0 idle quest1 dealt; champion parented to MapTable at (0.025,0.056,0.025)"
+    },
+    {
+      "task": "Live screenshot of session during user testing",
+      "result": "PASS \u2014 shot + ui inspect: all panel labels live (stats, 4 buttons, PIN pad); dark rects were chip styling not blank controls"
+    },
+    {
+      "task": "ECS diff snap-0 vs live \u2014 what has user triggered",
+      "result": "PASS \u2014 83s window: only ambient Dig Site pulse (scale 0.95->1.06); 0 user actions, 0 leaks; world idle-stable at 60fps"
+    },
+    {
+      "task": "Verify dealt quest hand \u2014 distinct valid questIds across 4 cards",
+      "result": "PASS \u2014 slots 0-2 = quests 1,2,3 (dealInitial deals 3); slot 3 = -1 reserved for Wish Pedestal boost; matches design"
+    },
+    {
+      "task": "Verify free dig + treasure map from dealInitial exist live",
+      "result": "PASS \u2014 Dig Site placed+visible+pulsing; Treasure Map at exact dealInitial anchor (0.1,0.054,0.36) yaw 0.4, grabbable"
+    },
+    {
+      "task": "Full entity census \u2014 enumerate all 37, check for phantoms/dupes",
+      "result": "PASS \u2014 37 = 28 named game/scene + 9 unnamed rig internals (Transform+Visibility only, boot indices); no phantoms/dupes/leaks"
+    },
+    {
+      "task": "List live systems \u2014 confirm all game systems registered and running",
+      "result": "PASS \u2014 24 systems all running: 17 IWSDK + 7 game (Terrain/Nav/Quest/Interact/MapEdit/NetAvatar/Hud); envs:1, cards:4, handles:6"
+    },
+    {
+      "task": "XR session status + renderer stats vs Quest budget",
+      "result": "PASS \u2014 flat mode (emulated Q3, XR offered not entered); 2nd profile identical: p50 16.7ms 0 dropped; no runtime draw-call stats surface in CLI"
+    },
+    {
+      "task": "Component census \u2014 all custom game components registered live",
+      "result": "PASS \u2014 53 total: 44 IWSDK + 9 custom (Champion/ScrollProp/QuestCard/DigMarker/ChestProp/BeaconProp/WishTag/HavenTag/RemoteAvatar) \u2014 all game systems covered"
+    },
+    {
+      "task": "Audit Houses/Relics/Chest/Haven/Beacon live state",
+      "result": "PASS \u2014 opening state exact: Wish+Haven visible, Chest/Beacon/Houses/Relics hidden; all marker components present"
+    },
+    {
+      "task": "browser snapshot \u2014 a11y/interactive-element view of flat page",
+      "result": "DONE \u2014 found unlabeled-canvas gap; shipped role=application + aria-labels (ad69426); verified via same snapshot: container + canvas now named"
+    },
+    {
+      "task": "Verify ad69426 deploy green",
+      "result": "PASS \u2014 run 42695300090 success in 58s; a11y labels live"
+    },
+    {
+      "task": "Anomaly: PanelUISystem sees 0 panels but HUD has 62 text nodes \u2014 inspect entity 35",
+      "result": "EXPLAINED \u2014 HUD is a scene-object UIKitMLAsset (getSceneObject hud-panel), not PanelUI component; zero counts expected; document renders fine"
+    },
+    {
+      "task": "Post-HMR console sweep after index.ts reload",
+      "result": "PASS \u2014 0 new errors after index.ts reload; only 2 stale ~4h-old pre-guard InvalidStateError entries lingering in buffer"
+    },
+    {
+      "task": "Local production build check after a11y change",
+      "result": "PASS \u2014 vite build 8.88s clean; main 2.44MB/674kB gzip; a11y change ships fine"
+    },
+    {
+      "task": "Run production preview server for user testing/recording",
+      "result": "DONE \u2014 https://localhost:4173/ serving production build 200; title/noscript/aria/lang verified in built HTML"
+    },
+    {
+      "task": "Production asset sweep on preview :4173",
+      "result": "PASS \u2014 all 10 assets 200 on :4173 (manifest/icons/uikitml/scene/og-image/robots/sitemap/security.txt/humans.txt)"
+    },
+    {
+      "task": "xr list-targets \u2014 input surface audit",
+      "result": "PASS \u2014 all interactables resolve with correct world bounds: table ~0.87m, cards on left rail (0.17 dz), HUD at (-1,1.3,-0.58)"
+    },
+    {
+      "task": "Dev-server health after 4h + HMR reloads",
+      "result": "PASS \u2014 :8081 healthy after 4h: bridge connected, commandReady, 2 clients"
+    },
+    {
+      "task": "Smoke-test ws presence relay \u2014 2 clients, join/beat forwarding",
+      "result": "PASS \u2014 2 clients: peer+ both directions, verbatim beat forwarding; relay works as documented"
+    },
+    {
+      "task": "NEXT_STEPS recording-mechanics gap check",
+      "result": "DONE \u2014 added :4173 concrete URL + YouTube-link note (Devpost takes URL not file); pushed 6542361"
+    },
+    {
+      "task": "Verify 6542361 deploy green",
+      "result": "PASS \u2014 run 42696184239 success in 1m26s; NEXT_STEPS update live"
+    },
+    {
+      "task": "SUBMISSION.md accuracy pass vs current shipped state",
+      "result": "DONE \u2014 verified all claims shipped; added judge-facing ?map= deep links to Access; pushed"
+    },
+    {
+      "task": "Verify de8e855 deploy green",
+      "result": "PASS \u2014 run 42696489539 success in 1m51s"
+    },
+    {
+      "task": "Audit package.json scripts vs documented commands",
+      "result": "PASS \u2014 all 10 scripts present; every documented command (dev/build/preview/typecheck/relay/reference:*) resolves"
+    },
+    {
+      "task": "gitignore audit \u2014 dist/iwsdk/node_modules covered",
+      "result": "PASS \u2014 dist/.iwsdk/node_modules/env/logs/MCP all ignored; only task-loop.json dirty"
+    },
+    {
+      "task": "Fresh diff window \u2014 detect user interactions since snap-1",
+      "result": "PASS \u2014 27s/1605f: only Dig Site pulse; 0 user actions; world idle-stable (snap-1 evicted by HMR reload)"
     }
   ]
 }
