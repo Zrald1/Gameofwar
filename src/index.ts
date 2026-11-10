@@ -26,7 +26,7 @@ const container = document.getElementById('scene-container') as HTMLDivElement;
 World.create(container, projectOptions).then(async (world) => {
   container.querySelector('canvas')?.setAttribute('aria-label', 'ATLAS ETERNAL — The Living Map, WebXR viewport');
   // dev/debug bridge — lets Playwright scripts inspect and drive the real loop
-  (window as unknown as { __atlas: unknown }).__atlas = { Anchors, applyCharacter, G, emit, on, commissionTheGuild };
+  (window as unknown as { __atlas: unknown }).__atlas = { Anchors, applyCharacter, G, emit, on, commissionTheGuild, world };
   await initMapLibrary();
   world.registerSystem(TerrainSystem);
   world.registerSystem(NavSystem);

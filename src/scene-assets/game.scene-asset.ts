@@ -310,6 +310,7 @@ export function createPatron(): Group {
   ring.rotation.x = -Math.PI / 2;
   ring.position.y = 0.001;
   g.add(ring);
+  g.add(hitProxy(0.05));
   return g;
 }
 
@@ -350,7 +351,23 @@ export function createWizard(): Group {
   ring.rotation.x = -Math.PI / 2;
   ring.position.y = 0.001;
   g.add(ring);
+  g.add(hitProxy(0.065));
   return g;
+}
+
+/** invisible ray-target — 5cm figures are slivers to click on desktop; this
+ *  transparent cylinder (raycastable, renders nothing) gives RayInteractable
+ *  a forgiving volume. Named 'hit-proxy' so systems can ignore it. */
+function hitProxy(halfY: number): Mesh {
+  const m = new Mesh(
+    new CylinderGeometry(0.045, 0.045, halfY * 2, 8),
+    new MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }),
+  );
+  m.position.y = halfY;
+  m.name = 'hit-proxy';
+  m.castShadow = false;
+  m.receiveShadow = false;
+  return m;
 }
 
 /** low wall behind the table so the diorama reads as a scene */
