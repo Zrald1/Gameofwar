@@ -1,9 +1,9 @@
 /**
- * The Guild Architect — the AI map creator.
+ * The Guild Architect - the AI map creator.
  *
  * Two agents in one pipe, matching the user's design:
  * - the ENGINEER (a "civil engineer") surveys and directs: it produces a
- *   BuildPlan — landmass shape, biome regions, road spokes, dig sites, the
+ *   BuildPlan - landmass shape, biome regions, road spokes, dig sites, the
  *   haven, spawn, name and story. With an LLM configured the plan comes from
  *   the model; without one a seeded local planner draws the same shape.
  * - the LABORER builds: it rasterizes the plan into an `atlas.map.v1` MapDef
@@ -31,7 +31,7 @@ const VALID_CH = new Set('osdgfrn'.split(''));
 const NAMES_A = ['Emberfall', 'Thornmere', 'Goldhollow', 'Ravenspire', 'Duskhaven', 'Stormrest', 'Briarfen', 'Cinderfall'];
 const NAMES_B = ['Expanse', 'March', 'Reach', 'Holt', 'Vale', 'Terraces', 'Wilds', 'Barrens'];
 
-/** the engineer's local survey — deterministic from G.rng */
+/** the engineer's local survey - deterministic from G.rng */
 function localPlan(): BuildPlan {
   const w = 64, h = 48;
   const blobs: BuildPlan['blobs'] = [];
@@ -49,7 +49,7 @@ function localPlan(): BuildPlan {
   }
   return {
     name: `${NAMES_A[Math.floor(G.rng() * NAMES_A.length)]} ${NAMES_B[Math.floor(G.rng() * NAMES_B.length)]}`,
-    story: 'Raised by the guild laborers — fresh ink, uncharted riches.',
+    story: 'Raised by the guild laborers - fresh ink, uncharted riches.',
     w, h, blobs,
     spokes: 3 + Math.floor(G.rng() * 3),
     digs: 4 + Math.floor(G.rng() * 4),
@@ -82,7 +82,7 @@ function sanitize(raw: any): BuildPlan | null {
   };
 }
 
-/** the engineer directs — LLM plan when the brain is configured, else local */
+/** the engineer directs - LLM plan when the brain is configured, else local */
 export async function engineerPlan(prompt?: string): Promise<{ plan: BuildPlan; ai: boolean }> {
   const out = await llmChat([
     {
@@ -109,7 +109,7 @@ export async function engineerPlan(prompt?: string): Promise<{ plan: BuildPlan; 
   return { plan: localPlan(), ai: false };
 }
 
-/** the laborer builds — rasterize the plan into atlas.map.v1 JSON -> MapDef */
+/** the laborer builds - rasterize the plan into atlas.map.v1 JSON -> MapDef */
 export function laborerBuild(plan: BuildPlan): ReturnType<typeof decodeMap> {
   const { w, h } = plan;
   const cx = w / 2, cy = h / 2;
@@ -183,7 +183,7 @@ export function laborerBuild(plan: BuildPlan): ReturnType<typeof decodeMap> {
 
 /**
  * Commission the guild: the engineer surveys (LLM when configured), the
- * laborer raises the land, and the world loads it — the player is playing on
+ * laborer raises the land, and the world loads it - the player is playing on
  * the AI-authored map immediately.
  */
 export async function commissionTheGuild(prompt?: string): Promise<void> {
@@ -192,7 +192,7 @@ export async function commissionTheGuild(prompt?: string): Promise<void> {
   feed(`Engineer's plan: "${plan.name}" ${ai ? '(AI-drafted)' : '(local draftsman)'}.`);
   const def = laborerBuild(plan);
   if (!def) {
-    feed('The laborers strike — the plan was unbuildable.');
+    feed('The laborers strike - the plan was unbuildable.');
     return;
   }
   applyMap(def);

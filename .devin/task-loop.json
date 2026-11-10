@@ -2,7 +2,6 @@
   "enabled": true,
   "goal": "improvement of our current project — ensure all of the game has a character: a wizard that asks the user who they want to be; very light, very fast, great wizard, AI-generated theme, explains to the user; push each integrated loop",
   "done": [
-    "Deployed site verified: index.html + JS bundle + maps/index.json all serve 200 - playable build publicly live",
     "SUBMISSION.md updated with live URL https://zrald1.github.io/Gameofwar/",
     "Demo storyboard shots captured -> .iwsdk/shots/{01-world,02-table,03-panel}.png for video reference",
     "PWA manifest + icons added (public/manifest.webmanifest, icons-192/512); linked in index.html - app now installable",
@@ -21,15 +20,16 @@
     "Wizard voice: wizGreet/wizAsk/wizQuip seeded lines + BYOK llmChat re-voice; verified live + pushed 3ad0779",
     "Wizard explainer shipped: stays at rim during play, gesturePress+click -> contextual wizTip (edit/offer/dig/haven/quest contexts); verified live; pushed 462544c",
     "Hit-proxy cylinders on patron+wizard (opacity-0 raycast targets); synthetic click e2e verified (Pressed->tip in feed); pushed 4d46b27",
-    "XR point-dwell e2e VERIFIED: point pose + tip inside proxy -> Point-press -> wizard fired 2x -> wizTip dig-context line in feed; xr exited clean"
+    "XR point-dwell e2e VERIFIED: point pose + tip inside proxy -> Point-press -> wizard fired 2x -> wizTip dig-context line in feed; xr exited clean",
+    "BLOCKED: physical Quest pass needs connected headset - adb devices empty, all runtime targets managed; needs user to plug in a Quest",
+    "Pages freshness VERIFIED: live serves index-CGAVvpr-.js = hash-identical local rebuild = full wizard feature deployed; bundle/maps/manifest all 200; bce2ca3 deploy green"
   ],
   "pending": [
-    "Optional next: physical Quest pass via iwsdk-native-xr-test when headset connected",
-    "Optional next: llmChat re-voice path live check needs API key - local fallback proven",
-    "Optional next: GitHub Pages deploy freshness after wizard pushes"
+    "Post-wizard regression sweep: console errors, gesture classifier, patron offer flow still clean",
+    "Next feature family: deepen explainer - wizard intro card in HUD listing his role+controls for first-time players"
   ],
-  "current": null,
-  "iteration": 875,
+  "current": "Optional next: physical Quest pass via iwsdk-native-xr-test when headset connected",
+  "iteration": 877,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1127,5 +1127,6 @@
       "task": "post-restore gesture regression",
       "result": "DONE — POINT classifies on fresh session; fixed stale probe frame-matcher"
     }
-  ]
+  ],
+  "session": "bedecked-drink"
 }

@@ -1,5 +1,5 @@
 /**
- * InteractSystem — every hand interaction on the table that is not the
+ * InteractSystem - every hand interaction on the table that is not the
  * champion or quest cards: scroll-glow, the roaming dig X (tracks the
  * nearest active dig site), chest animation, loot, wish crystal, haven
  * building, passive income.
@@ -63,7 +63,7 @@ export class InteractSystem extends createSystem({
     });
   }
 
-  /** click / point-dwell / fist-bump the envoy — take the contract, or call one */
+  /** click / point-dwell / fist-bump the envoy - take the contract, or call one */
   private patronPress(): void {
     if (G.offer) emit('npcReply', 'take');
     else emit('npcSummon');
@@ -74,7 +74,7 @@ export class InteractSystem extends createSystem({
     const dig = G.digs.find((d) => d.id === G.activeDigId);
     if (!dig) return;
     if (tileDist(G.ci, G.cj, dig.i, dig.j) > DIG_RANGE) {
-      feed('Too far — carry your champion to the X');
+      feed('Too far - carry your champion to the X');
       return;
     }
     const info = mapTileInfo(dig.i, dig.j);
@@ -94,7 +94,7 @@ export class InteractSystem extends createSystem({
       emit('digDone', dig.questId, dig.i, dig.j);
       return;
     }
-    // free treasure from the held scroll — luck from race AND level
+    // free treasure from the held scroll - luck from race AND level
     const loot = rollLoot(
       G.rng,
       luckBonus(info.biome === Biomes.OCEAN) + levelLuck(),
@@ -106,17 +106,17 @@ export class InteractSystem extends createSystem({
     if (loot.legendary) {
       G.relics.push(loot.item);
       G.terrainDirty = true;
-      feed(`LEGENDARY — ${loot.item}! (+${loot.power} power)`);
+      feed(`LEGENDARY - ${loot.item}! (+${loot.power} power)`);
     } else if (loot.item) {
       feed(`Found ${loot.item} (+${loot.power}p, +${gold}g)`);
     } else {
       feed(`Dug up ${gold} gold`);
     }
-    // weapon drop — a free dig can still yield a legendary (0.1% mythic floor)
+    // weapon drop - a free dig can still yield a legendary (0.1% mythic floor)
     if (G.rng() < weaponDropChance(-1)) {
       const w = rollWeapon(G.rng, -1, '');
       addWeapon(w);
-      feed(`${w.rarity.toUpperCase()} DROP — ${w.name} (+${w.power}p)`);
+      feed(`${w.rarity.toUpperCase()} DROP - ${w.name} (+${w.power}p)`);
     }
     save();
     G.freeDig = null;
@@ -126,7 +126,7 @@ export class InteractSystem extends createSystem({
   private tryBuild(): void {
     if (G.phase !== 'playing') return;
     if (G.houses >= 3) {
-      feed('Haven is complete — it hums with life');
+      feed('Haven is complete - it hums with life');
       return;
     }
     const cost = HOUSE_COSTS[G.houses];

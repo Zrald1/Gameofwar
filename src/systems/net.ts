@@ -1,5 +1,5 @@
 /**
- * NetAvatarSystem — presence over the PresenceService seam. Broadcasts head
+ * NetAvatarSystem - presence over the PresenceService seam. Broadcasts head
  * pose + champion tile + character look at 10 Hz; mirrors each remote peer as
  * a ghost figure at their viewpoint and a colored marker on their champion's
  * tile. Remote map edits replay as tile stamps; on join, the peer with a map

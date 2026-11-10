@@ -1,5 +1,5 @@
 /**
- * Central mutable game state — a plain module singleton shared by all
+ * Central mutable game state - a plain module singleton shared by all
  * systems (kept out of ECS because it is singular, high-churn state).
  * Deterministic parts (terrain, quests) rebuild from `seed` + coords.
  */
@@ -233,14 +233,14 @@ export function addPower(n: number): void {
   save();
 }
 
-/** xp thresholds — level N needs 60*N^1.5 cumulative-ish xp */
+/** xp thresholds - level N needs 60*N^1.5 cumulative-ish xp */
 const XP_STEP = (lv: number) => Math.round(60 * Math.pow(lv, 1.5));
 export function addXp(n: number): void {
   G.xp += n;
   while (G.xp >= XP_STEP(G.level)) {
     G.xp -= XP_STEP(G.level);
     G.level++;
-    feed(`Level up! You are now Lv ${G.level} — the map respects you more.`);
+    feed(`Level up! You are now Lv ${G.level} - the map respects you more.`);
   }
   G.hudDirty = true;
 }

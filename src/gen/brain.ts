@@ -1,13 +1,13 @@
 /**
- * The game's "AI" brain — a pluggable interface.
+ * The game's "AI" brain - a pluggable interface.
  *
  * `local` mode is the default: a deterministic, seeded generator that authors
  * NPC offers, dialogue and build plans entirely on-device (no key, no
- * network — the honest interpretation of "the game AI authors them").
+ * network - the honest interpretation of "the game AI authors them").
  *
  * `llm` mode upgrades the same calls through any OpenAI-compatible
  * chat/completions endpoint. The user supplies their own endpoint + key via
- * `setLlmConfig()`; it lives in localStorage, never in source — a public
+ * `setLlmConfig()`; it lives in localStorage, never in source - a public
  * GitHub Pages app cannot safely ship a key.
  */
 
@@ -72,7 +72,7 @@ export function brainBoot(): void {
 
 /**
  * One chat-completion round trip. Returns the assistant text, or null on any
- * failure (missing config, network, bad shape) — callers always fall back to
+ * failure (missing config, network, bad shape) - callers always fall back to
  * the local generator, so the game never hard-depends on the key.
  */
 export async function llmChat(

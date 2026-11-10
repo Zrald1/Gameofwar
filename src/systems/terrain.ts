@@ -1,5 +1,5 @@
 /**
- * TerrainSystem — owns the instanced terrain/prop meshes and the table-local
+ * TerrainSystem - owns the instanced terrain/prop meshes and the table-local
  * anchoring of every world-anchored prop (meeple, dig X, beacon, chest,
  * haven, houses, relics). Rebuilds on G.terrainDirty (travel, recenter,
  * game start).
@@ -35,7 +35,7 @@ const PROP_COLORS = [0, 0x2f7a3a, 0x3f8a4f, 0x8a8a8a, 0xdfeaf0];
 const VOX_MAX = 1200;
 const VOX = 0.042; // block edge, slightly under TILE so stacks show seams
 
-/** cartographic palette — atlas tints, not raw biome fills */
+/** cartographic palette - atlas tints, not raw biome fills */
 const SEA_DEEP = 0x0b2b52;
 const SEA_SHELF = 0x1a5f9c;
 const SEA_SHALLOW = 0x49b3c9;
@@ -75,7 +75,7 @@ export class TerrainSystem extends createSystem({
     Anchors.set('table', table);
     this.terrain = this.world.requireSceneObject('terrain-mesh') as unknown as InstancedMesh;
     this.props = this.world.requireSceneObject('prop-mesh') as unknown as InstancedMesh;
-    // minecraft-style block layer — one instanced draw under the table node
+    // minecraft-style block layer - one instanced draw under the table node
     this.vox = new InstancedMesh(
       new BoxGeometry(VOX, VOX, VOX),
       new MeshStandardMaterial({ roughness: 0.85, metalness: 0.05 }),
@@ -101,15 +101,15 @@ export class TerrainSystem extends createSystem({
     ]) {
       Anchors.get(id)!.visible = false;
     }
-    // wish pedestal sits on the back-left rim — static
+    // wish pedestal sits on the back-left rim - static
     Anchors.get('wish')!.position.set(-0.68, 0.032, -0.38);
     // patron robe gets its own material so persona tints don't touch the asset.
-    // the manifest clone mounts async — rig it lazily on first visible frame
+    // the manifest clone mounts async - rig it lazily on first visible frame
     this.patronRobe = new MeshStandardMaterial({ color: 0x6a7a9a, roughness: 0.7 });
   }
 
   rebuild(): void {
-    // pass 1: sample the world once per slot — neighbor lookups read this cache
+    // pass 1: sample the world once per slot - neighbor lookups read this cache
     for (let gj = 0; gj < GRID_H; gj++) {
       for (let gi = 0; gi < GRID_W; gi++) {
         const idx = gj * GRID_W + gi;
@@ -209,7 +209,7 @@ export class TerrainSystem extends createSystem({
   /**
    * Atlas-style tile shading: bathymetric ocean + coastal foam, hypsometric
    * land ramp, NW hillshade, faint contours, parchment edge vignette, and a
-   * brightened champion tile. Pure color math — no extra draws or allocs.
+   * brightened champion tile. Pure color math - no extra draws or allocs.
    */
   private tileColor(info: TileInfo, gi: number, gj: number, idx: number, isChamp: boolean): void {
     const col = this.col;
@@ -250,16 +250,16 @@ export class TerrainSystem extends createSystem({
           col.setHex(SNOW_COL);
           break;
       }
-      // authored road — packed-dirt tint over the land color
+      // authored road - packed-dirt tint over the land color
       if (info.road) col.lerp(this.col2.setHex(0xbfa87a), 0.55);
-      // NW hillshade — light falls from the table's upper-left
+      // NW hillshade - light falls from the table's upper-left
       const slope = this.hAt(gi + 1, gj) - this.hAt(gi - 1, gj) + (this.hAt(gi, gj + 1) - this.hAt(gi, gj - 1));
       const shade = Math.max(0.7, Math.min(1.18, 1 - slope * 9));
       col.multiplyScalar(shade);
       // faint elevation contour
       if ((info.e * 9) % 1 < 0.07) col.multiplyScalar(0.88);
     }
-    // parchment vignette — edges fade like unexplored ink
+    // parchment vignette - edges fade like unexplored ink
     const edge = Math.max(Math.abs(gi - HALF_W) / HALF_W, Math.abs(gj - HALF_H) / HALF_H);
     if (edge > 0.72) {
       const k = (edge - 0.72) / 0.28;
@@ -269,7 +269,7 @@ export class TerrainSystem extends createSystem({
     const wx = Math.round(G.centerI + gi - HALF_W);
     const wz = Math.round(G.centerJ + gj - HALF_H);
     col.multiplyScalar(0.94 + hash2(wx, wz, G.seed ^ 0x77) * 0.12);
-    // "you are here" — warm lift on the champion's tile
+    // "you are here" - warm lift on the champion's tile
     if (isChamp) col.lerp(this.col2.setHex(0xffd76a), 0.28);
   }
 
@@ -379,7 +379,7 @@ export class TerrainSystem extends createSystem({
       patron.position.y = 0.032 + Math.abs(Math.sin(this.patronT * (o ? 5.2 : 1.4))) * bob;
       patron.rotation.y = 0.42 + Math.sin(this.patronT * 0.9) * 0.14;
     }
-    // the Wizard: guide at the right rim — greets you in, then stays on
+    // the Wizard: guide at the right rim - greets you in, then stays on
     // as the explainer you can always poke for advice
     const wiz = Anchors.get('wizard')!;
     if (!wiz.visible) wiz.visible = true;

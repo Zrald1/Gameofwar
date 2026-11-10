@@ -1,5 +1,5 @@
 /**
- * MapEditSystem — Cartographer Mode. The champion meeple is the brush cursor:
+ * MapEditSystem - Cartographer Mode. The champion meeple is the brush cursor:
  * carry it onto a tile, then a palette button stamps the tool there (with
  * brush radius). Entering edit mode snapshots the visible world into a live
  * authored MapDef, so painting is instant and the world starts identical.

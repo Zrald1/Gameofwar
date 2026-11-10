@@ -1,5 +1,5 @@
 /**
- * Character creator — applies G.charColor / G.charHat to the champion meeple.
+ * Character creator - applies G.charColor / G.charHat to the champion meeple.
  * The accessory is a small group re-parented under the meeple clone, so it
  * carries wherever the meeple goes (including when a player carries it).
  */
@@ -46,7 +46,7 @@ const NAME_A: Record<string, string[]> = {
 };
 const NAME_B = ['len', 'na', 'ric', 'wyn', 'dor', 'ith', 'ara', 'os'];
 
-/** deterministic champion name from seed + race — persists across saves */
+/** deterministic champion name from seed + race - persists across saves */
 export function charName(seed: number, race: string | null): string {
   const a = NAME_A[race ?? ''] ?? NAME_A.Human;
   const h = (seed | 0) ^ ((race ?? '').length * 31);
@@ -142,7 +142,7 @@ export function applyCharacter(): void {
     hat.position.y = 0.043; // above the head sphere
     champ.add(hat);
   }
-  // back-slot accessory — hangs at the body's midpoint behind the figure
+  // back-slot accessory - hangs at the body's midpoint behind the figure
   const oldB = champ.getObjectByName(BACK_NAME);
   if (oldB) champ.remove(oldB);
   const back = buildBack(G.charBack as Back, color);

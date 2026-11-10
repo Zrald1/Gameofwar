@@ -59,7 +59,7 @@ export class HudSystem extends createSystem({}) {
     if (G.map) {
       this.set('intro-map-story', { text: `You chart ${G.map.name} - ${G.map.story}` });
     }
-    // the Wizard speaks — greeting at boot, questions as you choose
+    // the Wizard speaks - greeting at boot, questions as you choose
     wizGreet();
     on('wizardLine', (line: string) => feed(line));
     // intro -> race select
@@ -293,7 +293,7 @@ export class HudSystem extends createSystem({}) {
       b?.addEventListener('click', fn);
       this.cleanupFuncs.push(() => b?.removeEventListener('click', fn));
     });
-    // guildmaster reply chips — hands-first conversation with the quest NPC
+    // guildmaster reply chips - hands-first conversation with the quest NPC
     for (const [id, intent] of [
       ['npc-take', 'take'],
       ['npc-bargain', 'bargain'],
@@ -394,9 +394,9 @@ export class HudSystem extends createSystem({}) {
     const o = G.offer;
     this.set('npc-wrap', { display: o ? 'flex' : 'none' });
     if (o) {
-      this.set('npc-name', { text: `${o.npc.name} — ${o.npc.title}` });
+      this.set('npc-name', { text: `${o.npc.name} - ${o.npc.title}` });
       this.set('npc-offer', {
-        text: `[${GRADES[o.quest.gradeIdx]}] ${o.quest.title} — +${o.quest.rewardGold}g +${o.quest.rewardPower}p`,
+        text: `[${GRADES[o.quest.gradeIdx]}] ${o.quest.title} - +${o.quest.rewardGold}g +${o.quest.rewardPower}p`,
       });
       this.set('npc-line', { text: o.line });
     }

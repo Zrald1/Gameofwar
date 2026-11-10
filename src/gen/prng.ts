@@ -1,6 +1,6 @@
 /**
  * Deterministic seeded world generation. Same (seed, wx, wz) always yields
- * the same tile — the world is infinite and never stored.
+ * the same tile - the world is infinite and never stored.
  */
 
 export function mulberry32(seed: number): () => number {

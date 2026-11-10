@@ -1,6 +1,6 @@
 /**
  * Quest + loot generation. Quests are procedurally generated ("the world AI
- * authors them") — grades D..SSSS by complexity, matching the user's spec:
+ * authors them") - grades D..SSSS by complexity, matching the user's spec:
  * rarer grade = harder objective = better reward, up to legendary relics.
  */
 import { Biome, Biomes, TileInfo, tileInfo } from './prng.js';

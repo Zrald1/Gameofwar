@@ -1,5 +1,5 @@
 /**
- * QuestSystem — the card rail. Deals generated quests onto pooled cards,
+ * QuestSystem - the card rail. Deals generated quests onto pooled cards,
  * draws each card's face on its own CanvasTexture, accepts a quest when its
  * card is grabbed+released, registers objective sites in G.digs / beacon
  * targets, and pays rewards on completion.
@@ -209,7 +209,7 @@ export class QuestSystem extends createSystem({
   private spawnObjective(q: Quest): void {
     if (q.kind === QuestKinds.SURVEY) {
       G.terrainDirty = true; // beacon reanchors on rebuild
-      feed(`Beacon lit in the ${q.biomeTarget} — scout it`);
+      feed(`Beacon lit in the ${q.biomeTarget} - scout it`);
     } else {
       G.digs.push({ id: G.nextDigId++, questId: q.id, i: q.ti, j: q.tj });
       feed('A red X burns on the map');
@@ -267,13 +267,13 @@ export class QuestSystem extends createSystem({
     if (q.legendary) {
       const relic = `Relic of ${q.title.split(' ').slice(-2).join(' ')}`;
       G.relics.push(relic);
-      feed(`LEGENDARY RELIC earned — ${relic}!`);
+      feed(`LEGENDARY RELIC earned - ${relic}!`);
     }
-    // weapon drop — rarity window scales with the quest's grade
+    // weapon drop - rarity window scales with the quest's grade
     if (G.rng() < weaponDropChance(q.gradeIdx)) {
       const w = rollWeapon(G.rng, q.gradeIdx, GRADES[q.gradeIdx]);
       addWeapon(w);
-      feed(`${w.rarity.toUpperCase()} DROP — ${w.name} (+${w.power}p)`);
+      feed(`${w.rarity.toUpperCase()} DROP - ${w.name} (+${w.power}p)`);
     }
     feed(`Quest complete [${GRADES[q.gradeIdx]}]: +${gold}g +${power}p`);
     const idx = G.cardSlots.indexOf(q.id);
@@ -288,7 +288,7 @@ export class QuestSystem extends createSystem({
     G.terrainDirty = true;
     G.hudDirty = true;
     save();
-    // the guild sends a new patron — the NPC deals the replacement
+    // the guild sends a new patron - the NPC deals the replacement
     setTimeout(() => this.requestOffer(this.freeSlot()), 1500);
   }
 
@@ -296,7 +296,7 @@ export class QuestSystem extends createSystem({
     if (G.phase !== 'playing') return;
     const slot = this.freeSlot();
     if (slot < 0) {
-      feed('The rail is full — finish a quest first');
+      feed('The rail is full - finish a quest first');
       return;
     }
     feed('You whisper a wish… the map ink swirls');

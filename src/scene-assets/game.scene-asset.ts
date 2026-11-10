@@ -1,5 +1,5 @@
 /**
- * Procedural assets for ATLAS ETERNAL — the living-map diorama.
+ * Procedural assets for ATLAS ETERNAL - the living-map diorama.
  * All factories return parentless Object3D prototypes; the scene places
  * them as children of the `map-table` node (table-local coordinates).
  */
@@ -35,7 +35,7 @@ const mat = (color: number, opts: Partial<{ rough: number; metal: number; e: num
     ...(opts.e ? { emissive: opts.e, emissiveIntensity: opts.ei ?? 1 } : {}),
   });
 
-/** dark disc ground — a 1m-deep solid so the locomotion capsule can never tunnel through */
+/** dark disc ground - a 1m-deep solid so the locomotion capsule can never tunnel through */
 export function createGroundFloor(): Group {
   const g = new Group();
   const floor = new Mesh(new CylinderGeometry(9, 9, 1, 64), mat(0x11141c, { rough: 1 }));
@@ -74,7 +74,7 @@ export function createMapTable(): Group {
     stud.position.set(sx * (hw - 0.028), 0.036, sz * (hd - 0.028));
     g.add(stud);
   }
-  // engraved compass rose on the right margin — flat brass inlay
+  // engraved compass rose on the right margin - flat brass inlay
   const rose = new Group();
   rose.name = 'compass-rose';
   const roseMat = mat(0xb08a3f, { e: 0x6a4d18, ei: 0.45, metal: 0.6, rough: 0.45 });
@@ -101,7 +101,7 @@ export function createMapTable(): Group {
   return g;
 }
 
-/** instanced terrain tiles — matrices+colors driven by TerrainSystem */
+/** instanced terrain tiles - matrices+colors driven by TerrainSystem */
 export function createTerrainMesh(): InstancedMesh {
   const m = new InstancedMesh(
     new BoxGeometry(TILE * 0.94, 1, TILE * 0.94),
@@ -125,7 +125,7 @@ export function createPropMesh(): InstancedMesh {
   return m;
 }
 
-/** champion meeple — pawn body + head + base ring */
+/** champion meeple - pawn body + head + base ring */
 export function createMeeple(): Group {
   const g = new Group();
   const bodyMat = mat(0x4f8fd8, { rough: 0.5 });
@@ -143,7 +143,7 @@ export function createMeeple(): Group {
   return g;
 }
 
-/** the treasure-map scroll — grabbable, held => X glows */
+/** the treasure-map scroll - grabbable, held => X glows */
 export function createScroll(): Group {
   const g = new Group();
   const paper = mat(0xe8d5a8, { rough: 0.8 });
@@ -163,8 +163,8 @@ export function createScroll(): Group {
   return g;
 }
 
-/** quest card — thin card; face texture is assigned by QuestSystem at
- *  runtime (canvas creation is DOM work — not allowed in the asset realm) */
+/** quest card - thin card; face texture is assigned by QuestSystem at
+ *  runtime (canvas creation is DOM work - not allowed in the asset realm) */
 export function createCard(): Group {
   const g = new Group();
   const frame = new Mesh(new BoxGeometry(0.078, 0.112, 0.004), mat(0x1c2030, { rough: 0.6 }));
@@ -176,7 +176,7 @@ export function createCard(): Group {
   return g;
 }
 
-/** treasure chest — 'lid' child pivots open */
+/** treasure chest - 'lid' child pivots open */
 export function createChest(): Group {
   const g = new Group();
   const wood = mat(0x6a4526, { rough: 0.7 });
@@ -201,7 +201,7 @@ export function createChest(): Group {
   return g;
 }
 
-/** X dig marker — emissive crossed bars */
+/** X dig marker - emissive crossed bars */
 export function createDigX(): Group {
   const g = new Group();
   const xm = mat(0xff5030, { e: 0xff3010, ei: 1.2 });
@@ -213,7 +213,7 @@ export function createDigX(): Group {
   return g;
 }
 
-/** survey beacon — glowing pillar marking the target biome */
+/** survey beacon - glowing pillar marking the target biome */
 export function createBeacon(): Group {
   const g = new Group();
   const pillar = new Mesh(
@@ -228,7 +228,7 @@ export function createBeacon(): Group {
   return g;
 }
 
-/** wish pedestal — plinth + floating crystal (press to ask for a quest) */
+/** wish pedestal - plinth + floating crystal (press to ask for a quest) */
 export function createWishPedestal(): Group {
   const g = new Group();
   const plinth = new Mesh(new CylinderGeometry(0.035, 0.045, 0.03, 12), mat(0x2a2438, { rough: 0.6 }));
@@ -241,7 +241,7 @@ export function createWishPedestal(): Group {
   return g;
 }
 
-/** haven marker — golden ring + posts on the home tile */
+/** haven marker - golden ring + posts on the home tile */
 export function createHaven(): Group {
   const g = new Group();
   const gold = mat(0xd8b04f, { e: 0x8a6820, ei: 0.5, metal: 0.5, rough: 0.4 });
@@ -282,7 +282,7 @@ export function createRelic(): Group {
   return g;
 }
 
-/** guild patron — robed envoy standing at the table rim with offers.
+/** guild patron - robed envoy standing at the table rim with offers.
  *  'patron-robe'/'patron-hood' share one material so the runtime can
  *  retint the whole figure per persona in a single write */
 export function createPatron(): Group {
@@ -314,7 +314,7 @@ export function createPatron(): Group {
   return g;
 }
 
-/** the Wizard — guide figure standing at the right rim. Tall pointy hat +
+/** the Wizard - guide figure standing at the right rim. Tall pointy hat +
  *  long beard + star-topped staff; 'wizard-robe'/'wizard-hat' share one
  *  material for single-write retints. Greets players in intro/race. */
 export function createWizard(): Group {
@@ -355,7 +355,7 @@ export function createWizard(): Group {
   return g;
 }
 
-/** invisible ray-target — 5cm figures are slivers to click on desktop; this
+/** invisible ray-target - 5cm figures are slivers to click on desktop; this
  *  transparent cylinder (raycastable, renders nothing) gives RayInteractable
  *  a forgiving volume. Named 'hit-proxy' so systems can ignore it. */
 function hitProxy(halfY: number): Mesh {

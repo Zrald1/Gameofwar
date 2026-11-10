@@ -1,5 +1,5 @@
 /**
- * The Guildmaster — the NPC quest-giver. Each offer comes from a named
+ * The Guildmaster - the NPC quest-giver. Each offer comes from a named
  * patron whose temperament picks the difficulty (the "AI assigns the grade").
  * The player replies through chips: take it, bargain, ask for harder, or
  * send them away. Replies mutate the offer before it hits the rail.
@@ -18,7 +18,7 @@ export interface NpcPersona {
   id: string;
   name: string;
   title: string;
-  /** boost passed to the quest grade roll — the NPC's difficulty appetite */
+  /** boost passed to the quest grade roll - the NPC's difficulty appetite */
   boost: number;
   goldMul: number;
   /** robe color of the patron figure on the table rim */
@@ -42,9 +42,9 @@ export const PERSONAS: NpcPersona[] = [
       'Careful work, wanderer. Nothing here will get you killed… probably.',
       'I deal in honest errands. Modest pay, modest peril.',
     ],
-    bargainOk: ['A fair ask. Coin is coin — fine, a little extra.'],
+    bargainOk: ['A fair ask. Coin is coin - fine, a little extra.'],
     bargainNo: ['The ledger says no. Take it or leave it.'],
-    harderOk: ['Hungrier than I thought. Very well — something bolder, then.'],
+    harderOk: ['Hungrier than I thought. Very well - something bolder, then.'],
     refuse: ['Suit yourself. The rail will not stay empty long.'],
   },
   {
@@ -71,7 +71,7 @@ export const PERSONAS: NpcPersona[] = [
     goldMul: 1.6,
     robe: 0x5a3a8a,
     greet: [
-      'I offer what others hide — S-grades, relic hunts, legend work.',
+      'I offer what others hide - S-grades, relic hunts, legend work.',
       'The rail below holds errands. Mine hold destinies.',
     ],
     bargainOk: ['You bargain with the Ninth Seal and LIVE? Entertaining. Done.'],
@@ -96,7 +96,7 @@ export interface NpcOffer {
 
 let offerSeq = 0;
 
-/** the guild sends a patron with a quest — difficulty chosen by the NPC */
+/** the guild sends a patron with a quest - difficulty chosen by the NPC */
 export function makeOffer(ci: number, cj: number): NpcOffer {
   const npc = PERSONAS[Math.floor(G.rng() * PERSONAS.length)];
   const q = genQuest(G.rng, G.seed, G.nextQuestId++, ci, cj, npc.boost, mapTileInfo);
@@ -116,7 +116,7 @@ export interface ReplyResult {
 }
 
 /**
- * Resolve a player reply. Local rules are authoritative — the LLM (when
+ * Resolve a player reply. Local rules are authoritative - the LLM (when
  * configured) only voices the same outcome, so cheating it is impossible.
  */
 export async function reply(o: NpcOffer, intent: ReplyIntent): Promise<ReplyResult> {
@@ -125,7 +125,7 @@ export async function reply(o: NpcOffer, intent: ReplyIntent): Promise<ReplyResu
   let line: string;
   if (intent === 'take') {
     outcome = 'accept';
-    line = `${npc.name}: Good. The map has your scent now — go.`;
+    line = `${npc.name}: Good. The map has your scent now - go.`;
   } else if (intent === 'refuse') {
     outcome = 'withdrawn';
     line = `${npc.name}: ${npc.refuse[Math.floor(G.rng() * npc.refuse.length)]}`;
@@ -143,7 +143,7 @@ export async function reply(o: NpcOffer, intent: ReplyIntent): Promise<ReplyResu
       }
     }
   } else {
-    // 'harder' — re-grade the same quest upward once; better loot odds
+    // 'harder' - re-grade the same quest upward once; better loot odds
     if (o.hardened) {
       line = `${npc.name}: It is already as sharp as it gets. Take it or leave it.`;
     } else {
@@ -160,7 +160,7 @@ export async function reply(o: NpcOffer, intent: ReplyIntent): Promise<ReplyResu
       }
     }
   }
-  // LLM voice override — fired in the background. The local line lands
+  // LLM voice override - fired in the background. The local line lands
   // instantly; if the model answers, it re-voices the same outcome later so
   // a dead/slow key never gates the reply.
   llmChat([

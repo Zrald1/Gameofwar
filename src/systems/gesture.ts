@@ -1,10 +1,10 @@
 /**
- * GestureSystem — reads real WebXR hand joints each frame and turns poses
+ * GestureSystem - reads real WebXR hand joints each frame and turns poses
  * into game verbs:
- *   point   — fingertip aims a beam at the X / wish / haven ring; dwelling
+ *   point   - fingertip aims a beam at the X / wish / haven ring; dwelling
  *             ~0.45s presses it (point-to-select)
- *   fist    — a closed fist thrown forward punches the X to break ground
- *   thumbs-up / open palm — while a patron offer is live: take it / send away
+ *   fist    - a closed fist thrown forward punches the X to break ground
+ *   thumbs-up / open palm - while a patron offer is live: take it / send away
  * On a Quest the tracked joints drive this; in IWER, set-hand-pose drives
  * the same joints.
  */
@@ -56,7 +56,7 @@ export class GestureSystem extends createSystem({}) {
   private up = new Vector3(0, 1, 0);
 
   init(): void {
-    // fingertip aim beam — visible while pointing
+    // fingertip aim beam - visible while pointing
     this.beam = new Mesh(
       new CylinderGeometry(0.0018, 0.0018, 1, 6),
       new MeshBasicMaterial({ color: 0x9fe8ff, transparent: true, opacity: 0.55 }),
@@ -102,7 +102,7 @@ export class GestureSystem extends createSystem({}) {
   private aimTarget(origin: Vector3, dir: Vector3): string | null {
     let best: string | null = null;
     let bestD = AIM_DIST;
-    // proximity aim — a pointing fingertip hovering on a thing IS pointing
+    // proximity aim - a pointing fingertip hovering on a thing IS pointing
     // at it (poke semantics); generous on purpose
     let nearD = 0.12;
     for (const key of ['dig-x', 'wish', 'haven', 'patron', 'wizard'] as const) {
@@ -118,7 +118,7 @@ export class GestureSystem extends createSystem({}) {
       }
     }
     if (best) return best;
-    // ray aim — fingertip direction for pointing at things farther away
+    // ray aim - fingertip direction for pointing at things farther away
     for (const key of ['dig-x', 'wish', 'haven', 'patron', 'wizard'] as const) {
       const obj = Anchors.get(key);
       if (!obj || !obj.visible) continue;
@@ -244,7 +244,7 @@ export class GestureSystem extends createSystem({}) {
       if (pose === 'fist' && st.vel > PUNCH_SPEED && st.punchCooldown <= 0) {
         st.punchCooldown = 0.6;
         if (G.editing) {
-          feed('POW — block placed');
+          feed('POW - block placed');
           emit('gesturePress', 'vox-add');
           continue;
         }
@@ -252,7 +252,7 @@ export class GestureSystem extends createSystem({}) {
         if (digx?.visible && G.activeDigId >= 0) {
           digx.getWorldPosition(this.toT);
           if (this.toT.distanceTo(knuckle) < PUNCH_RANGE) {
-            feed('POW — you punched the X!');
+            feed('POW - you punched the X!');
             emit('gesturePress', 'dig-x');
             continue;
           }
@@ -272,13 +272,13 @@ export class GestureSystem extends createSystem({}) {
       // ---- open-palm swipe (edit mode, no offer live): break a block ----
       if (pose === 'open' && G.editing && !G.offer && st.vel > PUNCH_SPEED && st.punchCooldown <= 0) {
         st.punchCooldown = 0.6;
-        feed('Swipe — block broken');
+        feed('Swipe - block broken');
         emit('gesturePress', 'vox-break');
         continue;
       }
 
       // ---- NPC replies: thumbs-up = take, open palm = refuse ----
-      // one emit per pose entry — a fresh offer arriving mid-gesture is never
+      // one emit per pose entry - a fresh offer arriving mid-gesture is never
       // auto-answered by a stale pose
       if (G.offer && (pose === 'thumbsup' || pose === 'open') && st.repliedPose !== pose) {
         st.repliedPose = pose;

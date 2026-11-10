@@ -1,5 +1,5 @@
 /**
- * Presence seam — IWSDK ships no netcode by design, so transport lives behind
+ * Presence seam - IWSDK ships no netcode by design, so transport lives behind
  * an app-owned interface. Two transports ship:
  *   BroadcastPresence - zero infrastructure, works across tabs same machine
  *   WsPresence        - online play via tools/presence-relay.mjs (?relay=ws://...)

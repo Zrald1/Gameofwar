@@ -1,7 +1,7 @@
 /**
  * Weapon + gear loot ladder. Every loot roll lands on a rarity tier:
  * normal gear drops constantly (near 100% of rolls produce *something*),
- * while mythic weapons sit at a 0.1% floor — reachable at any level, as the
+ * while mythic weapons sit at a 0.1% floor - reachable at any level, as the
  * spec asks, with the odds pushed up by quest grade and lucky triggers.
  */
 import type { Grade } from './quests.js';
@@ -18,7 +18,7 @@ export const RARITY_COLORS = [
   '#ffe95e', // Mythic
 ];
 
-/** base rarity weights — index 0..5; Mythic floor is 0.1% as specified */
+/** base rarity weights - index 0..5; Mythic floor is 0.1% as specified */
 const BASE_W = [62, 23, 9.4, 4, 1.5, 0.1];
 
 const TIERS: Record<Rarity, { names: string[]; minP: number; maxP: number }> = {
@@ -66,7 +66,7 @@ export interface Weapon {
  * Roll a weapon. `gradeIdx` (-1 for free digs) shifts the rarity window up:
  * each grade above D moves ~40% of the lower tier's mass two tiers up, so an
  * SSSS quest rolls almost entirely Epic..Mythic while a D still floors at
- * 0.1% Mythic — a low-level lucky drop is possible on any roll.
+ * 0.1% Mythic - a low-level lucky drop is possible on any roll.
  */
 export function rollWeapon(rng: () => number, gradeIdx = -1, origin: Grade | '' = ''): Weapon {
   const w = BASE_W.slice();

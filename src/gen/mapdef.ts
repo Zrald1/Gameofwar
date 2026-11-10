@@ -72,7 +72,7 @@ const KEY_BIOME: Biome[] = [
   Biomes.FOREST, Biomes.ROCK, Biomes.SNOW,
 ];
 
-/** base elevation/moisture per authored biome — feeds height + hypso tint */
+/** base elevation/moisture per authored biome - feeds height + hypso tint */
 const AUTH: { e: number; m: number }[] = [
   { e: 0.22, m: 0.9 },  // ocean
   { e: 0.34, m: 0.5 },  // sand

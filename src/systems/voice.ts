@@ -1,9 +1,9 @@
 /**
- * VoiceSystem — talk to the Guildmaster. Hold the "Talk" chip (a user gesture,
+ * VoiceSystem - talk to the Guildmaster. Hold the "Talk" chip (a user gesture,
  * which mic permission needs), speak, and the transcript routes two ways:
  *
  * - intent words ("take it", "harder", "bargain", "leave") resolve the live
- *   offer through the same npcReply path as the chips — works fully offline;
+ *   offer through the same npcReply path as the chips - works fully offline;
  * - anything else is free speech to the patron: it goes to the LLM when one is
  *   configured, else the patron answers in-character from local lines.
  *
@@ -41,7 +41,7 @@ export class VoiceSystem extends createSystem({}) {
   init(): void {
     const Ctor = (window as any).SpeechRecognition ?? (window as any).webkitSpeechRecognition;
     if (!Ctor) {
-      on('voiceToggle', () => feed('This browser has no speech recognizer — use the chips.'));
+      on('voiceToggle', () => feed('This browser has no speech recognizer - use the chips.'));
       on('npcLine', (l: string) => this.say(l));
       return;
     }
@@ -53,7 +53,7 @@ export class VoiceSystem extends createSystem({}) {
       if (text) void this.heard(text);
     };
     this.rec.onerror = (e) => {
-      if (e?.error !== 'no-speech') feed(`Mic: ${e?.error ?? 'error'} — chips still work.`);
+      if (e?.error !== 'no-speech') feed(`Mic: ${e?.error ?? 'error'} - chips still work.`);
       this.speaking = false;
       G.hudDirty = true;
     };
@@ -93,7 +93,7 @@ export class VoiceSystem extends createSystem({}) {
         return;
       }
     }
-    // free speech — the patron answers
+    // free speech - the patron answers
     const o = G.offer;
     const sys = o
       ? `You are ${o.npc.name}, ${o.npc.title}, a quest patron offering a ` +
@@ -112,7 +112,7 @@ export class VoiceSystem extends createSystem({}) {
     const line =
       out ??
       (o
-        ? `${o.npc.name}: Words are wind, wanderer — the chips decide contracts.`
+        ? `${o.npc.name}: Words are wind, wanderer - the chips decide contracts.`
         : 'The guild is quiet.');
     if (o) o.line = out ? `${o.npc.name}: ${out}` : line;
     emit('npcLine', line.startsWith(o?.npc.name ?? '~') ? line : `${o?.npc.name ?? 'Patron'}: ${out ?? line}`);

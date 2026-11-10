@@ -1,5 +1,5 @@
 /**
- * NavSystem — carry-the-champion travel. Grab the meeple (hands pinch or
+ * NavSystem - carry-the-champion travel. Grab the meeple (hands pinch or
  * distance-grab), drop it anywhere on the table: the champion travels to the
  * nearest tile; if it lands near the table edge the infinite world recenters
  * beneath it.
