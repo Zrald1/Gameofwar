@@ -81,6 +81,28 @@
     gap: 1.4px;
   }
 
+  .wiz-card {
+    flex-direction: column;
+    gap: 1.2px;
+    background-color: #1c2440;
+    border-radius: 2.2px;
+    border-width: 0.2px;
+    border-color: #3a4a8a;
+    padding: 2.2px;
+  }
+
+  .wiz-title {
+    color: #9fb8ff;
+    font-size: 2.9px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+
+  .wiz-role {
+    color: #c8d4f0;
+    font-size: 2.6px;
+  }
+
   .game-wrap {
     flex-direction: column;
     gap: 1.1px;
@@ -161,6 +183,11 @@
     <div id="intro-wrap" class="intro-wrap">
       <div class="story">Long ago the world was folded into one living map. Its ink still moves - seas breathe, forests creep, mountains wake.</div>
       <div id="intro-map-story" class="story">You are the last Cartographer's heir. Carry your meeple across the tiles, dig where the red X burns, and climb from rank F to SSSS.</div>
+      <div class="wiz-card">
+        <div class="wiz-title">MORVANE - KEEPER OF THE FOLD</div>
+        <div class="wiz-role">The blue wizard at the map's right rim is your guide. He greets you, asks who you wish to be, and always knows the one thing that matters now.</div>
+        <div class="hint">ASK HIM - click or point at him any time for a tip. Hands: point to select, fist to dig or build, thumbs-up to accept, open palm to refuse.</div>
+      </div>
       <div class="hint">HOW TO PLAY - pinch the blue meeple and drop it on a tile to travel beyond the edge of the map. Press glowing things. Accept quest cards for riches.</div>
       <Button id="btn-begin" class="btn btn-begin"><ButtonLabel class="btn-label">Begin the Crossing</ButtonLabel></Button>
     </div>
