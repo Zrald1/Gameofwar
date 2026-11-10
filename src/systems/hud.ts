@@ -7,12 +7,14 @@ import { createSystem, UIKitMLAsset, VisibilityState } from '@iwsdk/core';
 import { GRADES, powerRank, QuestKinds } from '../gen/quests.js';
 import { clearDefaultMap, nextMap, saveDefaultMap, VOX_DEFS } from '../gen/mapdef.js';
 import { commissionTheGuild } from '../gen/architect.js';
+import { wizAsk, wizGreet, wizQuip } from '../gen/wizard.js';
 import { applyCharacter, BACKS, charName, CHAR_COLORS, HATS, RACE_HATS } from '../character.js';
 import {
   adminLogin,
   adminLogout,
   adminRestore,
   emit,
+  on,
   feed,
   G,
   load,
@@ -57,12 +59,15 @@ export class HudSystem extends createSystem({}) {
     if (G.map) {
       this.set('intro-map-story', { text: `You chart ${G.map.name} - ${G.map.story}` });
     }
+    // the Wizard speaks — greeting at boot, questions as you choose
+    wizGreet();
+    on('wizardLine', (line: string) => feed(line));
     // intro -> race select
     const begin = p.getElementById('btn-begin');
     const onBegin = () => {
       this.set('intro-wrap', { display: 'none' });
       this.set('race-wrap', { display: 'flex' });
-      feed('The map stirs. Choose the soul you will carry.');
+      wizAsk();
     };
     begin?.addEventListener('click', onBegin);
     this.cleanupFuncs.push(() => begin?.removeEventListener('click', onBegin));
@@ -333,6 +338,7 @@ export class HudSystem extends createSystem({}) {
 
   private pickRace(i: number): void {
     startRun(RACES[i]);
+    wizQuip(RACES[i]);
     G.charColor = G.charColor || RACE_COLORS[RACES[i]];
     if (G.charHat === 'none') G.charHat = RACE_HATS[RACES[i]] ?? 'none';
     applyCharacter();

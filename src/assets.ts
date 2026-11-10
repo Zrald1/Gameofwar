@@ -23,6 +23,7 @@ import {
   createScroll,
   createTerrainMesh,
   createWishPedestal,
+  createWizard,
 } from './scene-assets/game.scene-asset.js';
 
 const publicAssetUrl = (filePath: string): string =>
@@ -45,6 +46,7 @@ export default defineAssets({
   house: createHouse(),
   relic: createRelic(),
   patron: createPatron(),
+  wizard: createWizard(),
   'hud-panel': {
     url: publicAssetUrl('ui/hud.uikitml'),
     type: AssetType.UIKitML,

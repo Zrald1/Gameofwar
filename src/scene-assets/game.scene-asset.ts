@@ -313,6 +313,46 @@ export function createPatron(): Group {
   return g;
 }
 
+/** the Wizard — guide figure standing at the right rim. Tall pointy hat +
+ *  long beard + star-topped staff; 'wizard-robe'/'wizard-hat' share one
+ *  material for single-write retints. Greets players in intro/race. */
+export function createWizard(): Group {
+  const g = new Group();
+  const robeMat = mat(0x3a4a8a, { rough: 0.65 });
+  const robe = new Mesh(new ConeGeometry(0.02, 0.072, 10), robeMat);
+  robe.position.y = 0.036;
+  robe.name = 'wizard-robe';
+  g.add(robe);
+  const head = new Mesh(new SphereGeometry(0.01, 10, 8), mat(0xe8c8a0, { rough: 0.8 }));
+  head.position.y = 0.076;
+  g.add(head);
+  const beard = new Mesh(new ConeGeometry(0.008, 0.03, 8), mat(0xd8d8e0, { rough: 0.9 }));
+  beard.position.set(0, 0.062, 0.005);
+  beard.rotation.x = 0.35;
+  g.add(beard);
+  const brim = new Mesh(new CylinderGeometry(0.021, 0.023, 0.0035, 12), robeMat);
+  brim.position.y = 0.084;
+  g.add(brim);
+  const hat = new Mesh(new ConeGeometry(0.012, 0.042, 10), robeMat);
+  hat.position.y = 0.105;
+  hat.rotation.z = 0.12;
+  hat.name = 'wizard-hat';
+  g.add(hat);
+  const staff = new Mesh(new CylinderGeometry(0.0022, 0.0028, 0.095, 8), mat(0x5a3c22, { rough: 0.6 }));
+  staff.position.set(-0.026, 0.047, 0.003);
+  staff.rotation.z = 0.09;
+  g.add(staff);
+  const star = new Mesh(new OctahedronGeometry(0.008), mat(0xffe95e, { e: 0xffb020, ei: 1.6 }));
+  star.position.set(-0.0305, 0.096, 0.003);
+  star.name = 'wizard-star';
+  g.add(star);
+  const ring = new Mesh(new RingGeometry(0.019, 0.026, 20), mat(0x8fa0e0, { e: 0x5566aa, ei: 0.6 }));
+  ring.rotation.x = -Math.PI / 2;
+  ring.position.y = 0.001;
+  g.add(ring);
+  return g;
+}
+
 /** low wall behind the table so the diorama reads as a scene */
 export function createBackdrop(): Group {
   const g = new Group();

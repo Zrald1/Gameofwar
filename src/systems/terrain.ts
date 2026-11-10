@@ -90,14 +90,14 @@ export class TerrainSystem extends createSystem({
       'haven-marker', 'house-0', 'house-1', 'house-2',
       'relic-0', 'relic-1', 'relic-2',
       'card-0', 'card-1', 'card-2', 'card-3',
-      'patron',
+      'patron', 'wizard',
     ]) {
       Anchors.set(id, this.world.requireSceneObject(id));
     }
     for (const id of [
       'champion', 'scroll-map', 'dig-x', 'chest', 'beacon',
       'house-0', 'house-1', 'house-2', 'relic-0', 'relic-1', 'relic-2',
-      'card-0', 'card-1', 'card-2', 'card-3', 'patron',
+      'card-0', 'card-1', 'card-2', 'card-3', 'patron', 'wizard',
     ]) {
       Anchors.get(id)!.visible = false;
     }
@@ -378,6 +378,17 @@ export class TerrainSystem extends createSystem({
       const bob = o ? 0.006 : 0.0018;
       patron.position.y = 0.032 + Math.abs(Math.sin(this.patronT * (o ? 5.2 : 1.4))) * bob;
       patron.rotation.y = 0.42 + Math.sin(this.patronT * 0.9) * 0.14;
+    }
+    // the Wizard: guide at the right rim while you choose who to be —
+    // hands you off to the world the moment your journey begins
+    const wiz = Anchors.get('wizard')!;
+    const wOn = G.phase !== 'playing';
+    if (wiz.visible !== wOn) wiz.visible = wOn;
+    if (wOn) {
+      wiz.position.y = 0.032 + Math.sin(this.patronT * 1.8) * 0.0025;
+      wiz.rotation.y = -0.38 + Math.sin(this.patronT * 0.7) * 0.12;
+      const star = wiz.getObjectByName('wizard-star');
+      if (star) star.rotation.y += delta * 2.2;
     }
   }
 }

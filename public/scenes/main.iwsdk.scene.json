@@ -372,6 +372,27 @@
           }
         },
         {
+          "content": {
+            "asset": "wizard",
+            "castShadow": true,
+            "type": "asset"
+          },
+          "id": "wizard",
+          "name": "The Wizard",
+          "transform": {
+            "position": [
+              0.58,
+              0.032,
+              -0.44
+            ],
+            "rotationDeg": [
+              0,
+              -22,
+              0
+            ]
+          }
+        },
+        {
           "components": {
             "HavenTag": {},
             "RayInteractable": {}
