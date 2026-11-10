@@ -5,7 +5,7 @@
  */
 import { createSystem, UIKitMLAsset, VisibilityState } from '@iwsdk/core';
 import { GRADES, powerRank, QuestKinds } from '../gen/quests.js';
-import { clearDefaultMap, nextMap, saveDefaultMap } from '../gen/mapdef.js';
+import { clearDefaultMap, nextMap, saveDefaultMap, VOX_DEFS } from '../gen/mapdef.js';
 import { commissionTheGuild } from '../gen/architect.js';
 import { applyCharacter, BACKS, charName, CHAR_COLORS, HATS, RACE_HATS } from '../character.js';
 import {
@@ -304,6 +304,26 @@ export class HudSystem extends createSystem({}) {
     const onTalk = () => emit('voiceToggle');
     talk?.addEventListener('click', onTalk);
     this.cleanupFuncs.push(() => talk?.removeEventListener('click', onTalk));
+    // desktop keys: E cartographer, M next expedition, B cycle block mat
+    const onKey = (ev: KeyboardEvent) => {
+      const t = ev.target as HTMLElement | null;
+      if (ev.repeat || (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA'))) return;
+      const k = ev.key.toLowerCase();
+      if (k === 'e') {
+        if (!G.admin) { feed('The Cartographer\'s seal asks for your key.'); return; }
+        emit('editMode', !G.editing);
+        this.set('edit-wrap', { display: G.editing ? 'flex' : 'none' });
+      } else if (k === 'm') {
+        void nextMap();
+      } else if (k === 'b' && G.editing) {
+        const mats = Object.keys(VOX_DEFS);
+        G.buildMat = mats[(mats.indexOf(G.buildMat) + 1) % mats.length];
+        feed(`Block material: ${G.buildMat}`);
+        G.hudDirty = true;
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    this.cleanupFuncs.push(() => window.removeEventListener('keydown', onKey));
     if (load()) {
       this.enterPlaying();
     } else {

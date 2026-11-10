@@ -180,6 +180,7 @@
       <div id="stat-haven" class="sub">Haven: unbuilt</div>
       <div id="stat-map" class="sub">Map: the Wild Ink</div>
       <div id="stat-peers" class="sub">Table: solo</div>
+      <div class="hint">Keys: E cartographer · M next map · B block · click the patron to deal</div>
       <div id="npc-wrap" class="npc-wrap" style="display: none">
         <div class="sub">GUILD PATRON</div>
         <div id="npc-name" class="stats">-</div>
