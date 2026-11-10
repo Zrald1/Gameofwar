@@ -105,7 +105,7 @@ export class GestureSystem extends createSystem({}) {
     // proximity aim — a pointing fingertip hovering on a thing IS pointing
     // at it (poke semantics); generous on purpose
     let nearD = 0.12;
-    for (const key of ['dig-x', 'wish', 'haven', 'patron'] as const) {
+    for (const key of ['dig-x', 'wish', 'haven', 'patron', 'wizard'] as const) {
       const obj = Anchors.get(key);
       if (!obj || !obj.visible) continue;
       if (key === 'dig-x' && G.activeDigId < 0) continue;
@@ -119,7 +119,7 @@ export class GestureSystem extends createSystem({}) {
     }
     if (best) return best;
     // ray aim — fingertip direction for pointing at things farther away
-    for (const key of ['dig-x', 'wish', 'haven', 'patron'] as const) {
+    for (const key of ['dig-x', 'wish', 'haven', 'patron', 'wizard'] as const) {
       const obj = Anchors.get(key);
       if (!obj || !obj.visible) continue;
       if (key === 'dig-x' && G.activeDigId < 0) continue;

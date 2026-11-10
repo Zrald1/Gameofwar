@@ -50,6 +50,9 @@ export const HavenTag = createComponent('HavenTag', {});
 /** tag: guild patron envoy (press -> take offer / summon one) */
 export const PatronTag = createComponent('PatronTag', {});
 
+/** tag: the wizard guide (press -> contextual tip) */
+export const WizardTag = createComponent('WizardTag', {});
+
 /** tag: ghost avatar mirroring a remote peer (net presence) */
 export const RemoteAvatar = createComponent('RemoteAvatar', {});
 
@@ -63,5 +66,6 @@ export default defineComponents([
   WishTag,
   HavenTag,
   PatronTag,
+  WizardTag,
   RemoteAvatar,
 ]);

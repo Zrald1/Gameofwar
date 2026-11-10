@@ -26,7 +26,8 @@ import {
   weaponPower,
 } from '../state.js';
 import { tileDist, worldTilePos } from '../layout.js';
-import { ChestProp, DigMarker, HavenTag, PatronTag, ScrollProp, WishTag } from '../components.js';
+import { ChestProp, DigMarker, HavenTag, PatronTag, ScrollProp, WishTag, WizardTag } from '../components.js';
+import { wizTip } from '../gen/wizard.js';
 
 const DIG_RANGE = 4;
 const HOUSE_COSTS = [50, 120, 300];
@@ -37,6 +38,7 @@ export class InteractSystem extends createSystem({
   wishPressed: { required: [WishTag, Pressed] },
   havenPressed: { required: [HavenTag, Pressed] },
   patronPressed: { required: [PatronTag, Pressed] },
+  wizardPressed: { required: [WizardTag, Pressed] },
   chests: { required: [ChestProp] },
 }) {
   private glowT = 0;
@@ -48,6 +50,7 @@ export class InteractSystem extends createSystem({
       this.queries.wishPressed.subscribe('qualify', () => emit('wish')),
       this.queries.havenPressed.subscribe('qualify', () => this.tryBuild()),
       this.queries.patronPressed.subscribe('qualify', () => this.patronPress()),
+      this.queries.wizardPressed.subscribe('qualify', () => wizTip()),
     );
     // gesture-driven presses (point-dwell / fist-punch) hit the same paths
     on('gesturePress', (key: string) => {
@@ -56,6 +59,7 @@ export class InteractSystem extends createSystem({
       else if (key === 'haven') this.tryBuild();
       // point at / fist-bump the envoy: take its contract, else beckon one
       else if (key === 'patron') this.patronPress();
+      else if (key === 'wizard') wizTip();
     });
   }
 

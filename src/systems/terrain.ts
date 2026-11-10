@@ -379,12 +379,11 @@ export class TerrainSystem extends createSystem({
       patron.position.y = 0.032 + Math.abs(Math.sin(this.patronT * (o ? 5.2 : 1.4))) * bob;
       patron.rotation.y = 0.42 + Math.sin(this.patronT * 0.9) * 0.14;
     }
-    // the Wizard: guide at the right rim while you choose who to be —
-    // hands you off to the world the moment your journey begins
+    // the Wizard: guide at the right rim — greets you in, then stays on
+    // as the explainer you can always poke for advice
     const wiz = Anchors.get('wizard')!;
-    const wOn = G.phase !== 'playing';
-    if (wiz.visible !== wOn) wiz.visible = wOn;
-    if (wOn) {
+    if (!wiz.visible) wiz.visible = true;
+    {
       wiz.position.y = 0.032 + Math.sin(this.patronT * 1.8) * 0.0025;
       wiz.rotation.y = -0.38 + Math.sin(this.patronT * 0.7) * 0.12;
       const star = wiz.getObjectByName('wizard-star');

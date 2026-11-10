@@ -372,6 +372,10 @@
           }
         },
         {
+          "components": {
+            "RayInteractable": {},
+            "WizardTag": {}
+          },
           "content": {
             "asset": "wizard",
             "castShadow": true,
