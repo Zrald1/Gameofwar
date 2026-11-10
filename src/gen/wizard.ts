@@ -6,7 +6,7 @@
  * game never hard-depends on a key).
  */
 import { llmChat } from './brain.js';
-import { emit, feed, G } from '../state.js';
+import { emit, G } from '../state.js';
 
 const GREETS = [
   'Ah - a new soul at the table. I am Morvane, Keeper of the Fold.',
@@ -31,7 +31,7 @@ const QUIPS: Record<string, string[]> = {
 let seq = 0;
 
 function voice(lines: string[], prompt: string): void {
-  feed(`The Wizard: ${lines[(seq++) % lines.length]}`);
+  emit('wizardLine', `The Wizard: ${lines[(seq++) % lines.length]}`);
   // LLM re-voice in the background - local line already landed
   void llmChat([
     {
@@ -83,7 +83,7 @@ export function wizTip(): void {
       ? `${open} contract${open > 1 ? 's' : ''} ride the rail. The glowing beacon marks the nearest task - or ask the patron for another.`
       : 'The rail is empty. Press the wish crystal, or beckon the patron - the guild always finds work for idle hands.';
   }
-  feed(`The Wizard: ${tip}`);
+  emit('wizardLine', `The Wizard: ${tip}`);
   void llmChat([
     {
       role: 'system',

@@ -34,8 +34,8 @@ World.create(container, projectOptions).then(async (world) => {
   world.registerSystem(InteractSystem);
   world.registerSystem(MapEditSystem);
   world.registerSystem(NetAvatarSystem);
+  world.registerSystem(VoiceSystem); // before Hud: voice must hear the boot greeting
   world.registerSystem(HudSystem);
   world.registerSystem(SfxSystem);
-  world.registerSystem(VoiceSystem);
   world.registerSystem(GestureSystem);
 });

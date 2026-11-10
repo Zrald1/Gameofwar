@@ -59,9 +59,10 @@ export class HudSystem extends createSystem({}) {
     if (G.map) {
       this.set('intro-map-story', { text: `You chart ${G.map.name} - ${G.map.story}` });
     }
-    // the Wizard speaks - greeting at boot, questions as you choose
-    wizGreet();
+    // the Wizard speaks - greeting at boot, questions as you choose.
+    // subscribe BEFORE wizGreet: his lines route through wizardLine
     on('wizardLine', (line: string) => feed(line));
+    wizGreet();
     // intro -> race select
     const begin = p.getElementById('btn-begin');
     const onBegin = () => {

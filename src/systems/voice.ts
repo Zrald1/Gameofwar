@@ -43,6 +43,7 @@ export class VoiceSystem extends createSystem({}) {
     if (!Ctor) {
       on('voiceToggle', () => feed('This browser has no speech recognizer - use the chips.'));
       on('npcLine', (l: string) => this.say(l));
+      on('wizardLine', (l: string) => this.sayWiz(l));
       return;
     }
     this.rec = new (Ctor as SR)();
@@ -64,6 +65,8 @@ export class VoiceSystem extends createSystem({}) {
     on('voiceToggle', () => this.toggle());
     // every line a patron produces gets voiced
     on('npcLine', (l: string) => this.say(l));
+    // the Wizard speaks in a deeper, slower voice than the patrons
+    on('wizardLine', (l: string) => this.sayWiz(l));
     on('npcOffer', (o: { npc: { name: string }; greeting: string }) => {
       this.say(`${o.npc.name} says: ${o.greeting}`);
     });
@@ -120,12 +123,23 @@ export class VoiceSystem extends createSystem({}) {
   }
 
   private say(line: string): void {
+    this.speak(line, 1.05, 0.9);
+  }
+
+  /** elder voice - deeper and slower than a patron's */
+  private sayWiz(line: string): void {
+    this.speak(line, 0.92, 0.6);
+  }
+
+  private speak(line: string, rate: number, pitch: number): void {
     try {
       const synth = window.speechSynthesis;
       if (!synth) return;
+      // serialize game speech: a re-voice replaces the local line mid-word
+      synth.cancel();
       const u = new SpeechSynthesisUtterance(line);
-      u.rate = 1.05;
-      u.pitch = 0.9;
+      u.rate = rate;
+      u.pitch = pitch;
       synth.speak(u);
     } catch {
       /* no tts */
