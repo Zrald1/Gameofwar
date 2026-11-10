@@ -316,6 +316,12 @@
           <div id="hat-2" class="chip">Horns</div>
           <div id="hat-3" class="chip">Crown</div>
         </div>
+        <div class="row">
+          <div id="back-0" class="chip">No back</div>
+          <div id="back-1" class="chip">Cape</div>
+          <div id="back-2" class="chip">Banner</div>
+          <div id="back-3" class="chip">Wings</div>
+        </div>
       </div>
       <div class="divider"></div>
       <div class="sub">QUEST RAIL</div>

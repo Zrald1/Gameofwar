@@ -91,6 +91,7 @@ export interface GameState {
   /** character creator: meeple tint + headgear */
   charColor: number;
   charHat: string;
+  charBack: string;
   /** live peer count from presence */
   peers: number;
   /** cartographer admin unlocked (PIN claimed on this device) */
@@ -194,6 +195,7 @@ export const G: GameState = {
   buildMat: 's',
   charColor: 0,
   charHat: 'none',
+  charBack: 'none',
   peers: 0,
   admin: false,
   pinBuf: '',
@@ -299,6 +301,7 @@ export function save(): void {
         map: G.mapName,
         charColor: G.charColor,
         charHat: G.charHat,
+        charBack: G.charBack,
       }),
     );
   } catch {
@@ -329,6 +332,7 @@ export function load(): boolean {
     G.relics = d.relics ?? [];
     G.charColor = d.charColor ?? 0;
     G.charHat = d.charHat ?? 'none';
+    G.charBack = d.charBack ?? 'none';
     G.phase = 'playing';
     G.terrainDirty = true;
     feed(`Welcome back, ${G.race} wanderer.`);

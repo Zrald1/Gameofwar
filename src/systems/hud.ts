@@ -7,7 +7,7 @@ import { createSystem, UIKitMLAsset, VisibilityState } from '@iwsdk/core';
 import { GRADES, powerRank, QuestKinds } from '../gen/quests.js';
 import { clearDefaultMap, nextMap, saveDefaultMap } from '../gen/mapdef.js';
 import { commissionTheGuild } from '../gen/architect.js';
-import { applyCharacter, CHAR_COLORS, HATS } from '../character.js';
+import { applyCharacter, BACKS, charName, CHAR_COLORS, HATS, RACE_HATS } from '../character.js';
 import {
   adminLogin,
   adminLogout,
@@ -278,6 +278,16 @@ export class HudSystem extends createSystem({}) {
       b?.addEventListener('click', fn);
       this.cleanupFuncs.push(() => b?.removeEventListener('click', fn));
     });
+    BACKS.forEach((bk, i) => {
+      const b = p.getElementById(`back-${i}`);
+      const fn = () => {
+        G.charBack = bk;
+        applyCharacter();
+        save();
+      };
+      b?.addEventListener('click', fn);
+      this.cleanupFuncs.push(() => b?.removeEventListener('click', fn));
+    });
     // guildmaster reply chips — hands-first conversation with the quest NPC
     for (const [id, intent] of [
       ['npc-take', 'take'],
@@ -304,6 +314,7 @@ export class HudSystem extends createSystem({}) {
   private pickRace(i: number): void {
     startRun(RACES[i]);
     G.charColor = G.charColor || RACE_COLORS[RACES[i]];
+    if (G.charHat === 'none') G.charHat = RACE_HATS[RACES[i]] ?? 'none';
     applyCharacter();
     this.enterPlaying();
   }
@@ -324,7 +335,7 @@ export class HudSystem extends createSystem({}) {
 
   private refresh(): void {
     if (!this.panel) return;
-    this.set('stat-race', { text: `${G.race ?? '-'} | Lv ${G.level} (${G.xp}xp)` });
+    this.set('stat-race', { text: `${charName(G.seed, G.race)} (${G.race ?? '-'}) | Lv ${G.level} (${G.xp}xp)` });
     this.set('stat-power', { text: `Power ${G.power} | Rank ${powerRank(G.power)}` });
     this.set('stat-gold', { text: `${G.gold} gold` });
     const w = G.equipped >= 0 ? G.inventory[G.equipped] : null;

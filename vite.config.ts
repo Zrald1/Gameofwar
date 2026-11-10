@@ -10,7 +10,14 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [iwsdkDev()],
-  server: { host: '0.0.0.0', port: 8081, open: false },
+  server: {
+    host: '0.0.0.0',
+    port: 8081,
+    open: false,
+    // chokidar misses edits on this path (spaces / OneDrive-style watch
+    // failure) — without polling, Vite serves stale transformed modules
+    watch: { usePolling: true, interval: 500 },
+  },
   build: {
     outDir: 'dist',
     sourcemap: process.env.NODE_ENV !== 'production',
