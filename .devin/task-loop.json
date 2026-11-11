@@ -1358,6 +1358,10 @@
     {
       "task": "live verify reaction rotation",
       "result": "DONE - questAccept fired alternate phrasing in-app"
+    },
+    {
+      "task": "tutorial voice mention",
+      "result": "DONE - step 4 covers Talk chip"
     }
   ],
   "session": "bedecked-drink"
