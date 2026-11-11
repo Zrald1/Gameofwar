@@ -43,7 +43,7 @@ export class AdventureSystem extends createSystem({}) {
   private weapon: Object3D | null = null;
   private weaponRace: string | null = null;
   private nearNoted = new Set<number>();
-  private campHi = { patron: false, wiz: false };
+  private campHi = { patron: false, wiz: false, wish: false };
   private labels: {
     anchor: string;
     title: string;
@@ -401,5 +401,11 @@ export class AdventureSystem extends createSystem({}) {
       feed('Morvane waits among the stones - bring him your questions.');
       emit('campArrive', 'wizard');
     } else if (wd > 9) this.campHi.wiz = false;
+    const sd = tileDist(G.ci, G.cj, G.wishI, G.wishJ);
+    if (sd <= 4 && !this.campHi.wish) {
+      this.campHi.wish = true;
+      feed('The crystal hums - wishes have weight here.');
+      emit('campArrive', 'wish');
+    } else if (sd > 9) this.campHi.wish = false;
   }
 }
