@@ -25,7 +25,7 @@
   ],
   "pending": [],
   "current": null,
-  "iteration": 1727,
+  "iteration": 1730,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1258,6 +1258,18 @@
     {
       "task": "verify probe deploy",
       "result": "DONE - 7be8165 green"
+    },
+    {
+      "task": "Morvane gallery still",
+      "result": "DONE - 07-morvane-table.png committed"
+    },
+    {
+      "task": "verify gallery-still deploy",
+      "result": "DONE - green"
+    },
+    {
+      "task": "housekeeping sweep",
+      "result": "DONE - no upstream commits; tree clean but ledger"
     }
   ],
   "session": "bedecked-drink"
