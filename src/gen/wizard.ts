@@ -112,6 +112,12 @@ export function wizTip(): void {
       'The X burns on a marked tile. Carry your champion beside it, then punch the X - treasure lies under it.',
       'See the X smolder? Stand your champion beside it and strike the mark - the fold will open.',
     ]);
+  } else if (G.freeDig) {
+    aim = 'champion';
+    tip = pick([
+      'That scroll you hold marks a place in the fold. Carry your champion out to find where the X will burn.',
+      'A treasure scroll is a promise, not a prize. Walk the world until the X shows itself.',
+    ]);
   } else if (G.houses <= 0) {
     aim = 'haven';
     tip = pick([
