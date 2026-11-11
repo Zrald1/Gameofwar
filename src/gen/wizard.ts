@@ -50,6 +50,11 @@ const QUIPS: Record<string, string[]> = {
 
 let seq = 0;
 
+/** rotating pick - same sequencer as voice(), so repeated pokes rephrase */
+function pick(lines: string[]): string {
+  return lines[(seq++) % lines.length];
+}
+
 function voice(lines: string[], prompt: string): void {
   emit('wizardLine', `The Wizard: ${lines[(seq++) % lines.length]}`);
   // LLM re-voice in the background - local line already landed
@@ -91,22 +96,40 @@ export function wizTip(): void {
   let tip: string;
   let aim = ''; // anchor id the Wizard turns toward while he speaks
   if (G.editing) {
-    tip = 'The land obeys your stamps. Fist-punch to raise a block; open palm to knock it down. Export when the world pleases you.';
+    tip = pick([
+      'The land obeys your stamps. Fist-punch to raise a block; open palm to knock it down. Export when the world pleases you.',
+      'Cartographer\'s hands - a fist lays stone, an open palm unmakes it. The map is clay.',
+    ]);
   } else if (G.offer) {
     aim = 'patron';
-    tip = `The patron waits on your answer - thumbs-up to take the contract, open palm to send them away, or tap a reply on the panel.`;
+    tip = pick([
+      `The patron waits on your answer - thumbs-up to take the contract, open palm to send them away, or tap a reply on the panel.`,
+      'The hooded one holds a contract open. Thumb up to ink it, palm out to refuse - or speak your answer.',
+    ]);
   } else if (G.activeDigId >= 0) {
     aim = 'dig-x';
-    tip = 'The X burns on a marked tile. Carry your champion beside it, then punch the X - treasure lies under it.';
+    tip = pick([
+      'The X burns on a marked tile. Carry your champion beside it, then punch the X - treasure lies under it.',
+      'See the X smolder? Stand your champion beside it and strike the mark - the fold will open.',
+    ]);
   } else if (G.houses <= 0) {
     aim = 'haven';
-    tip = 'You have no haven yet. Walk the road to the golden ring and press it - a home earns while you wander.';
+    tip = pick([
+      'You have no haven yet. Walk the road to the golden ring and press it - a home earns while you wander.',
+      'A wanderer without a haven earns nothing between adventures. The golden ring waits.',
+    ]);
   } else {
     const open = [...G.quests.values()].filter((q) => !q.done).length;
     aim = open > 0 ? 'beacon' : 'wish';
     tip = open > 0
-      ? `${open} contract${open > 1 ? 's' : ''} ride the rail. The glowing beacon marks the nearest task - or ask the patron for another.`
-      : 'The rail is empty. Press the wish crystal, or beckon the patron - the guild always finds work for idle hands.';
+      ? pick([
+          `${open} contract${open > 1 ? 's' : ''} ride the rail. The glowing beacon marks the nearest task - or ask the patron for another.`,
+          `${open} unfinished contract${open > 1 ? 's' : ''} wait on the rail. Follow the beacon's light.`,
+        ])
+      : pick([
+          'The rail is empty. Press the wish crystal, or beckon the patron - the guild always finds work for idle hands.',
+          'Quiet rails. The wish crystal deals quests - or summon a patron and choose your difficulty.',
+        ]);
   }
   emit('wizardAim', aim);
   emit('wizardLine', `The Wizard: ${tip}`);
