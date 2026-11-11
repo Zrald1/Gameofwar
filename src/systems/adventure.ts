@@ -179,6 +179,11 @@ export class AdventureSystem extends createSystem({}) {
     const wiz = this.landNear(G.ci - 7, G.cj - 4);
     G.wizI = wiz.i;
     G.wizJ = wiz.j;
+    // the wish crystal becomes a shrine on a real tile too - a third
+    // bearing from the camps so the destinations triangle around you
+    const wish = this.landNear(G.ci + 4, G.cj - 3);
+    G.wishI = wish.i;
+    G.wishJ = wish.j;
   }
 
   /** nearest non-ocean tile to (i,j) - camps need dry ground to stand on */

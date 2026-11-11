@@ -24,10 +24,10 @@
     "haven punch VERIFIED b-c: new haven branch in fist handler -> 'Your fist rings the haven gate!' + 2 houses raised in-world; dwell path also proven; ring world pos probe confirms reachability"
   ],
   "pending": [
-    "next polish toward goal"
+    "adv-scale ground markers: dig-X + wish crystal readable at standing height like the haven gate"
   ],
   "current": null,
-  "iteration": 1803,
+  "iteration": 1804,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",

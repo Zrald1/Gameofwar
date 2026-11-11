@@ -60,6 +60,8 @@ export interface GameState {
   patronJ: number;
   wizI: number;
   wizJ: number;
+  wishI: number;
+  wishJ: number;
   /** what the wanderer has actually been doing - feeds emergent skills */
   effort: { walk: number; dig: number; punch: number; quest: number; talk: number; wish: number };
   /** talents grown from effort - names woven from the bloodline */
@@ -190,6 +192,8 @@ export const G: GameState = {
   patronJ: 0,
   wizI: 0,
   wizJ: 0,
+  wishI: 0,
+  wishJ: 0,
   effort: { walk: 0, dig: 0, punch: 0, quest: 0, talk: 0, wish: 0 },
   skills: [],
   lootDrops: [],

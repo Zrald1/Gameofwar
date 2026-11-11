@@ -483,5 +483,16 @@ export class TerrainSystem extends createSystem({
         }
       }
     }
+    // wish shrine: in the world it stands on a fixed land tile like the
+    // camps (hidden off-window); on the table it keeps its rim seat
+    const wish = Anchors.get('wish')!;
+    if (G.mode === 'adv') {
+      const wVis = G.phase === 'playing' && worldTilePos(G.wishI, G.wishJ, this.p);
+      if (wish.visible !== wVis) wish.visible = wVis;
+      if (wVis) wish.position.set(this.p.x, this.p.y + 0.002, this.p.z);
+    } else {
+      wish.visible = true;
+      wish.position.set(-0.68, 0.032, -0.38);
+    }
   }
 }

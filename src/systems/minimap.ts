@@ -184,6 +184,7 @@ export class MinimapSystem extends createSystem({}) {
     };
     npc(G.patronI, G.patronJ, '#b06fe0', 'P');
     npc(G.wizI, G.wizJ, '#4f8fd8', 'W');
+    if (G.mode === 'adv') npc(G.wishI, G.wishJ, '#a070ff', '✦');
 
     // you - white core with a gold ring
     ctx.fillStyle = '#ffffff';
