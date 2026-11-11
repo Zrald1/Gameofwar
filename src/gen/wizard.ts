@@ -275,6 +275,7 @@ function armReactions(): void {
     'Your haven earns while you rest. Idle hands still gather.',
     'The patrons gossip about you. Good things, mostly.',
     'I once folded a kingdom into a matchbox. This map is a gentler magic.',
+    'They say a key from the outer world could wake my deeper voice. Feed one to the address bar and I will dream wider answers.',
   ];
   let lastLine = Date.now();
   let idleCount = 0;
