@@ -22,6 +22,10 @@ artifact; its ink moves, quests spawn on glowing cards, and somewhere a red X
 marks buried treasure.
 
 **Core loop (all hands-first, no controllers needed):**
+- **Morvane the wizard is your guide** — he asks who you want to be, teaches
+  first-timers a five-step spoken lesson, and turns to face whatever he is
+  explaining. Poke him for a context-aware tip; **fist-bump him** (or press
+  `T` on desktop) to replay the lesson.
 - Pick a race — Human, Dwarf, Elf, Naga, Demon — each with its own perk.
 - **Pinch the champion meeple and carry it** to any tile to travel; drop it
   near the table's edge and the infinite world recenters beneath it.
