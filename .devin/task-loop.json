@@ -24,12 +24,11 @@
     "docs+deploy VERIFIED 90387ed: README/SUBMISSION/CHANGELOG adventure update; build clean 12.1s; Pages deploy success; live 200"
   ],
   "pending": [
-    "adventure polish: NPC camp sites (fixed talk destinations instead of re-seated NPCs) + bigger 3rd-person presence cues",
     "Quest-headset smoke test on real hardware when adb/Quest available (was blocked: adb empty)",
     "periodic health sweep: upstream commits, dev :8081, live site, XR session"
   ],
-  "current": null,
-  "iteration": 1789,
+  "current": "adventure polish: NPC camp sites (fixed talk destinations instead of re-seated NPCs) + bigger 3rd-person presence cues",
+  "iteration": 1790,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",

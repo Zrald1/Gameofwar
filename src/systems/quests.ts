@@ -60,6 +60,8 @@ export class QuestSystem extends createSystem({
     on('freeDigSpent', () => this.placeFreeDig());
     on('wish', () => this.onWish());
     on('runStarted', () => this.dealInitial());
+    on('advEntered', () => this.syncCardVis());
+    on('advExited', () => this.syncCardVis());
     on('npcReply', (intent: ReplyIntent) => this.respondTo(intent));
     on('npcSummon', () => {
       if (!G.offer) {
@@ -100,7 +102,7 @@ export class QuestSystem extends createSystem({
     e.setValue(QuestCard, 'questId', q.id);
     e.setValue(QuestCard, 'cardState', 'idle');
     const obj = e.object3D as any;
-    obj.visible = true;
+    obj.visible = G.mode !== 'adv'; // the rail stays on the table - the map is underfoot now
     obj.position.set(CARD_X, 0.1, CARD_Z0 + slot * CARD_DZ);
     obj.rotation.set(-0.3, 0.25, 0);
     this.drawCard(e, q);
@@ -122,6 +124,15 @@ export class QuestSystem extends createSystem({
     G.offer = o;
     emit('npcOffer', o);
     G.hudDirty = true;
+  }
+
+  /** rail cards are table objects - hidden while the world is walked */
+  private syncCardVis(): void {
+    for (const e of this.cardEnts) {
+      if (!e) continue;
+      (e.object3D as any).visible =
+        G.mode !== 'adv' && (e.getValue(QuestCard, 'questId') as number) >= 0;
+    }
   }
 
   /** the player's chip reply to the current offer */

@@ -383,8 +383,10 @@ export class TerrainSystem extends createSystem({
     // guild patron: stands at the rim while you play; perks up with an offer
     const patron = Anchors.get('patron')!;
     const pOn = G.phase === 'playing';
-    if (patron.visible !== pOn) patron.visible = pOn;
-    if (pOn) {
+    // in adventure his CAMP is a fixed tile - out of window means out of sight
+    const patVis = pOn && (G.mode !== 'adv' || worldTilePos(G.patronI, G.patronJ, this.p));
+    if (patron.visible !== patVis) patron.visible = patVis;
+    if (pOn && patVis) {
       this.patronT += delta;
       if (!this.patronRigged) {
         const robe = patron.getObjectByName('patron-robe') as Mesh | undefined;
@@ -401,12 +403,13 @@ export class TerrainSystem extends createSystem({
         this.patronRobe.color.setHex(o.npc.robe);
       }
       const bob = o ? 0.006 : 0.0018;
-      if (G.mode === 'adv' && worldTilePos(G.patronI, G.patronJ, this.p)) {
+      if (G.mode === 'adv') {
         // in the world he is a ~1.9m figure on a real tile, facing you
+        // (this.p already holds his camp tile - patVis computed it above)
         patron.position.set(this.p.x, this.p.y + Math.abs(Math.sin(this.patronT * (o ? 5.2 : 1.4))) * bob, this.p.z);
         this.playerLocal();
         patron.rotation.y = Math.atan2(this.pl.x - this.p.x, this.pl.z - this.p.z);
-      } else if (G.mode !== 'adv') {
+      } else {
         patron.position.y = 0.032 + Math.abs(Math.sin(this.patronT * (o ? 5.2 : 1.4))) * bob;
         patron.rotation.y = 0.42 + Math.sin(this.patronT * 0.9) * 0.14;
       }
@@ -414,15 +417,17 @@ export class TerrainSystem extends createSystem({
     // the Wizard: guide at the right rim - greets you in, then stays on
     // as the explainer you can always poke for advice
     const wiz = Anchors.get('wizard')!;
-    if (!wiz.visible) wiz.visible = true;
+    // in adventure his camp is fixed - out of window means out of sight
+    const wizVis = G.mode !== 'adv' || G.phase !== 'playing' || worldTilePos(G.wizI, G.wizJ, this.p);
+    if (wiz.visible !== wizVis) wiz.visible = wizVis;
     {
       // his own clock - patronT freezes outside 'playing' but the Wizard
       // performs from the intro onward
       this.wizT += delta;
-      if (G.mode === 'adv' && G.phase === 'playing' && worldTilePos(G.wizI, G.wizJ, this.p)) {
+      if (G.mode === 'adv' && G.phase === 'playing' && wizVis) {
         // a life-size guide standing on the land beside you
         wiz.position.set(this.p.x, this.p.y + Math.sin(this.wizT * 1.8) * 0.0025, this.p.z);
-      } else {
+      } else if (G.mode !== 'adv') {
         wiz.position.y = 0.032 + Math.sin(this.wizT * 1.8) * 0.0025;
       }
       if (this.wizTalkT > 0 && this.wizAim) {

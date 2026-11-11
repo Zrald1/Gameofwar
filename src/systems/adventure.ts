@@ -5,10 +5,11 @@
  * the world - the champion tile follows the player, and approaching the
  * grid edge recenters the fold so the world is endless underfoot.
  */
-import { createSystem, Object3D, Vector3 } from '@iwsdk/core';
+import { CanvasTexture, createSystem, Object3D, Sprite, SpriteMaterial, Vector3 } from '@iwsdk/core';
 import { GRID_H, GRID_W, TILE, TILE_TOP } from '../scene-assets/game.scene-asset.js';
 import { createRaceWeapon } from '../scene-assets/weapons.scene-asset.js';
 import { mapTileInfo } from '../gen/mapdef.js';
+import { Biomes } from '../gen/prng.js';
 import { bumpEffort, walkLoreXp } from '../gen/skills.js';
 import { addXp, Anchors, emit, feed, G, on } from '../state.js';
 import { ADV_SCALE, HALF_H, HALF_W, tileDist, tileHeight, worldTilePos } from '../layout.js';
@@ -26,12 +27,56 @@ export class AdventureSystem extends createSystem({}) {
   private weapon: Object3D | null = null;
   private weaponRace: string | null = null;
   private nearNoted = new Set<number>();
+  private campHi = { patron: false, wiz: false };
+  private labels: {
+    anchor: string;
+    title: string;
+    color: string;
+    sprite: Sprite;
+    cv: HTMLCanvasElement;
+    ctx: CanvasRenderingContext2D;
+    tex: CanvasTexture;
+    text: string;
+  }[] = [];
+  private npcPos = new Vector3();
 
   init(): void {
     this.table = this.world.requireSceneObject('map-table');
     on('advToggle', () => (G.mode === 'adv' ? this.exit() : this.enter()));
     on('advEnter', () => this.enter());
     on('advExit', () => this.exit());
+    // floating name plates - the "go talk to THEM" beacon over each camp
+    this.labels.push(this.makeLabel('patron', 'GUILD PATRON', '#c79bff'));
+    this.labels.push(this.makeLabel('wizard', 'MORVANE', '#8fc4ff'));
+  }
+
+  private makeLabel(anchor: string, title: string, color: string) {
+    const cv = document.createElement('canvas');
+    cv.width = 256;
+    cv.height = 56;
+    const ctx = cv.getContext('2d')!;
+    const tex = new CanvasTexture(cv);
+    const sprite = new Sprite(new SpriteMaterial({ map: tex, transparent: true, depthTest: false }));
+    sprite.scale.set(1.5, 0.33, 1);
+    sprite.renderOrder = 998;
+    sprite.visible = false;
+    this.world.scene.add(sprite);
+    return { anchor, sprite, cv, ctx, tex, text: '', title, color };
+  }
+
+  private drawLabel(l: (typeof this.labels)[number], dist: number): void {
+    const text = `${l.title}  ·  ${dist}m`;
+    if (text === l.text) return;
+    l.text = text;
+    const ctx = l.ctx;
+    ctx.clearRect(0, 0, 256, 56);
+    ctx.font = 'bold 26px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'rgba(12,16,24,0.55)';
+    ctx.fillRect(0, 4, 256, 46);
+    ctx.fillStyle = l.color;
+    ctx.fillText(text, 128, 39);
+    l.tex.needsUpdate = true;
   }
 
   enter(): void {
@@ -73,6 +118,7 @@ export class AdventureSystem extends createSystem({}) {
 
   private disarm(): void {
     if (this.weapon) this.weapon.visible = false;
+    for (const l of this.labels) l.sprite.visible = false;
   }
 
   exit(): void {
@@ -86,11 +132,31 @@ export class AdventureSystem extends createSystem({}) {
     emit('advExited');
   }
 
+  /**
+   * Fixed camps on dry land near the spawn - destinations you walk to,
+   * not companions that teleport with you. They stay on their world tiles
+   * across recenters; the fold-map's P/W marks + labels lead you back.
+   */
   private seatNpcs(): void {
-    G.patronI = G.ci + 2;
-    G.patronJ = G.cj;
-    G.wizI = G.ci - 2;
-    G.wizJ = G.cj + 1;
+    const pat = this.landNear(G.ci + 9, G.cj + 5);
+    G.patronI = pat.i;
+    G.patronJ = pat.j;
+    const wiz = this.landNear(G.ci - 7, G.cj - 4);
+    G.wizI = wiz.i;
+    G.wizJ = wiz.j;
+  }
+
+  /** nearest non-ocean tile to (i,j) - camps need dry ground to stand on */
+  private landNear(i: number, j: number): { i: number; j: number } {
+    for (let r = 0; r < 7; r++) {
+      for (let dj = -r; dj <= r; dj++) {
+        for (let di = -r; di <= r; di++) {
+          if (Math.max(Math.abs(di), Math.abs(dj)) !== r) continue;
+          if (mapTileInfo(i + di, j + dj).biome !== Biomes.OCEAN) return { i: i + di, j: j + dj };
+        }
+      }
+    }
+    return { i, j };
   }
 
   /**
@@ -148,12 +214,31 @@ export class AdventureSystem extends createSystem({}) {
       G.centerI = ci;
       G.centerJ = cj;
       G.terrainDirty = true;
-      this.seatNpcs();
+      // camps do NOT re-seat - they are fixed destinations on the fold
       feed(`You walk into the ${mapTileInfo(ci, cj).biome} lands (${ci}, ${cj})`);
       const lore = walkLoreXp();
       if (lore > 0) addXp(lore); // trail lore: the land itself teaches
       emit('travel', ci, cj);
       this.placeTable(); // world slides; keep your tile underfoot
+    }
+    this.updateLabels();
+  }
+
+  /** name plates hover over each camp figure while it is on the fold */
+  private updateLabels(): void {
+    const camps: [string, number, number][] = [
+      ['patron', G.patronI, G.patronJ],
+      ['wizard', G.wizI, G.wizJ],
+    ];
+    for (const l of this.labels) {
+      const obj = Anchors.get(l.anchor);
+      const camp = camps.find(([k]) => k === l.anchor)!;
+      const show = !!obj?.visible;
+      if (l.sprite.visible !== show) l.sprite.visible = show;
+      if (!show) continue;
+      obj.getWorldPosition(this.npcPos);
+      l.sprite.position.set(this.npcPos.x, this.npcPos.y + 2.35, this.npcPos.z);
+      this.drawLabel(l, tileDist(G.ci, G.cj, camp[1], camp[2]));
     }
   }
 
@@ -179,5 +264,16 @@ export class AdventureSystem extends createSystem({}) {
         feed(`"${q.title}" - your target is near.`);
       }
     }
+    // camp arrivals - greet once, re-arm when you wander off and return
+    const pd = tileDist(G.ci, G.cj, G.patronI, G.patronJ);
+    if (pd <= 4 && !this.campHi.patron) {
+      this.campHi.patron = true;
+      feed("The patron's pavilion - contracts wait on his lips. Walk up and talk.");
+    } else if (pd > 9) this.campHi.patron = false;
+    const wd = tileDist(G.ci, G.cj, G.wizI, G.wizJ);
+    if (wd <= 4 && !this.campHi.wiz) {
+      this.campHi.wiz = true;
+      feed('Morvane waits among the stones - bring him your questions.');
+    } else if (wd > 9) this.campHi.wiz = false;
   }
 }
