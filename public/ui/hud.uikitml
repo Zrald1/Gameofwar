@@ -186,7 +186,7 @@
       <div class="wiz-card">
         <div class="wiz-title">MORVANE - KEEPER OF THE FOLD</div>
         <div class="wiz-role">The blue wizard at the map's right rim is your guide. He greets you, asks who you wish to be, and always knows the one thing that matters now.</div>
-        <div class="hint">ASK HIM - click or point at him any time for a tip; hold a fist on him to replay his lesson. Hands: point to select, fist to dig or build, thumbs-up to accept, open palm to refuse.</div>
+        <div class="hint">ASK HIM - click or point at him any time for a tip; hold a fist on him to replay his lesson; press Talk and just SPEAK - he answers aloud. Hands: point to select, fist to dig or build, thumbs-up to accept, open palm to refuse.</div>
       </div>
       <div class="hint">HOW TO PLAY - pinch the blue meeple and drop it on a tile to travel beyond the edge of the map. Press glowing things. Accept quest cards for riches.</div>
       <Button id="btn-begin" class="btn btn-begin"><ButtonLabel class="btn-label">Begin the Crossing</ButtonLabel></Button>

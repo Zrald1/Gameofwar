@@ -25,7 +25,7 @@
   ],
   "pending": [],
   "current": null,
-  "iteration": 1765,
+  "iteration": 1769,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1406,6 +1406,18 @@
     {
       "task": "wizTip race-phase guard",
       "result": "DONE - pre-run pokes get soul-choosing advice"
+    },
+    {
+      "task": "verify phase-guard deploy",
+      "result": "DONE - green"
+    },
+    {
+      "task": "T key audit",
+      "result": "DONE - hud.ts:335 wires T to replayTutorial"
+    },
+    {
+      "task": "health sweep + XR restore",
+      "result": "DONE - clean; session active hand mode"
     }
   ],
   "session": "bedecked-drink"
