@@ -1458,6 +1458,10 @@
     {
       "task": "verify wizardHint deploy",
       "result": "DONE - green"
+    },
+    {
+      "task": "havenYield reaction",
+      "result": "DONE - first income tick commemorated"
     }
   ],
   "session": "bedecked-drink"
