@@ -198,6 +198,7 @@
       <Button id="btn-race-2" class="btn"><ButtonLabel class="btn-label">Elf</ButtonLabel></Button>
       <Button id="btn-race-3" class="btn"><ButtonLabel class="btn-label">Naga</ButtonLabel></Button>
       <Button id="btn-race-4" class="btn"><ButtonLabel class="btn-label">Demon</ButtonLabel></Button>
+      <div id="race-talk" class="chip">or speak it - "an elf..."</div>
     </div>
     <div id="game-wrap" class="game-wrap" style="display: none">
       <div id="stat-race" class="stats">-</div>

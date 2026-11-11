@@ -10,7 +10,7 @@
  * The NPC speaks back with speechSynthesis whenever a line is produced.
  */
 import { createSystem } from '@iwsdk/core';
-import { emit, feed, G, on } from '../state.js';
+import { emit, feed, G, on, RACES } from '../state.js';
 import { llmChat } from '../gen/brain.js';
 import { GRADES } from '../gen/quests.js';
 
@@ -90,6 +90,13 @@ export class VoiceSystem extends createSystem({}) {
 
   private async heard(text: string): Promise<void> {
     feed(`You: "${text}"`);
+    // Morvane asked who you wish to be - a spoken race name answers him
+    if (G.raceOpen) {
+      const i = RACES.findIndex((r) => new RegExp(`\\b${r}\\b`, 'i').test(text));
+      if (i >= 0) emit('pickRace', i);
+      else emit('wizardLine', `Name a bloodline, wanderer - ${RACES.join(', ')}.`);
+      return;
+    }
     for (const [re, intent] of INTENT_WORDS) {
       if (re.test(text) && G.offer) {
         emit('npcReply', intent);

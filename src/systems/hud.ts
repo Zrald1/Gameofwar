@@ -62,6 +62,7 @@ export class HudSystem extends createSystem({}) {
     // the Wizard speaks - greeting at boot, questions as you choose.
     // subscribe BEFORE wizGreet: his lines route through wizardLine
     on('wizardLine', (line: string) => feed(line));
+    on('pickRace', (i: number) => this.pickRace(i));
     wizGreet();
     armTutorial(); // first-run guided lesson listens for runStarted
     // intro -> race select
@@ -69,6 +70,7 @@ export class HudSystem extends createSystem({}) {
     const onBegin = () => {
       this.set('intro-wrap', { display: 'none' });
       this.set('race-wrap', { display: 'flex' });
+      G.raceOpen = true;
       wizAsk();
     };
     begin?.addEventListener('click', onBegin);
@@ -311,6 +313,9 @@ export class HudSystem extends createSystem({}) {
     const onTalk = () => emit('voiceToggle');
     talk?.addEventListener('click', onTalk);
     this.cleanupFuncs.push(() => talk?.removeEventListener('click', onTalk));
+    const raceTalk = p.getElementById('race-talk');
+    raceTalk?.addEventListener('click', onTalk);
+    this.cleanupFuncs.push(() => raceTalk?.removeEventListener('click', onTalk));
     // desktop keys: E cartographer, M next expedition, B cycle block mat
     const onKey = (ev: KeyboardEvent) => {
       const t = ev.target as HTMLElement | null;
@@ -354,6 +359,7 @@ export class HudSystem extends createSystem({}) {
     this.set('intro-wrap', { display: 'none' });
     this.set('race-wrap', { display: 'none' });
     this.set('game-wrap', { display: 'flex' });
+    G.raceOpen = false;
     applyCharacter();
     emit('runStarted');
     G.terrainDirty = true;

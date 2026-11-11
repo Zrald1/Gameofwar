@@ -100,6 +100,8 @@ export interface GameState {
   pinBuf: string;
   /** set by systems when HUD text needs refresh */
   hudDirty: boolean;
+  /** race-select panel showing - voice answers route to pickRace */
+  raceOpen: boolean;
   listeners: Map<string, ((...a: any[]) => void)[]>;
 }
 
@@ -200,6 +202,7 @@ export const G: GameState = {
   admin: false,
   pinBuf: '',
   hudDirty: true,
+  raceOpen: false,
   listeners: new Map(),
 };
 
