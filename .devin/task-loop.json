@@ -1222,6 +1222,10 @@
     {
       "task": "deployed-bundle wizard check",
       "result": "DONE - live index-BE1crvWw.js contains Morvane/questDone/mythic/ambient lines"
+    },
+    {
+      "task": "travel + editMode reactions",
+      "result": "DONE - fold line + cartographer entry verified; guards hold"
     }
   ],
   "session": "bedecked-drink"
