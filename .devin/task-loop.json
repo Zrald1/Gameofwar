@@ -1366,6 +1366,10 @@
     {
       "task": "verify tutorial deploy",
       "result": "DONE - green"
+    },
+    {
+      "task": "BYOK ambient hint",
+      "result": "DONE - 6th idle line teaches the key feature"
     }
   ],
   "session": "bedecked-drink"
