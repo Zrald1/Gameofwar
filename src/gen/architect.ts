@@ -187,7 +187,7 @@ export function laborerBuild(plan: BuildPlan): ReturnType<typeof decodeMap> {
  * the AI-authored map immediately.
  */
 export async function commissionTheGuild(prompt?: string): Promise<void> {
-  feed('The Guild engineer unrolls a blank survey…');
+  feed('The Guild engineer unrolls a blank survey...');
   const { plan, ai } = await engineerPlan(prompt);
   feed(`Engineer's plan: "${plan.name}" ${ai ? '(AI-drafted)' : '(local draftsman)'}.`);
   const def = laborerBuild(plan);

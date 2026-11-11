@@ -299,7 +299,7 @@ export class QuestSystem extends createSystem({
       feed('The rail is full - finish a quest first');
       return;
     }
-    feed('You whisper a wish… the map ink swirls');
+    feed('You whisper a wish... the map ink swirls');
     this.dealToSlot(slot, 2);
   }
 }

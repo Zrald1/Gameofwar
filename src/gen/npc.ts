@@ -39,7 +39,7 @@ export const PERSONAS: NpcPersona[] = [
     goldMul: 1.0,
     robe: 0x6a7a9a,
     greet: [
-      'Careful work, wanderer. Nothing here will get you killed… probably.',
+      'Careful work, wanderer. Nothing here will get you killed... probably.',
       'I deal in honest errands. Modest pay, modest peril.',
     ],
     bargainOk: ['A fair ask. Coin is coin - fine, a little extra.'],

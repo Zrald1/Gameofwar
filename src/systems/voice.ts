@@ -81,7 +81,7 @@ export class VoiceSystem extends createSystem({}) {
     try {
       this.rec.start();
       this.speaking = true;
-      feed('Listening… speak to the patron.');
+      feed('Listening... speak to the patron.');
     } catch {
       /* already running */
     }
