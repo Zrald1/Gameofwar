@@ -332,6 +332,16 @@ export class GestureSystem extends createSystem({}) {
             continue;
           }
         }
+        const haven = Anchors.get('haven');
+        if (haven?.visible) {
+          haven.getWorldPosition(this.toT);
+          // the ring stands on the ground - same standing-punch slack as the X
+          if (this.toT.distanceTo(knuckle) < range + (adv ? 0.5 : 0)) {
+            feed('Your fist rings the haven gate!');
+            emit('gesturePress', 'haven');
+            continue;
+          }
+        }
         feed('Punch! (nothing in reach)');
       }
 
