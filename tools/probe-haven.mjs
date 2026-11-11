@@ -3,18 +3,15 @@ export default async function run({ page }) {
   for (const f of page.frames()) {
     if (await f.evaluate(() => !!(window.__atlas && window.__atlas.world)).catch(() => false)) { app = f; break; }
   }
-  if (!app) return { error: 'no app frame' };
   return await app.evaluate(() => {
     const A = window.__atlas;
-    const h = A.Anchors.get('haven-marker');
-    const w = h?.getWorldPosition ? (() => { const v = new h.position.constructor(); h.getWorldPosition(v); return [+v.x.toFixed(2), +v.y.toFixed(2), +v.z.toFixed(2)]; })() : null;
-    return {
-      phase: A.G.phase,
-      havenVisible: h?.visible,
-      havenPos: h ? [+h.position.x.toFixed(3), +h.position.y.toFixed(3), +h.position.z.toFixed(3)] : null,
-      worldPos: w,
-      gold: A.G.gold,
-      houses: A.G.houses,
-    };
+    if (A.G.phase !== 'playing') A.applyCharacter('elf');
+    if (A.G.mode !== 'adv') A.emit('advEnter');
+    A.G.houses = 3;
+    A.G.relics = ['Starfall Relic'];
+    A.G.havenI = A.G.ci + 4;
+    A.G.havenJ = A.G.cj;
+    A.G.terrainDirty = true;
+    return { pos: [A.G.ci, A.G.cj], haven: [A.G.havenI, A.G.havenJ], houses: A.G.houses };
   });
 }

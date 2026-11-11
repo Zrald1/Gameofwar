@@ -323,25 +323,33 @@ export class TerrainSystem extends createSystem({
     if (G.phase === 'playing' && worldTilePos(G.havenI, G.havenJ, this.p)) {
       haven.visible = true;
       haven.position.set(this.p.x, this.p.y + 0.002, this.p.z);
+      // in the world the haven is a walk-up-able hamlet, not a toy ring
+      const adv = G.mode === 'adv';
+      haven.scale.setScalar(adv ? 2 : 1);
+      const hGap = adv ? 0.16 : 0.055;
+      const hOff = adv ? 0.1 : 0.062;
       for (let k = 0; k < 3; k++) {
         const h = Anchors.get(`house-${k}`)!;
         h.visible = k < G.houses;
+        h.scale.setScalar(adv ? 4 : 1);
         if (h.visible) {
           h.position.set(
-            this.p.x - 0.055 + k * 0.055,
+            this.p.x - hGap + k * hGap,
             this.p.y,
-            this.p.z + 0.062,
+            this.p.z + hOff,
           );
         }
       }
+      const rGap = adv ? 0.12 : 0.05;
       for (let k = 0; k < 3; k++) {
         const r = Anchors.get(`relic-${k}`)!;
         r.visible = k < G.relics.length;
+        r.scale.setScalar(adv ? 2.5 : 1);
         if (r.visible) {
           r.position.set(
-            this.p.x - 0.05 + k * 0.05,
-            this.p.y + 0.004,
-            this.p.z - 0.058,
+            this.p.x - rGap + k * rGap,
+            this.p.y + (adv ? 0.012 : 0.004),
+            this.p.z - (adv ? 0.08 : 0.058),
           );
         }
       }
