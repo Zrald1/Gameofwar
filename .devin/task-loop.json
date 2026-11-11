@@ -1374,6 +1374,10 @@
     {
       "task": "verify BYOK-hint deploy",
       "result": "DONE - green"
+    },
+    {
+      "task": "wizTip freeDig context",
+      "result": "DONE - held-scroll advice added"
     }
   ],
   "session": "bedecked-drink"
