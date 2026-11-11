@@ -2,7 +2,6 @@
   "enabled": true,
   "goal": "make it playable: walk/run adventure inside the world, race weapons (sword/wand), per-race skill tree branches with skills randomly created from player efforts, comprehensive map for missions+NPCs, big talkable characters (~screen size), minimap top-right",
   "done": [
-    "baseline: full wizard reaction suite green on 41a6c5d (9 probes) after headless browser recovery",
     "adventure mode foundation DONE+VERIFIED 8f51f8e: x20 scale, thumbstick walk 27.6m grounded, tiles tracked, recenter fired, NPCs on tiles human scale, exit restores, wizard narrates",
     "big NPCs VERIFIED 290db97: patron/wizard ~1.9m on tiles, point-dwell + fist-bump talk work, chest-lift + 9m aim + 1.7m bump ranges, contract inked live",
     "race weapons VERIFIED a02b7c8: RACE_WEAPONS birthright grant + grip-attached procedural weapon; Elf Living Branch seen in XR fist",
@@ -21,7 +20,8 @@
     "physical weapon drops VERIFIED: lootDrops spill blade+ring+nameplate at drop tile, walk-on claim -> inventory+auto-equip (Starfall 120p + Moonlit 30p live); fixed stationary freeze of labels/drops",
     "deploy verify GREEN 87c35c9 live + claim reaction VERIFIED: Rare->common line, Legendary->epic line, never deduped, Worldrender auto-equipped live",
     "haven adv-scale VERIFIED: houses x4 (~3.7m cottages, 3.2m row), marker ring x2 gateway, relics x2.5 half-meter gems - seen live in XR hamlet shot",
-    "claim chime + haven deploy VERIFIED: weaponClaim chime (0.9 legendary/mythic else 0.7) - 2 emits -> 2 audio entities; deploy 43061126924 success, haven hamlet live"
+    "claim chime + haven deploy VERIFIED: weaponClaim chime (0.9 legendary/mythic else 0.7) - 2 emits -> 2 audio entities; deploy 43061126924 success, haven hamlet live",
+    "in-world haven build VERIFIED: point-dwell ring -> tryBuild (2 houses in one hold, then 'Need 300g' refusal), cottage renders at hamlet scale, +6g yield ticks; restored save to 3 houses"
   ],
   "pending": [
     "verify+polish in-world haven building: punch the ring at adv scale -> house rises in the hamlet; wizard line + reachability"
@@ -1528,6 +1528,10 @@
     {
       "task": "next polish: claim SFX chime + deploy verify of haven commit",
       "result": "PASS — chime wired+verified live, haven deploy success"
+    },
+    {
+      "task": "verify+polish in-world haven building",
+      "result": "PASS — dwell-press on ring builds houses in-world; no code change needed"
     }
   ],
   "session": "bedecked-drink"
