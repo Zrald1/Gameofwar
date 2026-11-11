@@ -63,6 +63,19 @@ export interface Weapon {
 }
 
 /**
+ * Every bloodline starts armed. These are the names a player sees in their
+ * gear slot and (in adventure mode) holds in their right fist - rustic
+ * make-do gear that the earned loot ladder quickly outclasses.
+ */
+export const RACE_WEAPONS: Record<string, { name: string; power: number }> = {
+  Human: { name: "Squire's Sword", power: 8 },
+  Dwarf: { name: "Delver's Hammer", power: 9 },
+  Elf: { name: 'Living Branch', power: 7 },
+  Naga: { name: "Tidecaller's Trident", power: 8 },
+  Demon: { name: 'Ember Claw', power: 8 },
+};
+
+/**
  * Roll a weapon. `gradeIdx` (-1 for free digs) shifts the rarity window up:
  * each grade above D moves ~40% of the lower tier's mass two tiers up, so an
  * SSSS quest rolls almost entirely Epic..Mythic while a D still floors at

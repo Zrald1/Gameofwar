@@ -75,6 +75,7 @@ export class InteractSystem extends createSystem({
     if (G.phase !== 'playing' || G.activeDigId < 0) return;
     const dig = G.digs.find((d) => d.id === G.activeDigId);
     if (!dig) return;
+    G.effort.dig++;
     if (tileDist(G.ci, G.cj, dig.i, dig.j) > DIG_RANGE) {
       feed('Too far - carry your champion to the X');
       return;

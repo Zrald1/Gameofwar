@@ -288,6 +288,7 @@ export class GestureSystem extends createSystem({}) {
       // ---- fist: thrown punch (edit mode: place block at the cursor) ----
       if (pose === 'fist' && st.vel > PUNCH_SPEED && st.punchCooldown <= 0) {
         st.punchCooldown = 0.6;
+        G.effort.punch++;
         const adv = G.mode === 'adv';
         const range = adv ? ADV_PUNCH : PUNCH_RANGE;
         // a punch thrown at a figure is aimed contact, in any mode

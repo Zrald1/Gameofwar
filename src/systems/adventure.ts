@@ -7,6 +7,7 @@
  */
 import { createSystem, Object3D, Vector3 } from '@iwsdk/core';
 import { GRID_H, GRID_W, TILE, TILE_TOP } from '../scene-assets/game.scene-asset.js';
+import { createRaceWeapon } from '../scene-assets/weapons.scene-asset.js';
 import { mapTileInfo } from '../gen/mapdef.js';
 import { Anchors, emit, feed, G, on } from '../state.js';
 import { ADV_SCALE, HALF_H, HALF_W, tileDist, tileHeight, worldTilePos } from '../layout.js';
@@ -21,6 +22,8 @@ export class AdventureSystem extends createSystem({}) {
   private p = { x: 0, y: 0, z: 0 };
   private lastCi = 0;
   private lastCj = 0;
+  private weapon: Object3D | null = null;
+  private weaponRace: string | null = null;
 
   init(): void {
     this.table = this.world.requireSceneObject('map-table');
@@ -44,8 +47,30 @@ export class AdventureSystem extends createSystem({}) {
     G.terrainDirty = true; // rebuild flattens relief + reanchors props
     this.placeTable();
     Anchors.get('champion')!.visible = false;
+    this.arm();
     feed('The fold takes you - the map is underfoot now. Walk it.');
     emit('advEntered');
+  }
+
+  /** the bloodline weapon rides the right grip - rebuilt if the race changes */
+  private arm(): void {
+    if (this.weapon && this.weaponRace === G.race) {
+      this.weapon.visible = true;
+      return;
+    }
+    const grip = (this.world.player as any).gripSpaces?.right as Object3D | undefined;
+    if (!grip) return; // no XR grip space yet - update() retries each frame
+    this.weapon?.removeFromParent();
+    this.weapon = createRaceWeapon(G.race);
+    this.weaponRace = G.race;
+    // grip at origin, body forward along -Z; a slight inward cant reads natural
+    this.weapon.rotation.set(-0.35, 0.15, 0);
+    this.weapon.position.set(0.01, -0.03, 0.02);
+    grip.add(this.weapon);
+  }
+
+  private disarm(): void {
+    if (this.weapon) this.weapon.visible = false;
   }
 
   exit(): void {
@@ -53,6 +78,7 @@ export class AdventureSystem extends createSystem({}) {
     G.mode = 'table';
     this.table.scale.setScalar(1);
     this.table.position.copy(TABLE_POS);
+    this.disarm();
     G.terrainDirty = true;
     feed('The fold lifts you back to the table.');
     emit('advExited');
@@ -94,6 +120,7 @@ export class AdventureSystem extends createSystem({}) {
 
   update(): void {
     if (G.mode !== 'adv' || G.phase !== 'playing') return;
+    if (!this.weapon?.visible || this.weaponRace !== G.race) this.arm(); // grip may appear late
     // which slot is the player standing on? world -> table-local -> slot.
     // the rig origin is the walk capsule; the head may drift off it
     const rig = this.world.player.position;

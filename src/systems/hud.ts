@@ -5,6 +5,7 @@
  */
 import { createSystem, UIKitMLAsset, VisibilityState } from '@iwsdk/core';
 import { GRADES, powerRank, QuestKinds } from '../gen/quests.js';
+import { RACE_WEAPONS } from '../gen/loot.js';
 import { clearDefaultMap, nextMap, saveDefaultMap, VOX_DEFS } from '../gen/mapdef.js';
 import { commissionTheGuild } from '../gen/architect.js';
 import { armTutorial, replayTutorial, wizAsk, wizGreet, wizQuip } from '../gen/wizard.js';
@@ -13,6 +14,7 @@ import {
   adminLogin,
   adminLogout,
   adminRestore,
+  addWeapon,
   emit,
   on,
   feed,
@@ -355,6 +357,11 @@ export class HudSystem extends createSystem({}) {
 
   private pickRace(i: number): void {
     startRun(RACES[i]);
+    const rw = RACE_WEAPONS[RACES[i]];
+    if (rw) {
+      addWeapon({ name: rw.name, rarity: 'Fine', power: rw.power, origin: 'birthright' });
+      feed(`${rw.name} settles into your right fist - every ${RACES[i]} starts armed.`);
+    }
     wizQuip(RACES[i]);
     G.charColor = G.charColor || RACE_COLORS[RACES[i]];
     if (G.charHat === 'none') G.charHat = RACE_HATS[RACES[i]] ?? 'none';

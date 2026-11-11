@@ -123,6 +123,7 @@ export class QuestSystem extends createSystem({
     if (!o || G.phase !== 'playing') return;
     const res = await reply(o, intent);
     o.line = res.line;
+    G.effort.talk++;
     feed(res.line);
     if (res.outcome === 'accept') {
       this.placeCard(o.slot, o.quest);
@@ -263,6 +264,7 @@ export class QuestSystem extends createSystem({
   private completeQuest(q: Quest): void {
     q.done = true;
     G.activeQuests.delete(q.id);
+    G.effort.quest++;
     const gold = Math.round(q.rewardGold * raceGoldMul());
     const power = Math.round(q.rewardPower * powerMul(q.kind));
     addGold(gold);
@@ -306,6 +308,7 @@ export class QuestSystem extends createSystem({
       return;
     }
     feed('You whisper a wish... the map ink swirls');
+    G.effort.wish++;
     this.dealToSlot(slot, 2);
   }
 }
