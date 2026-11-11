@@ -60,7 +60,11 @@ export class QuestSystem extends createSystem({
     on('runStarted', () => this.dealInitial());
     on('npcReply', (intent: ReplyIntent) => this.respondTo(intent));
     on('npcSummon', () => {
-      if (!G.offer) this.requestOffer(this.freeSlot());
+      if (!G.offer) {
+        const slot = this.freeSlot();
+        if (slot < 0) feed('The guildmaster waits - your rail is full. Finish a contract first.');
+        else this.requestOffer(slot);
+      }
     });
   }
 

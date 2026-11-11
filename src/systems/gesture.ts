@@ -31,6 +31,12 @@ const PUNCH_SPEED = 1.0; // m/s knuckle velocity while fisted
 const PUNCH_RANGE = 0.45; // fist must land within this of the X (meters)
 const AIM_DIST = 2.2; // fingertip beam reach
 const AIM_CONE = 0.06; // allowed lateral miss distance per meter
+// In adventure mode NPC anchors are human-scale: their entity origin sits at
+// the feet, so aim/contact is measured to a chest-level point and radii widen.
+const ADV_BODY_H = 1.35;
+const ADV_PUNCH = 1.7;
+const ADV_AIM_DIST = 9;
+const ADV_NEAR = 0.5;
 
 interface HandState {
   pose: Pose;
@@ -102,16 +108,19 @@ export class GestureSystem extends createSystem({}) {
   }
 
   private aimTarget(origin: Vector3, dir: Vector3): string | null {
+    const adv = G.mode === 'adv';
     let best: string | null = null;
-    let bestD = AIM_DIST;
+    let bestD = adv ? ADV_AIM_DIST : AIM_DIST;
     // proximity aim - a pointing fingertip hovering on a thing IS pointing
     // at it (poke semantics); generous on purpose
-    let nearD = 0.12;
+    let nearD = adv ? ADV_NEAR : 0.12;
+    const liftOf = (key: string) => (adv && (key === 'patron' || key === 'wizard') ? ADV_BODY_H : 0);
     for (const key of ['dig-x', 'wish', 'haven', 'patron', 'wizard'] as const) {
       const obj = Anchors.get(key);
       if (!obj || !obj.visible) continue;
       if (key === 'dig-x' && G.activeDigId < 0) continue;
       obj.getWorldPosition(this.toT);
+      this.toT.y += liftOf(key);
       const d = this.toT.distanceTo(origin);
       if (d < nearD) {
         nearD = d;
@@ -125,11 +134,14 @@ export class GestureSystem extends createSystem({}) {
       const obj = Anchors.get(key);
       if (!obj || !obj.visible) continue;
       if (key === 'dig-x' && G.activeDigId < 0) continue;
-      obj.getWorldPosition(this.toT).sub(origin);
+      obj.getWorldPosition(this.toT);
+      this.toT.y += liftOf(key);
+      this.toT.sub(origin);
       const along = this.toT.dot(dir);
-      if (along < 0.05 || along > AIM_DIST) continue;
+      if (along < 0.05 || along > bestD) continue;
       const miss = this.toT.addScaledVector(dir, -along).length();
-      if (miss < AIM_CONE + along * 0.09 && along < bestD) {
+      const cone = (adv ? 0.35 : AIM_CONE) + along * (adv ? 0.16 : 0.09);
+      if (miss < cone && along < bestD) {
         bestD = along;
         best = key;
       }
@@ -219,11 +231,14 @@ export class GestureSystem extends createSystem({}) {
       // dwell, not velocity - a held fist can't collide with the dig-X punch.
       // fires once per hold; release and hold again to replay again.
       if (pose === 'fist') {
+        const adv = G.mode === 'adv';
+        const range = adv ? ADV_PUNCH : PUNCH_RANGE;
         const wizard = Anchors.get('wizard');
         let near = false;
         if (wizard?.visible) {
           wizard.getWorldPosition(this.toT);
-          near = this.toT.distanceTo(knuckle) < PUNCH_RANGE;
+          if (adv) this.toT.y += ADV_BODY_H;
+          near = this.toT.distanceTo(knuckle) < range;
         }
         if (near) {
           st.wizDwellT += delta;
@@ -273,11 +288,14 @@ export class GestureSystem extends createSystem({}) {
       // ---- fist: thrown punch (edit mode: place block at the cursor) ----
       if (pose === 'fist' && st.vel > PUNCH_SPEED && st.punchCooldown <= 0) {
         st.punchCooldown = 0.6;
+        const adv = G.mode === 'adv';
+        const range = adv ? ADV_PUNCH : PUNCH_RANGE;
         // a punch thrown at a figure is aimed contact, in any mode
         const patron = Anchors.get('patron');
         if (patron?.visible) {
           patron.getWorldPosition(this.toT);
-          if (this.toT.distanceTo(knuckle) < PUNCH_RANGE) {
+          if (adv) this.toT.y += ADV_BODY_H;
+          if (this.toT.distanceTo(knuckle) < range) {
             feed('You fist-bump the patron!');
             emit('gesturePress', 'patron');
             continue;
@@ -286,7 +304,8 @@ export class GestureSystem extends createSystem({}) {
         const wizard = Anchors.get('wizard');
         if (wizard?.visible) {
           wizard.getWorldPosition(this.toT);
-          if (this.toT.distanceTo(knuckle) < PUNCH_RANGE) {
+          if (adv) this.toT.y += ADV_BODY_H;
+          if (this.toT.distanceTo(knuckle) < range) {
             feed('The Wizard chuckles - the lesson begins again.');
             emit('gesturePress', 'wizard-bump');
             continue;
@@ -300,7 +319,8 @@ export class GestureSystem extends createSystem({}) {
         const digx = Anchors.get('dig-x');
         if (digx?.visible && G.activeDigId >= 0) {
           digx.getWorldPosition(this.toT);
-          if (this.toT.distanceTo(knuckle) < PUNCH_RANGE) {
+          // the X lies flat on the ground - a punch from standing height still counts
+          if (this.toT.distanceTo(knuckle) < range + (adv ? 0.5 : 0)) {
             feed('POW - you punched the X!');
             emit('gesturePress', 'dig-x');
             continue;

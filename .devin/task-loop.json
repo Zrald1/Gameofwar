@@ -2,7 +2,6 @@
   "enabled": true,
   "goal": "make it playable: walk/run adventure inside the world, race weapons (sword/wand), per-race skill tree branches with skills randomly created from player efforts, comprehensive map for missions+NPCs, big talkable characters (~screen size), minimap top-right",
   "done": [
-    "Periodic re-check #706: adb empty, 0 env files - still blocked",
     "Periodic re-check #707: adb empty, 0 env files - still blocked",
     "Periodic re-check #708: adb empty, 0 env files - still blocked",
     "Periodic re-check #709: adb empty, 0 env files - still blocked",
@@ -21,10 +20,10 @@
     "Periodic re-check #722: adb empty, 0 env files - still blocked; dev server launched per user request",
     "Periodic re-checks #723-#784: adb empty, 0 env files each time - still blocked (working-tree log lost to NUL-byte file corruption; restored from 36972a2)",
     "Periodic re-check #785: adb empty, 0 env files - still blocked; pushed d3864a2 (contained the corrupted file) then restored it",
-    "baseline: full wizard reaction suite green on 41a6c5d (9 probes) after headless browser recovery"
+    "baseline: full wizard reaction suite green on 41a6c5d (9 probes) after headless browser recovery",
+    "adventure mode foundation DONE+VERIFIED 8f51f8e: x20 scale, thumbstick walk 27.6m grounded, tiles tracked, recenter fired, NPCs on tiles human scale, exit restores, wizard narrates"
   ],
   "pending": [
-    "adventure mode foundation: G.mode table->adv, scale map-table x20 around champion tile, enlarge walk floor, thumbstick walking updates ci/cj + recenters, enter/exit verb (V key + HUD), wizard narrates",
     "big NPCs in adventure: patron/wizard stand on terrain at ~1.9m, face player, pinch/proximity talk",
     "race weapons in hand: per-race procedural weapon on grip space in adventure (sword/hammer/staff/trident/claw), punch = strike feeds effort",
     "skill tree: per-race branches, effort counters (walk/dig/punch/quest/talk) -> randomized unlocks w/ real effects, panel UI, persistence",
@@ -34,7 +33,7 @@
     "adventure tutorial + wizard lines + full regression + deploy"
   ],
   "current": null,
-  "iteration": 1786,
+  "iteration": 1787,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
