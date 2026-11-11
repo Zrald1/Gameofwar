@@ -2,7 +2,6 @@
   "enabled": true,
   "goal": "make it playable: walk/run adventure inside the world, race weapons (sword/wand), per-race skill tree branches with skills randomly created from player efforts, comprehensive map for missions+NPCs, big talkable characters (~screen size), minimap top-right",
   "done": [
-    "Periodic re-check #720: adb empty, 0 env files - still blocked",
     "Periodic re-check #721: adb empty, 0 env files - still blocked",
     "Periodic re-check #722: adb empty, 0 env files - still blocked; dev server launched per user request",
     "Periodic re-checks #723-#784: adb empty, 0 env files each time - still blocked (working-tree log lost to NUL-byte file corruption; restored from 36972a2)",
@@ -21,13 +20,14 @@
     "health sweep GREEN: main==origin/main, dev :8081 200, live 200, manifest 200, dev server running+browserCmd ready, XR session active (immersive-vr)",
     "regression+fix: reaction probe found 'Feel it wake? undefined' - guarded skillUp name + npcOffer voice listener; all real events green",
     "adventure tutorial VERIFIED dc48ea5: 5 beats (walk/recenter/camp/dig/done) advance on real deeds, once per save; live-driven via event emissions",
-    "deploy verify GREEN dc48ea5 live (bundle index-CkPCWzE7) + camp dressing VERIFIED: pavilion tent/contract board behind patron, stone circle + glowing brazier at Morvane - both seen in XR"
+    "deploy verify GREEN dc48ea5 live (bundle index-CkPCWzE7) + camp dressing VERIFIED: pavilion tent/contract board behind patron, stone circle + glowing brazier at Morvane - both seen in XR",
+    "post-dressing regression GREEN: typecheck+build clean (10.9s), deploy 43058792237 success, full-session adv smoke green (rig grounded, camps/labels/minimap/weapon/skills all live)"
   ],
   "pending": [
-    "post-dressing regression: typecheck/build + verify deploy of camp commit + full-session adv smoke"
+    "derive next polish toward goal (e.g. physical weapon drops you can grab in adv, or tutorial regression on real walk)"
   ],
   "current": null,
-  "iteration": 1795,
+  "iteration": 1796,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1508,6 +1508,10 @@
     {
       "task": "verify dc48ea5 deploy + pick next polish (minimap camp names, or regression on tutorial interactions)",
       "result": "PASS — deploy green; chose camp dressing: procedural pavilion (tent+board) + wizard stones+brazier, verified in XR shots at both camps"
+    },
+    {
+      "task": "post-dressing regression: typecheck/build + verify deploy of camp commit + full-session adv smoke",
+      "result": "PASS — tsc+build clean, Pages deploy success, smoke probe: adv x20, rig y=0.07, patron off-window at d19, wiz camp+label at d2, minimap live, Militia Spear equipped, 2 skills persisted"
     }
   ],
   "session": "bedecked-drink"
