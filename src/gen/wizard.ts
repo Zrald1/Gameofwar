@@ -21,11 +21,31 @@ const ASKS = [
 ];
 
 const QUIPS: Record<string, string[]> = {
-  Human: ['A human! Stubborn, quick, gold-hungry. The map likes your kind.'],
-  Dwarf: ['A dwarf! Good. The deep places owe you a debt already.'],
-  Elf: ['An elf - the forests will whisper your name before you earn it.'],
-  Naga: ['A naga! The rivers remember you, even if the maps do not.'],
-  Demon: ['A demon. Bold choice. Even the X marks tread carefully now.'],
+  Human: [
+    'A human! Stubborn, quick, gold-hungry. The map likes your kind.',
+    'Human again - the fold knows your people well. Wander far, return richer.',
+    'Ah, a human heart. They burn short and bright - spend yours on the deep dig sites.',
+  ],
+  Dwarf: [
+    'A dwarf! Good. The deep places owe you a debt already.',
+    'Dwarf - the stone will tell you its secrets before it tells anyone.',
+    'Under that beard beats a delver\'s heart. The X marks will not hide from you.',
+  ],
+  Elf: [
+    'An elf - the forests will whisper your name before you earn it.',
+    'Elf. The fold grows quieter when you walk it - listen to what it says.',
+    'An elven step leaves no mark, yet the map remembers every one.',
+  ],
+  Naga: [
+    'A naga! The rivers remember you, even if the maps do not.',
+    'Naga - the water roads are yours. Even the ocean tiles will part for you.',
+    'A river-soul. The fold twists like a current - you already know how to ride it.',
+  ],
+  Demon: [
+    'A demon. Bold choice. Even the X marks tread carefully now.',
+    'Demon - the fold\'s old wards twitch at your passing. Let them.',
+    'Fire in the blood, wanderer. The patrons will pay to see what you do with it.',
+  ],
 };
 
 let seq = 0;

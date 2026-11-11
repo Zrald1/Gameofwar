@@ -25,7 +25,7 @@
   ],
   "pending": [],
   "current": null,
-  "iteration": 1743,
+  "iteration": 1745,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1322,6 +1322,10 @@
     {
       "task": "README wizard update",
       "result": "DONE - voice answers + reactions + ambience documented"
+    },
+    {
+      "task": "verify README deploy",
+      "result": "DONE - green"
     }
   ],
   "session": "bedecked-drink"
