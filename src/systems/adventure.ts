@@ -5,13 +5,29 @@
  * the world - the champion tile follows the player, and approaching the
  * grid edge recenters the fold so the world is endless underfoot.
  */
-import { CanvasTexture, createSystem, Object3D, Sprite, SpriteMaterial, Vector3 } from '@iwsdk/core';
+import {
+  BoxGeometry,
+  CanvasTexture,
+  Color,
+  createSystem,
+  DoubleSide,
+  Group,
+  Mesh,
+  MeshBasicMaterial,
+  MeshStandardMaterial,
+  Object3D,
+  RingGeometry,
+  Sprite,
+  SpriteMaterial,
+  Vector3,
+} from '@iwsdk/core';
 import { GRID_H, GRID_W, TILE, TILE_TOP } from '../scene-assets/game.scene-asset.js';
 import { createRaceWeapon } from '../scene-assets/weapons.scene-asset.js';
 import { mapTileInfo } from '../gen/mapdef.js';
 import { Biomes } from '../gen/prng.js';
 import { bumpEffort, walkLoreXp } from '../gen/skills.js';
-import { addXp, Anchors, emit, feed, G, on } from '../state.js';
+import { RARITIES, RARITY_COLORS, Weapon } from '../gen/loot.js';
+import { addWeapon, addXp, Anchors, emit, feed, G, on } from '../state.js';
 import { ADV_SCALE, HALF_H, HALF_W, tileDist, tileHeight, worldTilePos } from '../layout.js';
 
 const TABLE_POS = new Vector3(0, 0.82, -0.55);
@@ -39,6 +55,16 @@ export class AdventureSystem extends createSystem({}) {
     text: string;
   }[] = [];
   private npcPos = new Vector3();
+  private wp = new Vector3();
+  /** world-anchored views for weapons spilled on the fold */
+  private dropViews: {
+    d: { i: number; j: number; w: Weapon };
+    group: Group;
+    sprite: Sprite;
+    ctx: CanvasRenderingContext2D;
+    tex: CanvasTexture;
+    text: string;
+  }[] = [];
 
   init(): void {
     this.table = this.world.requireSceneObject('map-table');
@@ -64,19 +90,27 @@ export class AdventureSystem extends createSystem({}) {
     return { anchor, sprite, cv, ctx, tex, text: '', title, color };
   }
 
+  private paintSprite(
+    ctx: CanvasRenderingContext2D,
+    tex: CanvasTexture,
+    text: string,
+    color: string,
+  ): void {
+    ctx.clearRect(0, 0, 256, 56);
+    ctx.font = `bold ${text.length > 18 ? 20 : 26}px system-ui`;
+    ctx.textAlign = 'center';
+    ctx.fillStyle = 'rgba(12,16,24,0.55)';
+    ctx.fillRect(0, 4, 256, 46);
+    ctx.fillStyle = color;
+    ctx.fillText(text, 128, 39);
+    tex.needsUpdate = true;
+  }
+
   private drawLabel(l: (typeof this.labels)[number], dist: number): void {
     const text = `${l.title}  ·  ${dist}m`;
     if (text === l.text) return;
     l.text = text;
-    const ctx = l.ctx;
-    ctx.clearRect(0, 0, 256, 56);
-    ctx.font = 'bold 26px system-ui';
-    ctx.textAlign = 'center';
-    ctx.fillStyle = 'rgba(12,16,24,0.55)';
-    ctx.fillRect(0, 4, 256, 46);
-    ctx.fillStyle = l.color;
-    ctx.fillText(text, 128, 39);
-    l.tex.needsUpdate = true;
+    this.paintSprite(l.ctx, l.tex, text, l.color);
   }
 
   enter(): void {
@@ -119,6 +153,7 @@ export class AdventureSystem extends createSystem({}) {
   private disarm(): void {
     if (this.weapon) this.weapon.visible = false;
     for (const l of this.labels) l.sprite.visible = false;
+    for (const v of this.dropViews) v.group.visible = false;
   }
 
   exit(): void {
@@ -198,6 +233,10 @@ export class AdventureSystem extends createSystem({}) {
     const gj = Math.max(0, Math.min(GRID_H - 1, Math.round(lz / TILE + HALF_H)));
     const ci = Math.round(G.centerI + gi - HALF_W);
     const cj = Math.round(G.centerJ + gj - HALF_H);
+    // labels + spilled drops breathe every frame - they must not freeze
+    // when the player stands still
+    this.updateLabels();
+    this.syncDrops();
     if (ci === this.lastCi && cj === this.lastCj) return;
     this.lastCi = ci;
     this.lastCj = cj;
@@ -221,7 +260,87 @@ export class AdventureSystem extends createSystem({}) {
       emit('travel', ci, cj);
       this.placeTable(); // world slides; keep your tile underfoot
     }
-    this.updateLabels();
+  }
+
+  /**
+   * A spilled blade: thin steel leaning tip-down, rarity glow ring, name
+   * plate overhead. World-anchored like the camp labels - it only shows
+   * while its tile is on the fold.
+   */
+  private makeDropView(d: { i: number; j: number; w: Weapon }) {
+    const group = new Group();
+    const col = RARITY_COLORS[RARITIES.indexOf(d.w.rarity)] ?? '#9aa4b8';
+    const steel = new MeshStandardMaterial({ color: 0xb8c4d8, metalness: 0.7, roughness: 0.35 });
+    const blade = new Mesh(new BoxGeometry(0.07, 0.85, 0.018), steel);
+    blade.position.set(0, 0.46, 0);
+    blade.rotation.z = 0.3;
+    group.add(blade);
+    const guard = new Mesh(
+      new BoxGeometry(0.24, 0.035, 0.05),
+      new MeshStandardMaterial({ color: 0x8a6a2f, metalness: 0.5, roughness: 0.5 }),
+    );
+    guard.position.set(-0.13, 0.84, 0);
+    guard.rotation.z = 0.3;
+    group.add(guard);
+    const ring = new Mesh(
+      new RingGeometry(0.42, 0.56, 24),
+      new MeshBasicMaterial({ color: new Color(col), transparent: true, opacity: 0.75, side: DoubleSide }),
+    );
+    ring.rotation.x = -Math.PI / 2;
+    ring.position.y = 0.02;
+    group.add(ring);
+    const cv = document.createElement('canvas');
+    cv.width = 256;
+    cv.height = 56;
+    const ctx = cv.getContext('2d')!;
+    const tex = new CanvasTexture(cv);
+    const sprite = new Sprite(new SpriteMaterial({ map: tex, transparent: true, depthTest: false }));
+    sprite.scale.set(1.5, 0.33, 1);
+    sprite.renderOrder = 998;
+    sprite.position.y = 1.35;
+    group.add(sprite);
+    group.visible = false;
+    this.world.scene.add(group);
+    return { d, group, sprite, ctx, tex, text: '' };
+  }
+
+  /** keep one view per spilled drop; walk onto its tile to claim the steel */
+  private syncDrops(): void {
+    for (const d of G.lootDrops) {
+      if (!this.dropViews.some((v) => v.d === d)) this.dropViews.push(this.makeDropView(d));
+    }
+    for (let k = this.dropViews.length - 1; k >= 0; k--) {
+      const v = this.dropViews[k];
+      if (!G.lootDrops.includes(v.d)) {
+        v.group.removeFromParent();
+        this.dropViews.splice(k, 1);
+        continue;
+      }
+      const vis = worldTilePos(v.d.i, v.d.j, this.p);
+      if (v.group.visible !== vis) v.group.visible = vis;
+      if (!vis) continue;
+      this.wp.set(this.p.x, this.p.y, this.p.z);
+      this.table.localToWorld(this.wp);
+      v.group.position.copy(this.wp);
+      const dist = tileDist(G.ci, G.cj, v.d.i, v.d.j);
+      const text = `${v.d.w.name}  ·  ${dist}m`;
+      if (text !== v.text) {
+        v.text = text;
+        const col = RARITY_COLORS[RARITIES.indexOf(v.d.w.rarity)] ?? '#9aa4b8';
+        this.paintSprite(v.ctx, v.tex, text, col);
+      }
+      if (dist <= 1) this.claimDrop(v.d);
+    }
+  }
+
+  private claimDrop(d: { i: number; j: number; w: Weapon }): void {
+    const idx = G.lootDrops.indexOf(d);
+    if (idx < 0) return;
+    G.lootDrops.splice(idx, 1);
+    addWeapon(d.w);
+    const armed = G.inventory[G.equipped] === d.w;
+    feed(`You take up the ${d.w.name}${armed ? ' - it is already in your fist.' : '.'}`);
+    emit('weaponClaim', d.w.rarity);
   }
 
   /** name plates hover over each camp figure while it is on the fold */

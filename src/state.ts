@@ -64,6 +64,8 @@ export interface GameState {
   effort: { walk: number; dig: number; punch: number; quest: number; talk: number; wish: number };
   /** talents grown from effort - names woven from the bloodline */
   skills: { id: string; track: string; name: string; level: number }[];
+  /** weapons spilled onto the land awaiting claim (adventure mode only) */
+  lootDrops: { i: number; j: number; w: Weapon }[];
   /** world tile at grid center */
   centerI: number;
   centerJ: number;
@@ -190,6 +192,7 @@ export const G: GameState = {
   wizJ: 0,
   effort: { walk: 0, dig: 0, punch: 0, quest: 0, talk: 0, wish: 0 },
   skills: [],
+  lootDrops: [],
   centerI: 0,
   centerJ: 0,
   terrainDirty: true,
@@ -323,6 +326,7 @@ export function save(): void {
         relics: G.relics,
         skills: G.skills,
         effort: G.effort,
+        lootDrops: G.lootDrops,
         map: G.mapName,
         charColor: G.charColor,
         charHat: G.charHat,
@@ -356,6 +360,7 @@ export function load(): boolean {
     G.houses = d.houses ?? 0;
     G.relics = d.relics ?? [];
     G.skills = Array.isArray(d.skills) ? d.skills : [];
+    G.lootDrops = Array.isArray(d.lootDrops) ? d.lootDrops : [];
     if (d.effort) Object.assign(G.effort, d.effort);
     G.charColor = d.charColor ?? 0;
     G.charHat = d.charHat ?? 'none';

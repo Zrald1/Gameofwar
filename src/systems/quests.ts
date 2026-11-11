@@ -296,8 +296,14 @@ export class QuestSystem extends createSystem({
     // weapon drop - rarity window scales with the quest's grade
     if (G.rng() < weaponDropChance(q.gradeIdx)) {
       const w = rollWeapon(G.rng, q.gradeIdx, GRADES[q.gradeIdx]);
-      addWeapon(w);
-      feed(`${w.rarity.toUpperCase()} DROP - ${w.name} (+${w.power}p)`);
+      if (G.mode === 'adv') {
+        // the guild's reward lands at your feet on the fold
+        G.lootDrops.push({ i: G.ci, j: G.cj, w });
+        feed(`${w.rarity.toUpperCase()} DROP - ${w.name} - the guild's reward lands at your feet`);
+      } else {
+        addWeapon(w);
+        feed(`${w.rarity.toUpperCase()} DROP - ${w.name} (+${w.power}p)`);
+      }
       emit('weaponDrop', w.rarity);
     }
     feed(`Quest complete [${GRADES[q.gradeIdx]}]: +${gold}g +${power}p`);

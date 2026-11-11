@@ -120,8 +120,14 @@ export class InteractSystem extends createSystem({
     // weapon drop - a free dig can still yield a legendary (0.1% mythic floor)
     if (G.rng() < weaponDropChance(-1)) {
       const w = rollWeapon(G.rng, -1, '');
-      addWeapon(w);
-      feed(`${w.rarity.toUpperCase()} DROP - ${w.name} (+${w.power}p)`);
+      if (G.mode === 'adv') {
+        // in the world it lands where the X burned - walk up and claim it
+        G.lootDrops.push({ i: dig.i, j: dig.j, w });
+        feed(`${w.rarity.toUpperCase()} DROP - ${w.name} lies where the X burned`);
+      } else {
+        addWeapon(w);
+        feed(`${w.rarity.toUpperCase()} DROP - ${w.name} (+${w.power}p)`);
+      }
       emit('weaponDrop', w.rarity);
     }
     save();
