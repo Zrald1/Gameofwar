@@ -266,6 +266,15 @@ export class GestureSystem extends createSystem({}) {
             continue;
           }
         }
+        const wizard = Anchors.get('wizard');
+        if (wizard?.visible) {
+          wizard.getWorldPosition(this.toT);
+          if (this.toT.distanceTo(knuckle) < PUNCH_RANGE) {
+            feed('The Wizard chuckles - the lesson begins again.');
+            emit('gesturePress', 'wizard-bump');
+            continue;
+          }
+        }
         feed('Punch! (nothing in reach)');
       }
 

@@ -27,7 +27,7 @@ import {
 } from '../state.js';
 import { tileDist, worldTilePos } from '../layout.js';
 import { ChestProp, DigMarker, HavenTag, PatronTag, ScrollProp, WishTag, WizardTag } from '../components.js';
-import { wizTip } from '../gen/wizard.js';
+import { replayTutorial, wizTip } from '../gen/wizard.js';
 
 const DIG_RANGE = 4;
 const HOUSE_COSTS = [50, 120, 300];
@@ -60,6 +60,7 @@ export class InteractSystem extends createSystem({
       // point at / fist-bump the envoy: take its contract, else beckon one
       else if (key === 'patron') this.patronPress();
       else if (key === 'wizard') wizTip();
+      else if (key === 'wizard-bump') replayTutorial();
     });
   }
 

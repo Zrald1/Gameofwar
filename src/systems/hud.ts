@@ -7,7 +7,7 @@ import { createSystem, UIKitMLAsset, VisibilityState } from '@iwsdk/core';
 import { GRADES, powerRank, QuestKinds } from '../gen/quests.js';
 import { clearDefaultMap, nextMap, saveDefaultMap, VOX_DEFS } from '../gen/mapdef.js';
 import { commissionTheGuild } from '../gen/architect.js';
-import { armTutorial, wizAsk, wizGreet, wizQuip } from '../gen/wizard.js';
+import { armTutorial, replayTutorial, wizAsk, wizGreet, wizQuip } from '../gen/wizard.js';
 import { applyCharacter, BACKS, charName, CHAR_COLORS, HATS, RACE_HATS } from '../character.js';
 import {
   adminLogin,
@@ -327,6 +327,9 @@ export class HudSystem extends createSystem({}) {
         G.buildMat = mats[(mats.indexOf(G.buildMat) + 1) % mats.length];
         feed(`Block material: ${G.buildMat}`);
         G.hudDirty = true;
+      } else if (k === 't') {
+        feed('The Wizard clears his throat - again, from the top.');
+        replayTutorial();
       }
     };
     window.addEventListener('keydown', onKey);

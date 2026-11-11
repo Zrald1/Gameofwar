@@ -167,6 +167,12 @@ function tutAdvance(ev: string): void {
   if (s?.advance === ev) tutSpeak(tutIdx + 1);
 }
 
+/** replay the lesson on demand - fist-bump the wizard or press T */
+export function replayTutorial(): void {
+  if (tutTimer) clearTimeout(tutTimer);
+  tutTimer = setTimeout(() => tutSpeak(0), 1200);
+}
+
 let tutArmed = false;
 /** subscribe the tutorial to the game bus - called once on app boot */
 export function armTutorial(): void {
