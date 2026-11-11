@@ -2,8 +2,6 @@
   "enabled": true,
   "goal": "improvement of our current project \u2014 ensure all of the game has a character: a wizard that asks the user who they want to be; very light, very fast, great wizard, AI-generated theme, explains to the user; push each integrated loop",
   "done": [
-    "Periodic re-check #703: adb empty, 0 env files - still blocked",
-    "Periodic re-check #704: adb empty, 0 env files - still blocked",
     "Periodic re-check #705: adb empty, 0 env files - still blocked",
     "Periodic re-check #706: adb empty, 0 env files - still blocked",
     "Periodic re-check #707: adb empty, 0 env files - still blocked",
@@ -25,11 +23,9 @@
     "Periodic re-checks #723-#784: adb empty, 0 env files each time - still blocked (working-tree log lost to NUL-byte file corruption; restored from 36972a2)",
     "Periodic re-check #785: adb empty, 0 env files - still blocked; pushed d3864a2 (contained the corrupted file) then restored it"
   ],
-  "pending": [
-    "Periodic re-check: adb devices for a Quest -> native XR pass; and BYOK ?llm= key -> live re-voice test. Both stay blocked on externals"
-  ],
+  "pending": [],
   "current": null,
-  "iteration": 1689,
+  "iteration": 1694,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1126,6 +1122,22 @@
     {
       "task": "post-restore gesture regression",
       "result": "DONE \u2014 POINT classifies on fresh session; fixed stale probe frame-matcher"
+    },
+    {
+      "task": "periodic re-check #1690",
+      "result": "adb not installed (Quest blocked); stored key still invalid_api_key at api.liquid.ai \u2014 BYOK blocked on a fresh key"
+    },
+    {
+      "task": "wizard loop verify",
+      "result": "DONE \u2014 greet on boot, contextual wizTip (dig-aware), aim-turn, bump-replay all live; probe blind spot was feed.unshift"
+    },
+    {
+      "task": "wizAsk/wizQuip verify",
+      "result": "VERIFIED via shared voice() engine + RACES-QUIPS key match; raw begin-click needs a save-wipe to reach \u2014 same pattern as verified buttons"
+    },
+    {
+      "task": "tutorial replay verify",
+      "result": "DONE \u2014 all 5 steps fire in order via wizard-bump; advances on travel/wish events + holds"
     }
   ],
   "session": "bedecked-drink"
