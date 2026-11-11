@@ -25,7 +25,7 @@
   ],
   "pending": [],
   "current": null,
-  "iteration": 1737,
+  "iteration": 1739,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1298,6 +1298,10 @@
     {
       "task": "relicFound reaction",
       "result": "DONE - names the relic aloud; verified live"
+    },
+    {
+      "task": "verify relicFound deploy",
+      "result": "DONE - green"
     }
   ],
   "session": "bedecked-drink"
