@@ -25,7 +25,7 @@
   ],
   "pending": [],
   "current": null,
-  "iteration": 1779,
+  "iteration": 1782,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1462,6 +1462,14 @@
     {
       "task": "havenYield reaction",
       "result": "DONE - first income tick commemorated"
+    },
+    {
+      "task": "verify havenYield deploy",
+      "result": "DONE - green (slow run ~2.5m)"
+    },
+    {
+      "task": "health sweep + XR restore",
+      "result": "DONE - clean; session claimed hand mode"
     }
   ],
   "session": "bedecked-drink"
