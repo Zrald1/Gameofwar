@@ -21,6 +21,18 @@ snow peaks — as a miniature diorama you lean over like a war-room general.
 artifact; its ink moves, quests spawn on glowing cards, and somewhere a red X
 marks buried treasure.
 
+**Step Into the Map (the adventure layer):** press `V` and the diorama
+swells twenty-fold — 5 cm tiles become 1 m ground, Morvane and the patrons
+stand ~1.9 m beside you, and you **walk the world** with the thumbstick.
+The fold recenters beneath your feet so it never ends. Your race's
+**birthright weapon** rides your right fist — the Elf's living branch, the
+Dwarf's delver hammer — and a **fold-map rides your view top-right**,
+painting live biome ink with red Xs on dig sites, diamonds on survey
+targets, and edge arrows to every off-screen mission. **Skills grow from
+what you do**: six effort tracks ripen into bloodline-woven talents — an
+Elf who punches wakes *Sylph Knuckle-Oath*; a Dwarf who digs wakes
+*Deepforge Delver-Hand* — each granting a real passive.
+
 **Core loop (all hands-first, no controllers needed):**
 - **Morvane the wizard is your guide** — he asks who you want to be, teaches
   first-timers a five-step spoken lesson, and turns to face whatever he is

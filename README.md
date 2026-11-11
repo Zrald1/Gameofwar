@@ -7,7 +7,10 @@
 A hands-first fantasy diorama for the Meta VR Start Developer Competition 2026.
 Sit before a living map table where an infinite, seeded world renders as a
 miniature — oceans, deserts, forests, snow peaks — and play the last
-Cartographer's heir entirely with your hands.
+Cartographer's heir entirely with your hands. Then **press V and step into
+the map** — the table swells twenty-fold, tiles become real ground under
+your feet, and the adventure becomes a walkable world you roam with the
+thumbstick, weapon in fist.
 
 **Play it live:** https://zrald1.github.io/Gameofwar/
 
@@ -20,7 +23,21 @@ Cartographer's heir entirely with your hands.
   observations in quiet stretches, his staff-star pulsing while he speaks.
   **Hold your fist on him** (or press `T` on desktop) to hear the lesson
   again; **free speech with no contract on the table reaches him too**
-- Pick a race (Human, Dwarf, Elf, Naga, Demon) — each with its own perk
+- Pick a race (Human, Dwarf, Elf, Naga, Demon) — each with its own perk and
+  its own **birthright weapon** riding your right fist in adventure mode
+  (squire's sword, delver's hammer, living branch, tide trident, ember claw)
+- **Step Into the Map** (`V` or the HUD button): the diorama scales ×20 —
+  5 cm tiles become 1 m ground, the rim NPCs stand ~1.9 m tall beside you,
+  and thumbstick locomotion walks the endless fold (it recenters beneath
+  your feet at every rim)
+- **Skills grow from what you do** — six effort tracks (walk, dig, punch,
+  quest, talk, wish) ripen into named talents at seeded thresholds, woven
+  from your bloodline: an Elf who punches wakes *Sylph Knuckle-Oath*; a
+  Dwarf who digs wakes *Deepforge Delver-Hand*. Each grants a real passive
+- **A fold-map rides your view top-right** — live biome ink, red Xs on dig
+  sites, cyan diamonds on survey targets, gold house on the haven, violet
+  P / blue W on the talkable patrons — with labeled edge arrows pointing
+  at every off-screen mission
 - Pinch the champion meeple and carry it across tiles to travel; drop it at
   the map's edge and the infinite world recenters beneath it
 - Guild patrons deal the quests — three personas choose the difficulty;

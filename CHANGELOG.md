@@ -1,5 +1,13 @@
 # Changelog — ATLAS ETERNAL: The Living Map
 
+## Step Into the Map — the adventure update
+- **Adventure mode**: press `V` or "Step Into the Map" and the diorama swells ×20 — 5 cm tiles become 1 m ground, thumbstick locomotion walks the fold, and the world recenters beneath your feet so it never ends
+- **Human-scale NPCs**: Morvane and the guild patrons stand ~1.9 m on real tiles beside you, face you, and answer point-dwell presses and fist-bumps at talk range
+- **Birthright weapons**: every race starts armed — sword, hammer, living branch, trident, ember claw — visible in your right fist in adventure mode and in your arsenal everywhere
+- **Effort-grown skills**: six tracks (walk/dig/punch/quest/talk/wish) wake named talents at seeded thresholds, woven from your bloodline — *Sylph Stride*, *Deepforge Delver-Hand* — each with a real passive (trail lore xp, dig gold, fist power, contract gold, kinder grades, deeper wishes)
+- **Fold-map, top-right**: a live canvas minimap rides your view — biome ink, dig Xs, survey diamonds, haven house, patron/wizard dots, you at center, edge arrows to every off-screen mission
+- **Mission arrivals**: walking near a named contract site announces "The X of … smolders close"; survey contracts resolve on approach, so destinations are walked, not teleported
+
 ## Morvane, Keeper of the Fold — the wizard guide
 - A robed wizard stands at the map's right rim: he greets you at boot, asks who you wish to be at race select, and quips at your choice
 - Answer him by voice — the race panel's "speak it" chip toggles the mic; say "an elf" and the soul binds (verified end-to-end)
