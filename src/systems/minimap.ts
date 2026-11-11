@@ -151,6 +151,21 @@ export class MinimapSystem extends createSystem({}) {
       ctx.closePath();
       ctx.fill();
     }
+    // spilled drops - gold dots so loot is findable on the fold-map
+    for (const d of G.lootDrops) {
+      if (!onMap(d.i, d.j)) {
+        this.edgeArrow(d.i, d.j, '#ffd76a', '!');
+        continue;
+      }
+      const [x, y] = this.px(d.i, d.j);
+      ctx.fillStyle = '#ffd76a';
+      ctx.beginPath();
+      ctx.arc(x, y, 4.5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#10141e';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    }
     // haven - gold house mark
     if (G.havenI !== 0 || G.havenJ !== 0) {
       if (!onMap(G.havenI, G.havenJ)) this.edgeArrow(G.havenI, G.havenJ, '#ffd76a', 'H');
