@@ -25,7 +25,7 @@
   ],
   "pending": [],
   "current": null,
-  "iteration": 1721,
+  "iteration": 1723,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1242,6 +1242,10 @@
     {
       "task": "storyboard weaves Morvane",
       "result": "DONE - wizard lines scripted into all 4 beats"
+    },
+    {
+      "task": "verify storyboard deploy",
+      "result": "DONE - green"
     }
   ],
   "session": "bedecked-drink"
