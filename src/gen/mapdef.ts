@@ -8,7 +8,7 @@
  */
 import { Biome, Biomes, hash2, TileInfo, tileInfo } from './prng.js';
 import { brainBoot } from './brain.js';
-import { DEFAULT_MAP_KEY, feed, G } from '../state.js';
+import { DEFAULT_MAP_KEY, emit, feed, G } from '../state.js';
 
 export interface MapDef {
   name: string;
@@ -177,6 +177,7 @@ export function applyMap(def: MapDef): void {
   G.terrainDirty = true;
   G.hudDirty = true;
   feed(`You chart ${def.name}. ${def.story}`);
+  emit('mapChange', def.name);
 }
 
 /**

@@ -120,8 +120,8 @@ export function wizTip(): void {
   } else if (G.freeDig) {
     aim = 'champion';
     tip = pick([
-      'That scroll you hold marks a place in the fold. Carry your champion out to find where the X will burn.',
-      'A treasure scroll is a promise, not a prize. Walk the world until the X shows itself.',
+      'A free dig is marked for you - carry your champion to the red X and open it.',
+      'The fold has already marked a dig site for you. The X will not wait forever.',
     ]);
   } else if (G.houses <= 0) {
     aim = 'haven';
@@ -262,6 +262,7 @@ const REACTS: [string, string, (a?: unknown) => string, ((a?: unknown) => boolea
   ['pinOk', '', () => pick(['The seal opens - you carry the Cartographer\'s eye now. Shape the world gently, or boldly.', 'Admin rights, wanderer. The land now answers to your hand.'])],
   ['travel', 'champion', () => pick(['The world folds beneath your feet - the map is endless, wanderer.', 'The rim folds and the world walks with you. There is no edge, only more map.']), () => tutIdx < 0],
   ['peerJoin', '', () => pick(['A second traveler sits at your table - the fold is wide enough for two.', 'Company on the fold. Wanderers are always welcome at this map.'])],
+  ['mapChange', 'scroll-map', (name) => pick([`A new fold unfolds - ${name}. Chart it well, wanderer.`, `${name} - the ink is fresh here. The X marks await.`]), () => G.phase === 'playing'],
   ['editMode', '', () => pick(['The cartographer\'s eye opens. Stamp the land as you will - fist raises, palm fells.', 'The world becomes clay. Fist to raise it, palm to take it back.']), (a) => !!a],
 ];
 
