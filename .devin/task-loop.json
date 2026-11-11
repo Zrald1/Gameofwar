@@ -25,7 +25,7 @@
   ],
   "pending": [],
   "current": null,
-  "iteration": 1762,
+  "iteration": 1765,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1394,6 +1394,14 @@
     {
       "task": "fist-bump vs vox-add priority",
       "result": "DONE - aimed contact beats build tool in edit mode"
+    },
+    {
+      "task": "verify bump-priority deploy",
+      "result": "DONE - green"
+    },
+    {
+      "task": "vox-gesture regression post-reorder",
+      "result": "DONE - 2 punches placed 2 blocks, swipe broke 1; build path intact"
     }
   ],
   "session": "bedecked-drink"

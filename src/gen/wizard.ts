@@ -95,7 +95,12 @@ export function wizQuip(race: string): void {
 export function wizTip(): void {
   let tip: string;
   let aim = ''; // anchor id the Wizard turns toward while he speaks
-  if (G.editing) {
+  if (G.phase !== 'playing') {
+    tip = pick([
+      'Choose the soul that calls to you - five bloodlines wait on the parchment.',
+      'Every legend starts with a face. Pick the one that is yours.',
+    ]);
+  } else if (G.editing) {
     tip = pick([
       'The land obeys your stamps. Fist-punch to raise a block; open palm to knock it down. Export when the world pleases you.',
       'Cartographer\'s hands - a fist lays stone, an open palm unmakes it. The map is clay.',
