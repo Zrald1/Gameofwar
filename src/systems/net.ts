@@ -19,7 +19,7 @@ import {
 } from '@iwsdk/core';
 import { createPresence, PresenceService } from '../net/presence.js';
 import { decodeMap, applyMap, serializeMap, stampTile, stampVox } from '../gen/mapdef.js';
-import { feed, G, on } from '../state.js';
+import { emit, feed, G, on } from '../state.js';
 import { worldTilePos } from '../layout.js';
 import { RemoteAvatar } from '../components.js';
 
@@ -50,6 +50,7 @@ export class NetAvatarSystem extends createSystem({}) {
     this.net.onPeer((p, joined, role) => {
       if (joined) {
         feed('A wanderer joins your table');
+        emit('peerJoin');
         // only the senior side shares the chart - no map echo between peers
         if (G.map && role !== 'junior') this.net.send({ t: 'map', def: serializeMap(G.map) });
       } else {

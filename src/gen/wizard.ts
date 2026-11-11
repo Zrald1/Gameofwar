@@ -261,6 +261,7 @@ const REACTS: [string, string, (a?: unknown) => string, ((a?: unknown) => boolea
   ['relicFound', 'champion', (item) => `${item}! A relic of the old world - few hands have ever held one. Guard it well.`],
   ['pinOk', '', () => pick(['The seal opens - you carry the Cartographer\'s eye now. Shape the world gently, or boldly.', 'Admin rights, wanderer. The land now answers to your hand.'])],
   ['travel', 'champion', () => pick(['The world folds beneath your feet - the map is endless, wanderer.', 'The rim folds and the world walks with you. There is no edge, only more map.']), () => tutIdx < 0],
+  ['peerJoin', '', () => pick(['A second traveler sits at your table - the fold is wide enough for two.', 'Company on the fold. Wanderers are always welcome at this map.'])],
   ['editMode', '', () => pick(['The cartographer\'s eye opens. Stamp the land as you will - fist raises, palm fells.', 'The world becomes clay. Fist to raise it, palm to take it back.']), (a) => !!a],
 ];
 
