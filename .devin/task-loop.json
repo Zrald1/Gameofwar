@@ -25,7 +25,7 @@
   ],
   "pending": [],
   "current": null,
-  "iteration": 1757,
+  "iteration": 1760,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1378,6 +1378,14 @@
     {
       "task": "wizTip freeDig context",
       "result": "DONE - held-scroll advice added"
+    },
+    {
+      "task": "verify freeDig-tip deploy",
+      "result": "DONE - green"
+    },
+    {
+      "task": "health sweep + XR restore",
+      "result": "DONE - clean; session active hand mode"
     }
   ],
   "session": "bedecked-drink"
