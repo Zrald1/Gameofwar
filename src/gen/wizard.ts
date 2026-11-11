@@ -192,7 +192,7 @@ export function armTutorial(): void {
 /* ---------- milestone reactions ----------
  * A great guide notices your deeds - one commemorative line per milestone,
  * once per session, so he stays a presence instead of a parrot. */
-const REACTS: [string, string, (a?: unknown) => string][] = [
+const REACTS: [string, string, (a?: unknown) => string, ((a?: unknown) => boolean)?][] = [
   ['questAccept', 'beacon', () => 'The contract is inked. The beacon marks your task - the guild watches how you keep your word.'],
   ['havenBuilt', 'haven', () => 'A haven rises on the fold. Walls remember their builders, wanderer.'],
   ['npcOffer', 'patron', () => 'A patron approaches. Weigh the reward against the risk before you answer.'],
@@ -204,6 +204,8 @@ const REACTS: [string, string, (a?: unknown) => string][] = [
     r === 'Mythic' || r === 'Legendary'
       ? `A ${r} relic! The fold hides such things for the worthy - wield it and be remembered.`
       : 'Steel answers the fold\'s call. Wield it well, wanderer.'],
+  ['travel', 'champion', () => 'The world folds beneath your feet - the map is endless, wanderer.', () => tutIdx < 0],
+  ['editMode', '', () => 'The cartographer\'s eye opens. Stamp the land as you will - fist raises, palm fells.', (a) => !!a],
 ];
 
 let reactArmed = false;
@@ -211,9 +213,9 @@ function armReactions(): void {
   if (reactArmed) return;
   reactArmed = true;
   const seen = new Set<string>();
-  for (const [ev, aim, line] of REACTS) {
+  for (const [ev, aim, line, guard] of REACTS) {
     on(ev, (a?: unknown) => {
-      if (seen.has(ev)) return;
+      if (seen.has(ev) || (guard && !guard(a))) return;
       seen.add(ev);
       if (aim) emit('wizardAim', aim);
       emit('wizardLine', `The Wizard: ${line(a)}`);

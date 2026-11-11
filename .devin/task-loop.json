@@ -25,7 +25,7 @@
   ],
   "pending": [],
   "current": null,
-  "iteration": 1714,
+  "iteration": 1717,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1214,6 +1214,14 @@
     {
       "task": "wizard ambient idle lines",
       "result": "DONE - 5 rotating mutters on 140s silence, session-capped, no self-overlap"
+    },
+    {
+      "task": "verify ambient deploy",
+      "result": "DONE - green"
+    },
+    {
+      "task": "deployed-bundle wizard check",
+      "result": "DONE - live index-BE1crvWw.js contains Morvane/questDone/mythic/ambient lines"
     }
   ],
   "session": "bedecked-drink"
