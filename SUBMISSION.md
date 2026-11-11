@@ -86,15 +86,18 @@ and answer a patron offer with a **thumbs-up** (take it) or an **open palm**
 
 ### Demo video plan (≤3 min)
 Capture the emulated Quest 3 session (production build, `:4173`):
-- **0:00–0:15** — world shot + pinch-carry the champion to the map edge; the
-  world recenters beneath it. Lead with this.
+- **0:00–0:15** — cold open on Morvane's greeting (*"Ah — a new soul at the
+  table"*), race pick, his quip, then pinch-carry the champion to the map
+  edge; the world recenters beneath it and he marks the fold. Lead with this.
 - **0:15–0:45** — *Commission the Guild*: the engineer plans, the laborer
   raises a world live, and the new map lands on the table playable.
-- **0:45–1:15** — a patron offer appears: answer with a **thumbs-up** to take
-  it (or voice/chips — *bargain* for more gold first).
+- **0:45–1:15** — a patron offer appears: Morvane murmurs *"weigh the reward
+  against the risk"* — answer with a **thumbs-up** to take it (or
+  voice/chips — *bargain* for more gold first).
 - **1:15–2:00** — **point** at the X to aim the beam, then **throw a fist** to
-  punch the ground open; show the loot roll land a weapon (gear line updates)
-  and the XP level-up.
+  punch the ground open; the loot roll lands a weapon (Morvane salutes the
+  drop), the XP level-up lands his *"even the stones bow"* line, and the
+  contract completes to his *"word of you travels the fold."*
 - **2:00–2:40** — build a Haven house, enter the Cartographer PIN, paint a
   mountain, Set as Home.
 - **2:40–3:00** — pull back to the whole table: patron, cards, map, hands.
