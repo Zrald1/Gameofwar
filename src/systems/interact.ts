@@ -42,6 +42,7 @@ export class InteractSystem extends createSystem({
   chests: { required: [ChestProp] },
 }) {
   private glowT = 0;
+  private yieldTold = false;
   private p = { x: 0, y: 0, z: 0 };
 
   init(): void {
@@ -193,6 +194,10 @@ export class InteractSystem extends createSystem({
         G.incomeAcc = 0;
         addGold(G.houses * 2);
         feed(`Haven yields +${G.houses * 2}g`);
+        if (!this.yieldTold) {
+          this.yieldTold = true;
+          emit('havenYield');
+        }
       }
     }
     // wish crystal idle shimmer
