@@ -2,7 +2,6 @@
   "enabled": true,
   "goal": "make it playable: walk/run adventure inside the world, race weapons (sword/wand), per-race skill tree branches with skills randomly created from player efforts, comprehensive map for missions+NPCs, big talkable characters (~screen size), minimap top-right",
   "done": [
-    "big NPCs VERIFIED 290db97: patron/wizard ~1.9m on tiles, point-dwell + fist-bump talk work, chest-lift + 9m aim + 1.7m bump ranges, contract inked live",
     "race weapons VERIFIED a02b7c8: RACE_WEAPONS birthright grant + grip-attached procedural weapon; Elf Living Branch seen in XR fist",
     "skill tree VERIFIED 4baea4d: 6 effort tracks -> seeded race-flavored talents w/ real passives; 8 jabs -> Sylph Knuckle-Oath; HUD + wizard lines; persisted",
     "map panel+minimap DONE pending commit: camera-pinned canvas quad top-right, biome ink, digs/beacon/haven/P/W marks, edge arrows",
@@ -21,7 +20,8 @@
     "haven adv-scale VERIFIED: houses x4 (~3.7m cottages, 3.2m row), marker ring x2 gateway, relics x2.5 half-meter gems - seen live in XR hamlet shot",
     "claim chime + haven deploy VERIFIED: weaponClaim chime (0.9 legendary/mythic else 0.7) - 2 emits -> 2 audio entities; deploy 43061126924 success, haven hamlet live",
     "in-world haven build VERIFIED: point-dwell ring -> tryBuild (2 houses in one hold, then 'Need 300g' refusal), cottage renders at hamlet scale, +6g yield ticks; restored save to 3 houses",
-    "haven punch VERIFIED b-c: new haven branch in fist handler -> 'Your fist rings the haven gate!' + 2 houses raised in-world; dwell path also proven; ring world pos probe confirms reachability"
+    "haven punch VERIFIED b-c: new haven branch in fist handler -> 'Your fist rings the haven gate!' + 2 houses raised in-world; dwell path also proven; ring world pos probe confirms reachability",
+    "wish shrine adv VERIFIED: seats on land tile on entry (third bearing), hides off-window, fold-map star glyph; point-press plinth -> wish fires (+1 wish effort, rail-full honest answer); shrine render confirmed in XR shot"
   ],
   "pending": [
     "adv-scale ground markers: dig-X + wish crystal readable at standing height like the haven gate"
@@ -1536,6 +1536,10 @@
     {
       "task": "verify+polish in-world haven building: punch the ring",
       "result": "PASS — added haven to fist branches (after dig-X); punch + dwell both build live"
+    },
+    {
+      "task": "adv-scale ground markers: dig-X + wish crystal readable at standing height",
+      "result": "PASS — markers were already sized; wish crystal stranded on table edge became a seated world shrine (the real fix)"
     }
   ],
   "session": "bedecked-drink"
