@@ -2,9 +2,6 @@
   "enabled": true,
   "goal": "improvement of our current project \u2014 ensure all of the game has a character: a wizard that asks the user who they want to be; very light, very fast, great wizard, AI-generated theme, explains to the user; push each integrated loop",
   "done": [
-    "README replaced with real game overview + live URL + feature list (was scaffold boilerplate)",
-    "AGENTS.md: project lessons recorded (LocomotionEnvironment, kit Button 80u, XR click path, panel face, Pages lock, assets realm)",
-    "chunkSizeWarningLimit set to 3000 - build no longer warns on the expected 2.4MB WebXR bundle",
     "favicon linked to icon-192.png (was empty data: placeholder)",
     "Wizard figure: createWizard() 8-mesh robed pointy-hat at right rim, mirrored to patron",
     "Wizard presence: visible intro+race, hides on play; bob/sway/spinning-star anims verified",
@@ -21,11 +18,14 @@
     "Build clean 4.63s; XR close-up shot of wizard star mid-pulse saved docs/screenshots/05 (interval-armed pulse + browser screenshot; canvas.toDataURL blank under preserveDrawingBuffer:false); XR exited; pushed c65cb6f",
     "Wizard aim shipped: wizardAim->yaw ease toward patron/dig-x/haven/beacon/wish, verified -0.46->-1.57; FIXED latent gesture bug (haven vs haven-marker - dwell at haven never worked); pushed 9886f25",
     "Haven dwell regression PASS e2e in XR: point-tip at ring -> Point-press x4 -> tryBuild -> houses 0->3, Haven complete; alias fix proven end-to-end; pushed 1c9c6bb",
-    "Active tutorial shipped: 5-step guided lesson on first runStarted (aim+line per step, event-advance travel/wish + hold timers, atlas-tut-v1 once-flag); full sequence verified live; pushed 543a7aa"
+    "Active tutorial shipped: 5-step guided lesson on first runStarted (aim+line per step, event-advance travel/wish + hold timers, atlas-tut-v1 once-flag); full sequence verified live; pushed 543a7aa",
+    "Tutorial replay shipped: fist-bump wizard (gesturePress 'wizard-bump', PUNCH_RANGE, last in fist chain) or desktop T -> replayTutorial restarts step 0 even with flag set; double-bump restart-not-stack verified; hint+card updated; pushed d1b7220",
+    "Docs updated: Morvane + replay controls (fist-bump / T) added to README game list + SUBMISSION core loop - wizard was uncredited in both; pushed 1456c47",
+    "Pages freshness PASS: live serves index-BNo-7z7h.js = local post-replay build hash; bundle/maps/manifest 200; d1b7220+1456c47 deploys both green"
   ],
   "pending": [],
-  "current": "Polish: replay-the-tutorial affordance - poke wizard while holding B/long-press to restart the lesson",
-  "iteration": 893,
+  "current": "XR e2e: real hand-pose fist near the wizard in IWER -> gesturePress wizard-bump -> lesson restarts (so far only synthetic emit + T keydown verified)",
+  "iteration": 896,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",

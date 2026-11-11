@@ -40,6 +40,8 @@ interface HandState {
   dwellT: number;
   punchCooldown: number;
   repliedPose: Pose;
+  wizDwellT: number;
+  wizHeld: boolean;
 }
 
 export class GestureSystem extends createSystem({}) {
@@ -169,6 +171,8 @@ export class GestureSystem extends createSystem({}) {
           dwellT: 0,
           punchCooldown: 0,
           repliedPose: 'relaxed',
+          wizDwellT: 0,
+          wizHeld: false,
         };
         this.hands.set(side, st);
       }
@@ -207,6 +211,32 @@ export class GestureSystem extends createSystem({}) {
         st.dwellKey = null;
         st.dwellT = 0;
         st.repliedPose = 'relaxed';
+        st.wizDwellT = 0;
+        st.wizHeld = false;
+      }
+
+      // ---- fist HELD on the wizard (long-press): replay his lesson ----
+      // dwell, not velocity - a held fist can't collide with the dig-X punch.
+      // fires once per hold; release and hold again to replay again.
+      if (pose === 'fist') {
+        const wizard = Anchors.get('wizard');
+        let near = false;
+        if (wizard?.visible) {
+          wizard.getWorldPosition(this.toT);
+          near = this.toT.distanceTo(knuckle) < PUNCH_RANGE;
+        }
+        if (near) {
+          st.wizDwellT += delta;
+          if (st.wizDwellT >= 0.7 && !st.wizHeld) {
+            st.wizHeld = true;
+            feed('The Wizard chuckles - the lesson begins again.');
+            emit('gesturePress', 'wizard-bump');
+            continue;
+          }
+        } else {
+          st.wizDwellT = 0;
+          st.wizHeld = false;
+        }
       }
 
       // ---- point: fingertip beam + dwell press ----
