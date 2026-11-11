@@ -273,20 +273,7 @@ export class GestureSystem extends createSystem({}) {
       // ---- fist: thrown punch (edit mode: place block at the cursor) ----
       if (pose === 'fist' && st.vel > PUNCH_SPEED && st.punchCooldown <= 0) {
         st.punchCooldown = 0.6;
-        if (G.editing) {
-          feed('POW - block placed');
-          emit('gesturePress', 'vox-add');
-          continue;
-        }
-        const digx = Anchors.get('dig-x');
-        if (digx?.visible && G.activeDigId >= 0) {
-          digx.getWorldPosition(this.toT);
-          if (this.toT.distanceTo(knuckle) < PUNCH_RANGE) {
-            feed('POW - you punched the X!');
-            emit('gesturePress', 'dig-x');
-            continue;
-          }
-        }
+        // a punch thrown at a figure is aimed contact, in any mode
         const patron = Anchors.get('patron');
         if (patron?.visible) {
           patron.getWorldPosition(this.toT);
@@ -302,6 +289,20 @@ export class GestureSystem extends createSystem({}) {
           if (this.toT.distanceTo(knuckle) < PUNCH_RANGE) {
             feed('The Wizard chuckles - the lesson begins again.');
             emit('gesturePress', 'wizard-bump');
+            continue;
+          }
+        }
+        if (G.editing) {
+          feed('POW - block placed');
+          emit('gesturePress', 'vox-add');
+          continue;
+        }
+        const digx = Anchors.get('dig-x');
+        if (digx?.visible && G.activeDigId >= 0) {
+          digx.getWorldPosition(this.toT);
+          if (this.toT.distanceTo(knuckle) < PUNCH_RANGE) {
+            feed('POW - you punched the X!');
+            emit('gesturePress', 'dig-x');
             continue;
           }
         }
