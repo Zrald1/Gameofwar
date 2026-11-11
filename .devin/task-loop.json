@@ -1450,6 +1450,10 @@
     {
       "task": "verify mapChange deploy",
       "result": "DONE - green"
+    },
+    {
+      "task": "stray thumbs-up hint",
+      "result": "DONE - wizardHint teaches contract-first; verified live"
     }
   ],
   "session": "bedecked-drink"
