@@ -1178,6 +1178,10 @@
     {
       "task": "verify CHANGELOG deploy",
       "result": "DONE - 78a0cc6 green"
+    },
+    {
+      "task": "free speech -> Morvane",
+      "result": "DONE 096b543 - talk with no offer now reaches the wizard (LLM or wizTip fallback)"
     }
   ],
   "session": "bedecked-drink"
