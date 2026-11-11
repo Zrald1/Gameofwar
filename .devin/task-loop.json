@@ -1202,6 +1202,10 @@
     {
       "task": "verify milestone deploy",
       "result": "DONE - 75493d0 green"
+    },
+    {
+      "task": "questDone reaction",
+      "result": "DONE - grade-aware salute verified live"
     }
   ],
   "session": "bedecked-drink"
