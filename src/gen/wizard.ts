@@ -165,7 +165,7 @@ const TUT_STEPS: { aim: string; line: string; advance?: string; hold: number }[]
   { aim: '', line: 'A first crossing? Keep an ear on the rim - I will walk you through it.', hold: 4.5 },
   { aim: 'champion', line: 'Pinch your blue meeple and carry him past the map edge - the world scrolls under his feet.', advance: 'travel', hold: 16 },
   { aim: 'wish', line: 'The crystal on the far rim deals quests. Press it, then press a dealt card to take the work.', advance: 'wish', hold: 14 },
-  { aim: 'patron', line: 'And that hooded one is a guild patron. Point at him - thumbs-up takes a contract, open palm refuses.', hold: 10 },
+  { aim: 'patron', line: 'And that hooded one is a guild patron. Thumbs-up takes a contract, open palm refuses - or press Talk and answer aloud.', hold: 10 },
   { aim: '', line: 'That is the whole art, wanderer. Poke me whenever you are lost.', hold: 0 },
 ];
 let tutIdx = -1;
