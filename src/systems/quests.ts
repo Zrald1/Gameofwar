@@ -290,8 +290,14 @@ export class QuestSystem extends createSystem({
     addXp(Math.round((q.gradeIdx + 1) * 25 + gold * 0.1));
     if (q.legendary) {
       const relic = `Relic of ${q.title.split(' ').slice(-2).join(' ')}`;
-      G.relics.push(relic);
-      feed(`LEGENDARY RELIC earned - ${relic}!`);
+      if (G.mode === 'adv') {
+        // the relic materializes at your feet - lift it into the hoard
+        G.lootDrops.push({ i: G.ci, j: G.cj, relic });
+        feed(`LEGENDARY RELIC - ${relic} materializes before you`);
+      } else {
+        G.relics.push(relic);
+        feed(`LEGENDARY RELIC earned - ${relic}!`);
+      }
     }
     // weapon drop - rarity window scales with the quest's grade
     if (G.rng() < weaponDropChance(q.gradeIdx)) {

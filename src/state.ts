@@ -67,7 +67,7 @@ export interface GameState {
   /** talents grown from effort - names woven from the bloodline */
   skills: { id: string; track: string; name: string; level: number }[];
   /** weapons spilled onto the land awaiting claim (adventure mode only) */
-  lootDrops: { i: number; j: number; w: Weapon }[];
+  lootDrops: { i: number; j: number; w?: Weapon; relic?: string }[];
   /** world tile at grid center */
   centerI: number;
   centerJ: number;

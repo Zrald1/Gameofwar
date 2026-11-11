@@ -108,10 +108,16 @@ export class InteractSystem extends createSystem({
     addPower(loot.power + Math.round(weaponPower() * 0.1));
     addXp(15);
     if (loot.legendary) {
-      G.relics.push(loot.item);
-      G.terrainDirty = true;
-      feed(`LEGENDARY - ${loot.item}! (+${loot.power} power)`);
-      emit('relicFound', loot.item);
+      if (G.mode === 'adv') {
+        // the gem lies where the X burned - walk up and lift it
+        G.lootDrops.push({ i: dig.i, j: dig.j, relic: loot.item });
+        feed(`LEGENDARY - ${loot.item} lies where the X burned`);
+      } else {
+        G.relics.push(loot.item);
+        G.terrainDirty = true;
+        feed(`LEGENDARY - ${loot.item}! (+${loot.power} power)`);
+        emit('relicFound', loot.item);
+      }
     } else if (loot.item) {
       feed(`Found ${loot.item} (+${loot.power}p, +${gold}g)`);
     } else {

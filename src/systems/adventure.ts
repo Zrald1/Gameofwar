@@ -16,6 +16,7 @@ import {
   MeshBasicMaterial,
   MeshStandardMaterial,
   Object3D,
+  OctahedronGeometry,
   RingGeometry,
   Sprite,
   SpriteMaterial,
@@ -27,7 +28,7 @@ import { mapTileInfo } from '../gen/mapdef.js';
 import { Biomes } from '../gen/prng.js';
 import { bumpEffort, walkLoreXp } from '../gen/skills.js';
 import { RARITIES, RARITY_COLORS, Weapon } from '../gen/loot.js';
-import { addWeapon, addXp, Anchors, emit, feed, G, on } from '../state.js';
+import { addWeapon, addXp, Anchors, emit, feed, G, on, save } from '../state.js';
 import { ADV_SCALE, HALF_H, HALF_W, tileDist, tileHeight, worldTilePos } from '../layout.js';
 
 const TABLE_POS = new Vector3(0, 0.82, -0.55);
@@ -58,7 +59,7 @@ export class AdventureSystem extends createSystem({}) {
   private wp = new Vector3();
   /** world-anchored views for weapons spilled on the fold */
   private dropViews: {
-    d: { i: number; j: number; w: Weapon };
+    d: { i: number; j: number; w?: Weapon; relic?: string };
     group: Group;
     sprite: Sprite;
     ctx: CanvasRenderingContext2D;
@@ -272,21 +273,33 @@ export class AdventureSystem extends createSystem({}) {
    * plate overhead. World-anchored like the camp labels - it only shows
    * while its tile is on the fold.
    */
-  private makeDropView(d: { i: number; j: number; w: Weapon }) {
+  private makeDropView(d: { i: number; j: number; w?: Weapon; relic?: string }) {
     const group = new Group();
-    const col = RARITY_COLORS[RARITIES.indexOf(d.w.rarity)] ?? '#9aa4b8';
-    const steel = new MeshStandardMaterial({ color: 0xb8c4d8, metalness: 0.7, roughness: 0.35 });
-    const blade = new Mesh(new BoxGeometry(0.07, 0.85, 0.018), steel);
-    blade.position.set(0, 0.46, 0);
-    blade.rotation.z = 0.3;
-    group.add(blade);
-    const guard = new Mesh(
-      new BoxGeometry(0.24, 0.035, 0.05),
-      new MeshStandardMaterial({ color: 0x8a6a2f, metalness: 0.5, roughness: 0.5 }),
-    );
-    guard.position.set(-0.13, 0.84, 0);
-    guard.rotation.z = 0.3;
-    group.add(guard);
+    const col = d.relic
+      ? '#ffd76a'
+      : (RARITY_COLORS[RARITIES.indexOf(d.w!.rarity)] ?? '#9aa4b8');
+    if (d.relic) {
+      // a relic: faceted gem turning slowly above the glow ring
+      const gem = new Mesh(
+        new OctahedronGeometry(0.22),
+        new MeshStandardMaterial({ color: 0xffc860, emissive: 0xa06818, emissiveIntensity: 1.4, metalness: 0.3, roughness: 0.25 }),
+      );
+      gem.position.y = 0.55;
+      group.add(gem);
+    } else {
+      const steel = new MeshStandardMaterial({ color: 0xb8c4d8, metalness: 0.7, roughness: 0.35 });
+      const blade = new Mesh(new BoxGeometry(0.07, 0.85, 0.018), steel);
+      blade.position.set(0, 0.46, 0);
+      blade.rotation.z = 0.3;
+      group.add(blade);
+      const guard = new Mesh(
+        new BoxGeometry(0.24, 0.035, 0.05),
+        new MeshStandardMaterial({ color: 0x8a6a2f, metalness: 0.5, roughness: 0.5 }),
+      );
+      guard.position.set(-0.13, 0.84, 0);
+      guard.rotation.z = 0.3;
+      group.add(guard);
+    }
     const ring = new Mesh(
       new RingGeometry(0.42, 0.56, 24),
       new MeshBasicMaterial({ color: new Color(col), transparent: true, opacity: 0.75, side: DoubleSide }),
@@ -328,24 +341,34 @@ export class AdventureSystem extends createSystem({}) {
       this.table.localToWorld(this.wp);
       v.group.position.copy(this.wp);
       const dist = tileDist(G.ci, G.cj, v.d.i, v.d.j);
-      const text = `${v.d.w.name}  ·  ${dist}m`;
+      const text = `${v.d.relic ?? v.d.w!.name}  ·  ${dist}m`;
       if (text !== v.text) {
         v.text = text;
-        const col = RARITY_COLORS[RARITIES.indexOf(v.d.w.rarity)] ?? '#9aa4b8';
+        const col = v.d.relic
+          ? '#ffd76a'
+          : (RARITY_COLORS[RARITIES.indexOf(v.d.w!.rarity)] ?? '#9aa4b8');
         this.paintSprite(v.ctx, v.tex, text, col);
       }
       if (dist <= 1) this.claimDrop(v.d);
     }
   }
 
-  private claimDrop(d: { i: number; j: number; w: Weapon }): void {
+  private claimDrop(d: { i: number; j: number; w?: Weapon; relic?: string }): void {
     const idx = G.lootDrops.indexOf(d);
     if (idx < 0) return;
     G.lootDrops.splice(idx, 1);
-    addWeapon(d.w);
-    const armed = G.inventory[G.equipped] === d.w;
-    feed(`You take up the ${d.w.name}${armed ? ' - it is already in your fist.' : '.'}`);
-    emit('weaponClaim', d.w.rarity);
+    if (d.relic) {
+      G.relics.push(d.relic);
+      G.terrainDirty = true;
+      feed(`You lift the ${d.relic} - it joins your hoard at the haven.`);
+      emit('relicFound', d.relic);
+      save();
+      return;
+    }
+    addWeapon(d.w!);
+    const armed = G.inventory[G.equipped] === d.w!;
+    feed(`You take up the ${d.w!.name}${armed ? ' - it is already in your fist.' : '.'}`);
+    emit('weaponClaim', d.w!.rarity);
   }
 
   /** name plates hover over each camp figure while it is on the fold */
