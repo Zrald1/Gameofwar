@@ -115,7 +115,10 @@ export class GestureSystem extends createSystem({}) {
     // proximity aim - a pointing fingertip hovering on a thing IS pointing
     // at it (poke semantics); generous on purpose
     let nearD = adv ? ADV_NEAR : 0.12;
-    const liftOf = (key: string) => (adv && (key === 'patron' || key === 'wizard') ? ADV_BODY_H : 0);
+    // figures are aimed at the chest; the wish crystal floats ~1.3m
+    // above its plinth - aim where the glowing thing actually is
+    const liftOf = (key: string) =>
+      adv && (key === 'patron' || key === 'wizard') ? ADV_BODY_H : adv && key === 'wish' ? 1.3 : 0;
     for (const key of ['dig-x', 'wish', 'haven', 'patron', 'wizard'] as const) {
       const obj = Anchors.get(key);
       if (!obj || !obj.visible) continue;
