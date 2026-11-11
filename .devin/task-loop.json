@@ -1442,6 +1442,10 @@
     {
       "task": "verify ambient-aim deploy",
       "result": "DONE - green"
+    },
+    {
+      "task": "mapChange reaction + freeDig fix",
+      "result": "DONE - expedition named aloud, phase-guarded, verified live"
     }
   ],
   "session": "bedecked-drink"
