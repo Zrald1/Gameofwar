@@ -13,9 +13,13 @@ Cartographer's heir entirely with your hands.
 
 ## The game
 - **Morvane, Keeper of the Fold** — the blue wizard at the map's rim greets
-  you, asks who you want to be, walks first-timers through a guided lesson,
-  and answers any poke with the one tip that matters now; **hold your fist
-  on him** (or press `T` on desktop) to hear the lesson again
+  you, asks who you want to be (**answer him by voice** — "an elf..." — or
+  tap a race), walks first-timers through a guided lesson, and answers any
+  poke with the one tip that matters now. He **notices your deeds** — first
+  dig, inked contract, level-up, legendary drop, world-fold — and mutters
+  observations in quiet stretches, his staff-star pulsing while he speaks.
+  **Hold your fist on him** (or press `T` on desktop) to hear the lesson
+  again; **free speech with no contract on the table reaches him too**
 - Pick a race (Human, Dwarf, Elf, Naga, Demon) — each with its own perk
 - Pinch the champion meeple and carry it across tiles to travel; drop it at
   the map's edge and the infinite world recenters beneath it
