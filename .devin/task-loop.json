@@ -1210,6 +1210,10 @@
     {
       "task": "verify questDone deploy",
       "result": "DONE - green"
+    },
+    {
+      "task": "wizard ambient idle lines",
+      "result": "DONE - 5 rotating mutters on 140s silence, session-capped, no self-overlap"
     }
   ],
   "session": "bedecked-drink"
