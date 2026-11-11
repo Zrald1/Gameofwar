@@ -56,6 +56,7 @@ export class QuestSystem extends createSystem({
     );
     on('digDone', (questId: number, i: number, j: number) => this.onDigDone(questId, i, j));
     on('travel', (ci: number, cj: number) => this.onTravel(ci, cj));
+    on('advStep', (ci: number, cj: number) => this.onTravel(ci, cj)); // walking completes surveys too
     on('freeDigSpent', () => this.placeFreeDig());
     on('wish', () => this.onWish());
     on('runStarted', () => this.dealInitial());

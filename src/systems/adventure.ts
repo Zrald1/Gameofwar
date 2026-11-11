@@ -25,6 +25,7 @@ export class AdventureSystem extends createSystem({}) {
   private lastCj = 0;
   private weapon: Object3D | null = null;
   private weaponRace: string | null = null;
+  private nearNoted = new Set<number>();
 
   init(): void {
     this.table = this.world.requireSceneObject('map-table');
@@ -139,6 +140,8 @@ export class AdventureSystem extends createSystem({}) {
       G.ci = ci;
       G.cj = cj;
       G.hudDirty = true;
+      emit('advStep', ci, cj); // per-tile travel - survey quests complete on approach
+      this.noteNear();
     }
     if (gi < EDGE || gi > GRID_W - 1 - EDGE || gj < EDGE || gj > GRID_H - 1 - EDGE) {
       // walked to the rim - the fold recenters beneath your feet
@@ -151,6 +154,30 @@ export class AdventureSystem extends createSystem({}) {
       if (lore > 0) addXp(lore); // trail lore: the land itself teaches
       emit('travel', ci, cj);
       this.placeTable(); // world slides; keep your tile underfoot
+    }
+  }
+
+  /** first time a mission site comes within reach, say so - it is THE destination */
+  private noteNear(): void {
+    for (const d of G.digs) {
+      if (this.nearNoted.has(d.id)) continue;
+      if (tileDist(G.ci, G.cj, d.i, d.j) <= 3) {
+        this.nearNoted.add(d.id);
+        const q = d.questId >= 0 ? G.quests.get(d.questId) : null;
+        feed(
+          q
+            ? `The X of "${q.title}" smolders close - strike the ground.`
+            : 'The scroll\'s X smolders close - strike the ground.',
+        );
+      }
+    }
+    for (const q of G.quests.values()) {
+      if (q.done || !G.activeQuests.has(q.id)) continue;
+      if (this.nearNoted.has(-(q.id + 1))) continue;
+      if (tileDist(G.ci, G.cj, q.ti, q.tj) <= 4) {
+        this.nearNoted.add(-(q.id + 1));
+        feed(`"${q.title}" - your target is near.`);
+      }
     }
   }
 }
