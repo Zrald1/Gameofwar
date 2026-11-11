@@ -1,15 +1,32 @@
 # Loop Task State
 
 - GOAL: wizard character — asks who you want to be, AI-themed explanation, lightweight, interacts on desktop + VR; push every integrated feature
-- ITERATION: 3 (COMPLETE)
+- ITERATION: 13 (COMPLETE — only hardware/key-blocked items remain)
 - LOG:
   - iter1: createWizard() (8 prims, hat+beard+star staff) at right rim; wizGreet/wizAsk/wizQuip seeded + llmChat re-voice; visible intro+race; pushed 3ad0779
   - iter2: explainer — wizard stays during play; WizardTag+RayInteractable+wizardPressed -> wizTip() contextual tips (edit/offer/dig/haven/quest); gesture aim list + 'wizard'; verified live; pushed 462544c
   - iter3: hit-proxy opacity-0 cylinders on patron+wizard; synthetic click e2e (Pressed->tip); XR point-dwell e2e (point pose, tip in proxy -> 'Point-press -> wizard' x2 -> dig tip); pushed 4d46b27
+  - iter4: Pages freshness verified (live bundle hash = local rebuild); MSDF glyph fix — atlas lacks —/·, ASCII swap across rendered strings; pushed 2de8059
+  - iter5: wiz-card in intro-wrap (name+role+ASK-HIM controls), fresh-boot verified; pushed cdaa35f
+  - iter6: all wizard lines -> wizardLine event -> feed + speechSynthesis; elder voice 0.92/0.6; VoiceSystem registered before HudSystem so boot greeting is heard; pushed d073ce9
+  - iter7: star talk-pulse — wizardLine arms 1.5s flare ~1.37x verified; FIXED wizT clock (was statue at intro, borrowed frozen patronT); pushed 451f728; XR close-up screenshot docs/screenshots/05 + pushed c65cb6f
+  - iter8: wizardAim — tips carry a target anchor, yaw eases toward patron/dig-x/haven/beacon/wish (verified -0.46->-1.57); FIXED latent gesture bug: aim said 'haven' but node is 'haven-marker' — Anchors.set alias; pushed 9886f25
+  - iter9: haven dwell e2e in XR — point at ring -> Point-press x4 -> tryBuild -> houses 0->3, complete; pushed 1c9c6bb
+  - iter10: proactive tutorial — armTutorial on first runStarted, 5-step lesson (aim+line per step, event-advance travel/wish + hold timers, atlas-tut-v1 once-flag), deterministic lines; full sequence verified; pushed 543a7aa
+  - iter11: replay affordance — gesturePress 'wizard-bump' + desktop T -> replayTutorial() (clears step timer, restart-not-stack); verified 3 paths; pushed d1b7220; docs credit pushed 1456c47
+  - iter12: XR e2e found real collision — thrown-punch bump lost to live dig-X in PUNCH_RANGE. Redesigned to fist-DWELL: 0.7s hold on wizard (vel~0, immune to velocity-gated verbs) + wizHeld latch = once per hold; verified live (1 chuckle -> 'A first crossing?' with activeDig+flag set); pushed 2623d03
+  - iter13: wording 'hold your fist on him' (d5b0e30); regression sweep PASS (boot->race, tip, T-replay, console clean); patron fist-bump XR regression PASS
 - FINDINGS:
   - feed() UNSHIFTS (newest at index 0) — probes must read head, not slice(len)
   - gesture aim is point-based (anchor pos + cone ~15cm@1m); desktop click is geometry raycast — hit-proxy fixes the small-figure problem
-  - xr list-targets shows named scene nodes incl. 'The Wizard'; anchor 'index-tip' + poseId 'point' gives instant proximity dwell (<0.12m)
+  - xr list-targets shows named scene nodes incl. 'The Wizard'/'Guild Patron'; anchor 'index-finger-phalanx-proximal' = knuckle for fist verbs; xr animate-to duration 0.2 linear gives >1 m/s punches
   - hit-proxy inflated Box3 target size to ~11.5x13cm (intended forgiving target)
-- NEXT: optional — physical Quest pass (iwsdk-native-xr-test), llmChat live re-voice with API key, Pages deploy freshness
-- BLOCKERS: none
+  - MSDF font atlas lacks — and · — render as blank + console warnings; keep rendered strings ASCII
+  - patronT freezes outside 'playing' — any always-on animation needs its own clock (wizT)
+  - canvas.toDataURL is blank (preserveDrawingBuffer:false) — arm effects via interval + browser screenshot
+  - Vite watcher misses edits on this path despite usePolling — dev restart --allow-browser-automation is the reliable fix before probing
+  - gesturePress emit is a module binding — spies on __atlas.emit see nothing; watch G.feed head instead
+  - fist chain order: edit-place -> dig-X -> patron -> wizard; proximity checks are PUNCH_RANGE 0.45m — overlapping anchors steal punches; dwell/held verbs avoid the velocity gate entirely
+  - deploy freshness check: api.github actions runs -> live HTML bundle hash -> compare to local dist rebuild
+- NEXT: blocked — physical Quest pass (iwsdk-native-xr-test) needs a connected headset; live llmChat re-voice needs a BYOK key (?llm=)
+- BLOCKERS: none in code; hardware/API-key only
