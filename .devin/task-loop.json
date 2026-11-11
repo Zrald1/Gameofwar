@@ -25,7 +25,7 @@
   ],
   "pending": [],
   "current": null,
-  "iteration": 1771,
+  "iteration": 1773,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1430,6 +1430,10 @@
     {
       "task": "peerJoin reaction",
       "result": "DONE - presence join welcomed"
+    },
+    {
+      "task": "verify peerJoin deploy",
+      "result": "DONE - green"
     }
   ],
   "session": "bedecked-drink"
