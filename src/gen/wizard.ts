@@ -267,6 +267,8 @@ const REACTS: [string, string, (a?: unknown) => string, ((a?: unknown) => boolea
   ['havenYield', 'haven', () => pick(['Your haven pays its first yield - walls earn where maps cannot.', 'Gold without a pickaxe. That is what a haven buys you.'])],
   ['voxEdit', 'champion', () => pick(['The land yields to your stamp, Cartographer.', 'There - the world remembers your hand. Keep shaping.'])],
   ['editMode', '', () => pick(['The cartographer\'s eye opens. Stamp the land as you will - fist raises, palm fells.', 'The world becomes clay. Fist to raise it, palm to take it back.']), (a) => !!a],
+  ['advEntered', '', () => pick(['The fold takes you, wanderer - the map is underfoot now. Walk it.', 'The ink is real beneath your feet. Wander far - I will keep the table warm.'])],
+  ['advExited', '', () => pick(['Back at the rim already? The world keeps your footprints.', 'The fold lifts you home. The map remembers where you walked.'])],
 ];
 
 let reactArmed = false;

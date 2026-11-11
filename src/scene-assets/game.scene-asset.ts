@@ -35,13 +35,14 @@ const mat = (color: number, opts: Partial<{ rough: number; metal: number; e: num
     ...(opts.e ? { emissive: opts.e, emissiveIntensity: opts.ei ?? 1 } : {}),
   });
 
-/** dark disc ground - a 1m-deep solid so the locomotion capsule can never tunnel through */
+/** dark disc ground - 100m radius so adventure walking never outruns the
+ *  walk surface; 1m deep so the capsule can never tunnel through */
 export function createGroundFloor(): Group {
   const g = new Group();
-  const floor = new Mesh(new CylinderGeometry(9, 9, 1, 64), mat(0x11141c, { rough: 1 }));
+  const floor = new Mesh(new CylinderGeometry(100, 100, 1, 64), mat(0x11141c, { rough: 1 }));
   floor.position.y = -0.5;
   g.add(floor);
-  const rim = new Mesh(new RingGeometry(8.94, 9.06, 64), mat(0x2a3550, { e: 0x16223a, ei: 0.6 }));
+  const rim = new Mesh(new RingGeometry(98.6, 99.4, 96), mat(0x2a3550, { e: 0x16223a, ei: 0.6 }));
   rim.rotation.x = -Math.PI / 2;
   rim.position.y = 0.002;
   g.add(rim);

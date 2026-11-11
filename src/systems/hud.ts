@@ -83,6 +83,11 @@ export class HudSystem extends createSystem({}) {
       this.cleanupFuncs.push(() => btn?.removeEventListener('click', handler));
       btn?.setProperties({ text: `${race} - ${RACE_PERKS[race]}` });
     });
+    // step into the living map - adventure mode toggle
+    const step = p.getElementById('btn-step');
+    const onStep = () => emit('advToggle');
+    step?.addEventListener('click', onStep);
+    this.cleanupFuncs.push(() => step?.removeEventListener('click', onStep));
     const home = p.getElementById('btn-home');
     const onHome = () => {
       G.centerI = G.havenI;
@@ -335,6 +340,8 @@ export class HudSystem extends createSystem({}) {
       } else if (k === 't') {
         feed('The Wizard clears his throat - again, from the top.');
         replayTutorial();
+      } else if (k === 'v') {
+        emit('advToggle');
       }
     };
     window.addEventListener('keydown', onKey);
@@ -384,6 +391,7 @@ export class HudSystem extends createSystem({}) {
       { text: G.houses > 0 ? `Haven: ${G.houses} house${G.houses > 1 ? 's' : ''} (+${G.houses * 2}g/10s)` : 'Haven: unbuilt - press the golden ring' },
     );
     this.set('stat-map', { text: `Map: ${G.mapName || 'the Wild Ink'}` });
+    this.set('btn-step', { text: G.mode === 'adv' ? 'Return to the Table' : 'Step Into the Map' });
     this.set('stat-peers', { text: G.peers > 0 ? `Table: ${G.peers} wanderer${G.peers > 1 ? 's' : ''}` : 'Table: solo' });
     // quest rail status
     for (let s = 0; s < 4; s++) {

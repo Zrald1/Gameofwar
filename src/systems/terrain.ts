@@ -26,7 +26,7 @@ import {
   TILE_TOP,
 } from '../scene-assets/game.scene-asset.js';
 import { Anchors, G, on } from '../state.js';
-import { HALF_H, HALF_W, slotPos, worldTilePos } from '../layout.js';
+import { ADV_SCALE, HALF_H, HALF_W, slotPos, tileHeight, worldTilePos } from '../layout.js';
 import { Champion } from '../components.js';
 import { Grabbed } from '@iwsdk/core';
 
@@ -73,6 +73,15 @@ export class TerrainSystem extends createSystem({
   private wizTalkT = 0;
   private wizT = 0;
   private wizAim = '';
+  private pl = { x: 0, z: 0 };
+
+  /** the player's position in table-local units (adventure mode) */
+  private playerLocal(): void {
+    this.world.camera.getWorldPosition(this.v);
+    const t = Anchors.get('table')!.position;
+    this.pl.x = (this.v.x - t.x) / ADV_SCALE;
+    this.pl.z = (this.v.z - t.z) / ADV_SCALE;
+  }
 
   init(): void {
     const table = this.world.requireSceneObject('map-table');
@@ -128,7 +137,7 @@ export class TerrainSystem extends createSystem({
         const wz = Math.round(G.centerJ + gj - HALF_H);
         const info = mapTileInfo(wx, wz);
         this.infoArr[idx] = info;
-        this.hArr[idx] = info.biome === Biomes.OCEAN ? 0.004 : 0.006 + info.e * HEIGHT_SCALE;
+        this.hArr[idx] = tileHeight(info);
       }
     }
     const champGi = Math.round(G.ci - G.centerI + HALF_W);
@@ -146,8 +155,11 @@ export class TerrainSystem extends createSystem({
         this.terrain.setColorAt(idx, this.col);
         // decor
         if (info.prop > 0 && pi < 240) {
-          const ph = info.prop === 3 ? 0.016 : info.prop === 2 ? 0.03 : 0.045;
-          this.m4.makeScale(info.prop === 3 ? 1.3 : 1, ph, info.prop === 3 ? 1.3 : 1);
+          // adventure: trees grow to real height, boulders stay boulders
+          const boost = G.mode === 'adv' ? (info.prop === 3 ? 2 : 4) : 1;
+          const ph = (info.prop === 3 ? 0.016 : info.prop === 2 ? 0.03 : 0.045) * boost;
+          const ws = G.mode === 'adv' && info.prop !== 3 ? 2.2 : 1;
+          this.m4.makeScale((info.prop === 3 ? 1.3 : 1) * ws, ph, (info.prop === 3 ? 1.3 : 1) * ws);
           this.m4.setPosition(
             (gi - HALF_W) * TILE,
             TILE_TOP + h + ph / 2,
@@ -287,14 +299,16 @@ export class TerrainSystem extends createSystem({
   /** place all world-anchored props on their current tiles */
   private reanchor(): void {
     const meeple = Anchors.get('champion')!;
-    if (G.phase === 'playing' && worldTilePos(G.ci, G.cj, this.p)) {
+    if (G.phase === 'playing' && G.mode !== 'adv' && worldTilePos(G.ci, G.cj, this.p)) {
       meeple.visible = true;
       this.meepleTarget.set(this.p.x, this.p.y, this.p.z);
       this.hasTarget = true;
-    } else if (G.phase !== 'playing') {
+    } else if (G.phase !== 'playing' || G.mode === 'adv') {
       meeple.visible = false;
       this.hasTarget = false;
     }
+    // the carried scroll lives on the table rim - meaningless inside the map
+    Anchors.get('scroll-map')!.visible = G.mode !== 'adv' && G.phase === 'playing';
     const digx = Anchors.get('dig-x')!;
     const free = G.freeDig;
     if (free && worldTilePos(free.i, free.j, this.p)) {
@@ -387,8 +401,15 @@ export class TerrainSystem extends createSystem({
         this.patronRobe.color.setHex(o.npc.robe);
       }
       const bob = o ? 0.006 : 0.0018;
-      patron.position.y = 0.032 + Math.abs(Math.sin(this.patronT * (o ? 5.2 : 1.4))) * bob;
-      patron.rotation.y = 0.42 + Math.sin(this.patronT * 0.9) * 0.14;
+      if (G.mode === 'adv' && worldTilePos(G.patronI, G.patronJ, this.p)) {
+        // in the world he is a ~1.9m figure on a real tile, facing you
+        patron.position.set(this.p.x, this.p.y + Math.abs(Math.sin(this.patronT * (o ? 5.2 : 1.4))) * bob, this.p.z);
+        this.playerLocal();
+        patron.rotation.y = Math.atan2(this.pl.x - this.p.x, this.pl.z - this.p.z);
+      } else if (G.mode !== 'adv') {
+        patron.position.y = 0.032 + Math.abs(Math.sin(this.patronT * (o ? 5.2 : 1.4))) * bob;
+        patron.rotation.y = 0.42 + Math.sin(this.patronT * 0.9) * 0.14;
+      }
     }
     // the Wizard: guide at the right rim - greets you in, then stays on
     // as the explainer you can always poke for advice
@@ -398,7 +419,12 @@ export class TerrainSystem extends createSystem({
       // his own clock - patronT freezes outside 'playing' but the Wizard
       // performs from the intro onward
       this.wizT += delta;
-      wiz.position.y = 0.032 + Math.sin(this.wizT * 1.8) * 0.0025;
+      if (G.mode === 'adv' && G.phase === 'playing' && worldTilePos(G.wizI, G.wizJ, this.p)) {
+        // a life-size guide standing on the land beside you
+        wiz.position.set(this.p.x, this.p.y + Math.sin(this.wizT * 1.8) * 0.0025, this.p.z);
+      } else {
+        wiz.position.y = 0.032 + Math.sin(this.wizT * 1.8) * 0.0025;
+      }
       if (this.wizTalkT > 0 && this.wizAim) {
         // point him at what he is explaining - yaw eases toward the
         // target's table-local position while the tip plays
@@ -407,6 +433,12 @@ export class TerrainSystem extends createSystem({
           const yaw = Math.atan2(tgt.position.x - wiz.position.x, tgt.position.z - wiz.position.z);
           wiz.rotation.y += (yaw - wiz.rotation.y) * Math.min(1, delta * 10);
         }
+      } else if (G.mode === 'adv' && G.phase === 'playing') {
+        // in the world he watches you, not the horizon
+        if (this.wizTalkT <= 0) this.wizAim = '';
+        this.playerLocal();
+        const yaw = Math.atan2(this.pl.x - wiz.position.x, this.pl.z - wiz.position.z);
+        wiz.rotation.y += (yaw - wiz.rotation.y) * Math.min(1, delta * 6);
       } else {
         if (this.wizTalkT <= 0) this.wizAim = '';
         const sway = -0.38 + Math.sin(this.wizT * 0.7) * 0.12;

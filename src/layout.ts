@@ -4,12 +4,25 @@
  * slot currently displays = (G.centerI + gi - HALF_W, G.centerJ + gj - HALF_H).
  */
 import { GRID_H, GRID_W, HEIGHT_SCALE, TILE, TILE_TOP } from './scene-assets/game.scene-asset.js';
-import { Biomes } from './gen/prng.js';
+import { Biomes, TileInfo } from './gen/prng.js';
 import { mapTileInfo } from './gen/mapdef.js';
 import { G } from './state.js';
 
 export const HALF_W = (GRID_W - 1) / 2;
 export const HALF_H = (GRID_H - 1) / 2;
+
+/** adventure mode: the table node is scaled this much - 5cm tiles become 1m */
+export const ADV_SCALE = 20;
+/** relief flattening in adventure mode - the capsule walks the flat disc,
+ *  so relief is visual only; keep bumps under ankle depth */
+const ADV_FLAT = 0.15;
+
+/** tile column height - the single source of truth for terrain relief in
+ *  both modes (terrain rebuild and prop anchoring must always agree) */
+export function tileHeight(info: TileInfo): number {
+  const h = info.biome === Biomes.OCEAN ? 0.004 : 0.006 + info.e * HEIGHT_SCALE;
+  return G.mode === 'adv' ? 0.006 + (h - 0.006) * ADV_FLAT : h;
+}
 
 export function slotToWorld(gi: number, gj: number): [number, number] {
   return [Math.round(G.centerI + gi - HALF_W), Math.round(G.centerJ + gj - HALF_H)];
@@ -25,7 +38,7 @@ export function slotVisible(wx: number, wz: number): boolean {
 export function slotPos(gi: number, gj: number, out: { x: number; y: number; z: number }): void {
   const [wx, wz] = slotToWorld(gi, gj);
   const info = mapTileInfo(wx, wz);
-  const h = info.biome === Biomes.OCEAN ? 0.004 : 0.006 + info.e * HEIGHT_SCALE;
+  const h = tileHeight(info);
   out.x = (gi - HALF_W) * TILE;
   out.y = TILE_TOP + h;
   out.z = (gj - HALF_H) * TILE;

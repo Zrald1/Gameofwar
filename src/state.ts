@@ -33,9 +33,12 @@ export const RACE_PERKS: Record<Race, string> = {
 };
 
 export type Phase = 'race' | 'playing';
+/** 'table' = the diorama; 'adv' = the world scaled up, player walks inside it */
+export type PlayMode = 'table' | 'adv';
 
 export interface GameState {
   phase: Phase;
+  mode: PlayMode;
   race: Race | null;
   seed: number;
   rng: () => number;
@@ -52,6 +55,13 @@ export interface GameState {
   /** champion logical tile */
   ci: number;
   cj: number;
+  /** world-tile anchors for the rim NPCs while the player walks the world */
+  patronI: number;
+  patronJ: number;
+  wizI: number;
+  wizJ: number;
+  /** what the wanderer has actually been doing - feeds emergent skills */
+  effort: { walk: number; dig: number; punch: number; quest: number; talk: number; wish: number };
   /** world tile at grid center */
   centerI: number;
   centerJ: number;
@@ -159,6 +169,7 @@ export function adminReset(): void {
 
 export const G: GameState = {
   phase: 'race',
+  mode: 'table',
   race: null,
   seed: 1337,
   rng: mulberry32(1337),
@@ -171,6 +182,11 @@ export const G: GameState = {
   offer: null,
   ci: 0,
   cj: 0,
+  patronI: 0,
+  patronJ: 0,
+  wizI: 0,
+  wizJ: 0,
+  effort: { walk: 0, dig: 0, punch: 0, quest: 0, talk: 0, wish: 0 },
   centerI: 0,
   centerJ: 0,
   terrainDirty: true,

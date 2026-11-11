@@ -21,6 +21,7 @@ import { QuestSystem } from './systems/quests.js';
 import { SfxSystem } from './systems/sfx.js';
 import { VoiceSystem } from './systems/voice.js';
 import { TerrainSystem } from './systems/terrain.js';
+import { AdventureSystem } from './systems/adventure.js';
 
 const container = document.getElementById('scene-container') as HTMLDivElement;
 World.create(container, projectOptions).then(async (world) => {
@@ -37,5 +38,6 @@ World.create(container, projectOptions).then(async (world) => {
   world.registerSystem(VoiceSystem); // before Hud: voice must hear the boot greeting
   world.registerSystem(HudSystem);
   world.registerSystem(SfxSystem);
+  world.registerSystem(AdventureSystem);
   world.registerSystem(GestureSystem);
 });

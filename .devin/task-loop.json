@@ -1,8 +1,7 @@
 {
   "enabled": true,
-  "goal": "improvement of our current project \u2014 ensure all of the game has a character: a wizard that asks the user who they want to be; very light, very fast, great wizard, AI-generated theme, explains to the user; push each integrated loop",
+  "goal": "make it playable: walk/run adventure inside the world, race weapons (sword/wand), per-race skill tree branches with skills randomly created from player efforts, comprehensive map for missions+NPCs, big talkable characters (~screen size), minimap top-right",
   "done": [
-    "Periodic re-check #705: adb empty, 0 env files - still blocked",
     "Periodic re-check #706: adb empty, 0 env files - still blocked",
     "Periodic re-check #707: adb empty, 0 env files - still blocked",
     "Periodic re-check #708: adb empty, 0 env files - still blocked",
@@ -21,11 +20,21 @@
     "Periodic re-check #721: adb empty, 0 env files - still blocked",
     "Periodic re-check #722: adb empty, 0 env files - still blocked; dev server launched per user request",
     "Periodic re-checks #723-#784: adb empty, 0 env files each time - still blocked (working-tree log lost to NUL-byte file corruption; restored from 36972a2)",
-    "Periodic re-check #785: adb empty, 0 env files - still blocked; pushed d3864a2 (contained the corrupted file) then restored it"
+    "Periodic re-check #785: adb empty, 0 env files - still blocked; pushed d3864a2 (contained the corrupted file) then restored it",
+    "baseline: full wizard reaction suite green on 41a6c5d (9 probes) after headless browser recovery"
   ],
-  "pending": [],
+  "pending": [
+    "adventure mode foundation: G.mode table->adv, scale map-table x20 around champion tile, enlarge walk floor, thumbstick walking updates ci/cj + recenters, enter/exit verb (V key + HUD), wizard narrates",
+    "big NPCs in adventure: patron/wizard stand on terrain at ~1.9m, face player, pinch/proximity talk",
+    "race weapons in hand: per-race procedural weapon on grip space in adventure (sword/hammer/staff/trident/claw), punch = strike feeds effort",
+    "skill tree: per-race branches, effort counters (walk/dig/punch/quest/talk) -> randomized unlocks w/ real effects, panel UI, persistence",
+    "map panel: canvas-drawn full map w/ markers (digs/beacon/haven/NPCs/missions) + tap-to-travel",
+    "minimap top-right: small head-locked quad showing local tiles+markers+north",
+    "named NPC camps/mission destinations on authored map + travel-to flow",
+    "adventure tutorial + wizard lines + full regression + deploy"
+  ],
   "current": null,
-  "iteration": 1784,
+  "iteration": 1786,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1478,6 +1487,10 @@
     {
       "task": "voxEdit first-stamp line",
       "result": "DONE - once-per-session build confirmation"
+    },
+    {
+      "task": "verify voxEdit deploy",
+      "result": "DONE - green"
     }
   ],
   "session": "bedecked-drink"

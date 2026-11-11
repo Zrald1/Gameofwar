@@ -227,6 +227,7 @@
         </div>
       </div>
       <div class="divider"></div>
+      <Button id="btn-step" class="btn btn-begin"><ButtonLabel class="btn-label">Step Into the Map</ButtonLabel></Button>
       <Button id="btn-home" class="btn"><ButtonLabel class="btn-label">Return to Haven</ButtonLabel></Button>
       <Button id="btn-map" class="btn"><ButtonLabel class="btn-label">Next Expedition</ButtonLabel></Button>
       <Button id="btn-architect" class="btn"><ButtonLabel class="btn-label">Commission the Guild</ButtonLabel></Button>
