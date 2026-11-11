@@ -269,11 +269,13 @@ export class AdventureSystem extends createSystem({}) {
     if (pd <= 4 && !this.campHi.patron) {
       this.campHi.patron = true;
       feed("The patron's pavilion - contracts wait on his lips. Walk up and talk.");
+      emit('campArrive', 'patron');
     } else if (pd > 9) this.campHi.patron = false;
     const wd = tileDist(G.ci, G.cj, G.wizI, G.wizJ);
     if (wd <= 4 && !this.campHi.wiz) {
       this.campHi.wiz = true;
       feed('Morvane waits among the stones - bring him your questions.');
+      emit('campArrive', 'wizard');
     } else if (wd > 9) this.campHi.wiz = false;
   }
 }

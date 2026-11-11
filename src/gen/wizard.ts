@@ -221,6 +221,60 @@ function tutAdvance(ev: string): void {
   if (s?.advance === ev) tutSpeak(tutIdx + 1);
 }
 
+/* ---------- first adventure tutorial ----------
+ * Stepping through the first time needs its own lesson: your legs are the
+ * meeple now. Same shape as the table tutorial - deterministic lines,
+ * early advance on the matching deed, hold timer as backstop, once per save. */
+const ATUT_KEY = 'atlas-advtut-v1';
+const ATUT_STEPS: { aim: string; line: string; advance?: string; hold: number }[] = [
+  { aim: '', line: 'Your feet are the champion now - push the left thumb and walk. Feel the ground answer.', advance: 'advStep', hold: 12 },
+  { aim: '', line: 'Keep walking toward the rim - when you near it, the fold reshapes itself. The map has no edge.', advance: 'travel', hold: 14 },
+  { aim: '', line: 'The fold-map rides your view, top-right. P marks the patron\'s pavilion, W my own camp - find them.', advance: 'campArrive', hold: 20 },
+  { aim: 'dig-x', line: 'Last lesson: an X smolders somewhere on this land. Stand close and strike it with your fist.', advance: 'digDone', hold: 20 },
+  { aim: '', line: 'That is the whole of it, wanderer - walk, find, strike, speak. The fold is yours.', hold: 0 },
+];
+let atutIdx = -1;
+let atutTimer: ReturnType<typeof setTimeout> | null = null;
+
+const atutDone = (): boolean => {
+  try {
+    return localStorage.getItem(ATUT_KEY) === '1';
+  } catch {
+    return true;
+  }
+};
+const atutMark = (): void => {
+  try {
+    localStorage.setItem(ATUT_KEY, '1');
+  } catch {
+    /* private mode */
+  }
+};
+
+function atutSpeak(i: number): void {
+  const s = ATUT_STEPS[i];
+  if (!s) {
+    atutIdx = -1;
+    atutMark();
+    return;
+  }
+  atutIdx = i;
+  emit('wizardAim', s.aim);
+  emit('wizardLine', `The Wizard: ${s.line}`);
+  if (atutTimer) clearTimeout(atutTimer);
+  if (i + 1 < ATUT_STEPS.length) {
+    atutTimer = setTimeout(() => atutSpeak(i + 1), s.hold * 1000);
+  } else {
+    atutTimer = null;
+    atutMark();
+  }
+}
+
+function atutAdvance(ev: string): void {
+  const s = ATUT_STEPS[atutIdx];
+  if (s?.advance === ev) atutSpeak(atutIdx + 1);
+}
+
 /** replay the lesson on demand - fist-bump the wizard or press T */
 export function replayTutorial(): void {
   if (tutTimer) clearTimeout(tutTimer);
@@ -240,6 +294,16 @@ export function armTutorial(): void {
   });
   on('travel', () => tutAdvance('travel'));
   on('wish', () => tutAdvance('wish'));
+  // first step into the world gets its own lesson - once per save
+  on('advEntered', () => {
+    if (atutDone()) return;
+    if (atutTimer) clearTimeout(atutTimer);
+    atutTimer = setTimeout(() => atutSpeak(0), 3500); // let the entry line land
+  });
+  on('advStep', () => atutAdvance('advStep'));
+  on('campArrive', () => atutAdvance('campArrive'));
+  on('digDone', () => atutAdvance('digDone'));
+  on('travel', () => atutAdvance('travel'));
   armReactions();
 }
 
