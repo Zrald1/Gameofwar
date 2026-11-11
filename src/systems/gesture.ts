@@ -320,9 +320,10 @@ export class GestureSystem extends createSystem({}) {
       // ---- NPC replies: thumbs-up = take, open palm = refuse ----
       // one emit per pose entry - a fresh offer arriving mid-gesture is never
       // auto-answered by a stale pose
-      if (G.offer && (pose === 'thumbsup' || pose === 'open') && st.repliedPose !== pose) {
+      if ((pose === 'thumbsup' || pose === 'open') && st.repliedPose !== pose) {
         st.repliedPose = pose;
-        emit('npcReply', pose === 'thumbsup' ? 'take' : 'refuse');
+        if (G.offer) emit('npcReply', pose === 'thumbsup' ? 'take' : 'refuse');
+        else if (pose === 'thumbsup') emit('wizardHint'); // a deliberate sign deserves an answer
       }
     }
     // hide beam when no pointing hand
