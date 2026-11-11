@@ -25,7 +25,7 @@
   ],
   "pending": [],
   "current": null,
-  "iteration": 1733,
+  "iteration": 1737,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1282,6 +1282,18 @@
     {
       "task": "liveness pulse",
       "result": "DONE - XR active, dev 200, live 200"
+    },
+    {
+      "task": "verify ledger deploy",
+      "result": "DONE - 9f8c29e green"
+    },
+    {
+      "task": "upstream check",
+      "result": "DONE - no new commits"
+    },
+    {
+      "task": "TTS regression",
+      "result": "DONE - hasSynth/speaking true, 3 voices, current build"
     }
   ],
   "session": "bedecked-drink"

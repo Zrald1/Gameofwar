@@ -204,6 +204,7 @@ const REACTS: [string, string, (a?: unknown) => string, ((a?: unknown) => boolea
     r === 'Mythic' || r === 'Legendary'
       ? `A ${r} relic! The fold hides such things for the worthy - wield it and be remembered.`
       : 'Steel answers the fold\'s call. Wield it well, wanderer.'],
+  ['relicFound', 'champion', (item) => `${item}! A relic of the old world - few hands have ever held one. Guard it well.`],
   ['travel', 'champion', () => 'The world folds beneath your feet - the map is endless, wanderer.', () => tutIdx < 0],
   ['editMode', '', () => 'The cartographer\'s eye opens. Stamp the land as you will - fist raises, palm fells.', (a) => !!a],
 ];

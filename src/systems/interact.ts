@@ -108,6 +108,7 @@ export class InteractSystem extends createSystem({
       G.relics.push(loot.item);
       G.terrainDirty = true;
       feed(`LEGENDARY - ${loot.item}! (+${loot.power} power)`);
+      emit('relicFound', loot.item);
     } else if (loot.item) {
       feed(`Found ${loot.item} (+${loot.power}p, +${gold}g)`);
     } else {
