@@ -219,4 +219,24 @@ function armReactions(): void {
       emit('wizardLine', `The Wizard: ${line(a)}`);
     });
   }
+
+  // ambient presence - after a long silence he mutters a world-observation,
+  // a few times a session at most, and never over his own voice
+  const IDLE_LINES = [
+    'The map breathes, wanderer - even idle, the fold shifts under you.',
+    'Somewhere past the rim, an X waits unmarked. The world is larger than the table.',
+    'Your haven earns while you rest. Idle hands still gather.',
+    'The patrons gossip about you. Good things, mostly.',
+    'I once folded a kingdom into a matchbox. This map is a gentler magic.',
+  ];
+  let lastLine = Date.now();
+  let idleCount = 0;
+  on('wizardLine', () => {
+    lastLine = Date.now();
+  });
+  setInterval(() => {
+    if (G.phase !== 'playing' || G.editing) return;
+    if (Date.now() - lastLine < 140_000 || idleCount >= IDLE_LINES.length) return;
+    emit('wizardLine', `The Wizard: ${IDLE_LINES[idleCount++]}`);
+  }, 30_000);
 }

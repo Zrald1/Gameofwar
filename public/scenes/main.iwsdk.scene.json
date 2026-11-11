@@ -63,7 +63,20 @@
       },
       "framingRole": "support",
       "id": "game-floor",
-      "name": "Ground"
+      "name": "Ground",
+      "transform": {
+        "position": [
+          0,
+          0.0569,
+          0
+        ],
+        "rotationDeg": [
+          0,
+          0,
+          0
+        ],
+        "scale": 1
+      }
     },
     {
       "framingRole": "support",
@@ -553,6 +566,60 @@
           0.5,
           2.25
         ]
+      }
+    },
+    {
+      "content": {
+        "asset": "beacon",
+        "type": "asset"
+      },
+      "id": "beacon-1",
+      "transform": {
+        "position": [
+          0.9,
+          0,
+          2.25
+        ]
+      }
+    },
+    {
+      "content": {
+        "asset": "wish",
+        "type": "asset"
+      },
+      "id": "wish-1",
+      "transform": {
+        "position": [
+          -2.6917,
+          -0.2746,
+          -3.654
+        ],
+        "rotationDeg": [
+          0,
+          0,
+          0
+        ],
+        "scale": 1
+      }
+    },
+    {
+      "content": {
+        "asset": "house",
+        "type": "asset"
+      },
+      "id": "house-3",
+      "transform": {
+        "position": [
+          -2.1137,
+          -1.4229,
+          -4.364
+        ],
+        "rotationDeg": [
+          0,
+          0,
+          0
+        ],
+        "scale": 1
       }
     }
   ],
