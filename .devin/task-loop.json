@@ -1390,6 +1390,10 @@
     {
       "task": "verify ledger deploy",
       "result": "DONE - green"
+    },
+    {
+      "task": "fist-bump vs vox-add priority",
+      "result": "DONE - aimed contact beats build tool in edit mode"
     }
   ],
   "session": "bedecked-drink"
