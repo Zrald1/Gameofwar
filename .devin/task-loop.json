@@ -25,7 +25,7 @@
   ],
   "pending": [],
   "current": null,
-  "iteration": 1702,
+  "iteration": 1704,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1166,6 +1166,14 @@
     {
       "task": "voice race answers",
       "result": "DONE 3bed00f - speak your race to Morvane; verified pickRace->Elf->quip live"
+    },
+    {
+      "task": "verify voice-race deploy",
+      "result": "DONE - 9c6a176 deploy green; voice answers live"
+    },
+    {
+      "task": "CHANGELOG wizard entry",
+      "result": "DONE - Morvane section added (greet/ask/voice-answer/tips/lesson/TTS)"
     }
   ],
   "session": "bedecked-drink"

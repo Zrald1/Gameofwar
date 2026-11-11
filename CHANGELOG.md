@@ -1,5 +1,12 @@
 # Changelog — ATLAS ETERNAL: The Living Map
 
+## Morvane, Keeper of the Fold — the wizard guide
+- A robed wizard stands at the map's right rim: he greets you at boot, asks who you wish to be at race select, and quips at your choice
+- Answer him by voice — the race panel's "speak it" chip toggles the mic; say "an elf" and the soul binds (verified end-to-end)
+- Poke him any time for a contextual tip — he reads live state (dig sites, offers, houses, open quests) and turns to aim at what he describes
+- Fist-bump him to replay the five-step guided lesson: carry the champion, wish for quests, read the patron
+- He speaks aloud through speechSynthesis — deeper and slower than the patrons; a configured BYOK key re-voices his lines in the background, local lines always work
+
 ## Guild update — patrons, weapons, voice, and the Architect
 - GestureSystem: real hand-joint poses are verbs — point to beam-aim + dwell-press the X/wish/haven, throw a fist to punch the ground open, thumbs-up to take a patron offer, open palm to send them away
 - Guild patrons deal the quests: three personas assign the difficulty (safe → S-grade); reply by chip, gesture, or voice — take, bargain, harder, refuse
