@@ -1426,6 +1426,10 @@
     {
       "task": "verify intro deploy",
       "result": "DONE - green"
+    },
+    {
+      "task": "peerJoin reaction",
+      "result": "DONE - presence join welcomed"
     }
   ],
   "session": "bedecked-drink"
