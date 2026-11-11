@@ -1162,6 +1162,10 @@
     {
       "task": "upstream check",
       "result": "DONE \u2014 no new commits; local at b5053cb-adjacent head is current"
+    },
+    {
+      "task": "voice race answers",
+      "result": "DONE 3bed00f - speak your race to Morvane; verified pickRace->Elf->quip live"
     }
   ],
   "session": "bedecked-drink"
