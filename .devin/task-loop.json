@@ -2,9 +2,6 @@
   "enabled": true,
   "goal": "make it playable: walk/run adventure inside the world, race weapons (sword/wand), per-race skill tree branches with skills randomly created from player efforts, comprehensive map for missions+NPCs, big talkable characters (~screen size), minimap top-right",
   "done": [
-    "Periodic re-check #711: adb empty, 0 env files - still blocked",
-    "Periodic re-check #712: adb empty, 0 env files - still blocked",
-    "Periodic re-check #713: adb empty, 0 env files - still blocked",
     "Periodic re-check #714: adb empty, 0 env files - still blocked",
     "Periodic re-check #715: adb empty, 0 env files - still blocked",
     "Periodic re-check #716: adb empty, 0 env files - still blocked",
@@ -21,16 +18,18 @@
     "big NPCs VERIFIED 290db97: patron/wizard ~1.9m on tiles, point-dwell + fist-bump talk work, chest-lift + 9m aim + 1.7m bump ranges, contract inked live",
     "race weapons VERIFIED a02b7c8: RACE_WEAPONS birthright grant + grip-attached procedural weapon; Elf Living Branch seen in XR fist",
     "skill tree VERIFIED 4baea4d: 6 effort tracks -> seeded race-flavored talents w/ real passives; 8 jabs -> Sylph Knuckle-Oath; HUD + wizard lines; persisted",
-    "map panel+minimap DONE pending commit: camera-pinned canvas quad top-right, biome ink, digs/beacon/haven/P/W marks, edge arrows"
+    "map panel+minimap DONE pending commit: camera-pinned canvas quad top-right, biome ink, digs/beacon/haven/P/W marks, edge arrows",
+    "named mission destinations VERIFIED e4518d4: advStep per-tile travel (surveys complete on approach), arrival feed names the quest site, walked 27m -> smolders-close line -> punched X -> Militia Spear drop; Sylph Stride woke on the same walk",
+    "live regression GREEN: 10 reaction probes all pass on adventure build; tutorial replay path intact",
+    "docs+deploy VERIFIED 90387ed: README/SUBMISSION/CHANGELOG adventure update; build clean 12.1s; Pages deploy success; live 200"
   ],
   "pending": [
-    "live regression: wizard reaction suite + adventure walk + gesture paths after the big arc",
-    "named NPC camps/mission destinations on authored map + travel-to flow",
-    "adventure tutorial + wizard lines + full regression + deploy",
-    "docs: README/SUBMISSION/CHANGELOG adventure-mode update + deploy verify"
+    "adventure polish: NPC camp sites (fixed talk destinations instead of re-seated NPCs) + bigger 3rd-person presence cues",
+    "Quest-headset smoke test on real hardware when adb/Quest available (was blocked: adb empty)",
+    "periodic health sweep: upstream commits, dev :8081, live site, XR session"
   ],
   "current": null,
-  "iteration": 1788,
+  "iteration": 1789,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
