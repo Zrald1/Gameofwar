@@ -25,7 +25,7 @@
   ],
   "pending": [],
   "current": null,
-  "iteration": 1704,
+  "iteration": 1706,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1174,6 +1174,10 @@
     {
       "task": "CHANGELOG wizard entry",
       "result": "DONE - Morvane section added (greet/ask/voice-answer/tips/lesson/TTS)"
+    },
+    {
+      "task": "verify CHANGELOG deploy",
+      "result": "DONE - 78a0cc6 green"
     }
   ],
   "session": "bedecked-drink"

@@ -13,6 +13,7 @@ import { createSystem } from '@iwsdk/core';
 import { emit, feed, G, on, RACES } from '../state.js';
 import { llmChat } from '../gen/brain.js';
 import { GRADES } from '../gen/quests.js';
+import { wizTip } from '../gen/wizard.js';
 
 type SRResult = { results: { [i: number]: { [i: number]: { transcript: string } } } };
 type SR = {
@@ -103,15 +104,34 @@ export class VoiceSystem extends createSystem({}) {
         return;
       }
     }
-    // free speech - the patron answers
+    // free speech - the patron answers a live offer; Morvane otherwise
     const o = G.offer;
-    const sys = o
-      ? `You are ${o.npc.name}, ${o.npc.title}, a quest patron offering a ` +
-        `${GRADES[o.quest.gradeIdx]}-grade quest "${o.quest.title}" ` +
-        `(+${o.quest.rewardGold}g +${o.quest.rewardPower}p). ` +
-        `Answer the adventurer in ONE short in-character line (max 20 words). ` +
-        `You may only discuss the contract; never break character.`
-      : `You are a quest patron in a fantasy map game. One short line, in character.`;
+    if (!o) {
+      const out = await llmChat(
+        [
+          {
+            role: 'system',
+            content:
+              'You are Morvane, Keeper of the Fold, an ancient wizard guiding a ' +
+              'player through a tabletop fantasy map game. Answer in ONE short ' +
+              'line (max 20 words) - warm, wise, a little theatrical. Teach them ' +
+              'the world when you can.',
+          },
+          { role: 'user', content: text },
+        ],
+        80,
+      );
+      if (out) emit('wizardLine', `The Wizard: ${out}`);
+      else wizTip();
+      G.hudDirty = true;
+      return;
+    }
+    const sys =
+      `You are ${o.npc.name}, ${o.npc.title}, a quest patron offering a ` +
+      `${GRADES[o.quest.gradeIdx]}-grade quest "${o.quest.title}" ` +
+      `(+${o.quest.rewardGold}g +${o.quest.rewardPower}p). ` +
+      `Answer the adventurer in ONE short in-character line (max 20 words). ` +
+      `You may only discuss the contract; never break character.`;
     const out = await llmChat(
       [
         { role: 'system', content: sys },
@@ -119,13 +139,9 @@ export class VoiceSystem extends createSystem({}) {
       ],
       80,
     );
-    const line =
-      out ??
-      (o
-        ? `${o.npc.name}: Words are wind, wanderer - the chips decide contracts.`
-        : 'The guild is quiet.');
-    if (o) o.line = out ? `${o.npc.name}: ${out}` : line;
-    emit('npcLine', line.startsWith(o?.npc.name ?? '~') ? line : `${o?.npc.name ?? 'Patron'}: ${out ?? line}`);
+    const line = out ?? `${o.npc.name}: Words are wind, wanderer - the chips decide contracts.`;
+    o.line = out ? `${o.npc.name}: ${out}` : line;
+    emit('npcLine', line.startsWith(o.npc.name) ? line : `${o.npc.name}: ${out ?? line}`);
     G.hudDirty = true;
   }
 

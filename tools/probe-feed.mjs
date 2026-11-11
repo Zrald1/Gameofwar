@@ -1,8 +1,13 @@
 export default async function run({ page }) {
-  const app = page.frames().find((f) => f.url().includes('iwsdk_preview_reload')) ?? page.mainFrame();
-  return await app.evaluate(() => {
-    const A = window.__atlas;
-    if (!A) return { error: 'no bridge' };
-    return { feed: A.G.feed.slice(-8), digs: A.G.digs.length, activeDig: A.G.activeDigId };
-  });
+  for (const f of page.frames()) {
+    const has = await f.evaluate(() => typeof window.__atlas).catch(() => 'x');
+    if (has === 'object') {
+      return await f.evaluate(() => ({
+        race: window.__atlas.G.race,
+        raceOpen: window.__atlas.G.raceOpen,
+        feed: window.__atlas.G.feed.slice(0, 3),
+      }));
+    }
+  }
+  return { error: 'no bridge' };
 }
