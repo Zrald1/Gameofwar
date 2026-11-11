@@ -1402,6 +1402,10 @@
     {
       "task": "vox-gesture regression post-reorder",
       "result": "DONE - 2 punches placed 2 blocks, swipe broke 1; build path intact"
+    },
+    {
+      "task": "wizTip race-phase guard",
+      "result": "DONE - pre-run pokes get soul-choosing advice"
     }
   ],
   "session": "bedecked-drink"
