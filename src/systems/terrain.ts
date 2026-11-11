@@ -72,6 +72,7 @@ export class TerrainSystem extends createSystem({
   private wizStar: Mesh | null = null;
   private wizTalkT = 0;
   private wizT = 0;
+  private wizAim = '';
 
   init(): void {
     const table = this.world.requireSceneObject('map-table');
@@ -106,11 +107,16 @@ export class TerrainSystem extends createSystem({
     }
     // wish pedestal sits on the back-left rim - static
     Anchors.get('wish')!.position.set(-0.68, 0.032, -0.38);
+    // the scene id is 'haven-marker'; callers (gesture aim, wizard aim)
+    // know it as 'haven' - alias so both names resolve the same node
+    Anchors.set('haven', Anchors.get('haven-marker')!);
     // patron robe gets its own material so persona tints don't touch the asset.
     // the manifest clone mounts async - rig it lazily on first visible frame
     this.patronRobe = new MeshStandardMaterial({ color: 0x6a7a9a, roughness: 0.7 });
     // the Wizard's star flares while he is speaking
     on('wizardLine', () => { this.wizTalkT = 1.5; });
+    // ... and he turns to face the thing he is talking about
+    on('wizardAim', (key: string) => { this.wizAim = key; });
   }
 
   rebuild(): void {
@@ -393,7 +399,19 @@ export class TerrainSystem extends createSystem({
       // performs from the intro onward
       this.wizT += delta;
       wiz.position.y = 0.032 + Math.sin(this.wizT * 1.8) * 0.0025;
-      wiz.rotation.y = -0.38 + Math.sin(this.wizT * 0.7) * 0.12;
+      if (this.wizTalkT > 0 && this.wizAim) {
+        // point him at what he is explaining - yaw eases toward the
+        // target's table-local position while the tip plays
+        const tgt = Anchors.get(this.wizAim);
+        if (tgt?.visible) {
+          const yaw = Math.atan2(tgt.position.x - wiz.position.x, tgt.position.z - wiz.position.z);
+          wiz.rotation.y += (yaw - wiz.rotation.y) * Math.min(1, delta * 10);
+        }
+      } else {
+        if (this.wizTalkT <= 0) this.wizAim = '';
+        const sway = -0.38 + Math.sin(this.wizT * 0.7) * 0.12;
+        wiz.rotation.y += (sway - wiz.rotation.y) * Math.min(1, delta * 6);
+      }
       // clone mounts async - cache the star on first sight instead of
       // getObjectByName every frame
       if (!this.wizStar) {

@@ -69,20 +69,26 @@ export function wizQuip(race: string): void {
  */
 export function wizTip(): void {
   let tip: string;
+  let aim = ''; // anchor id the Wizard turns toward while he speaks
   if (G.editing) {
     tip = 'The land obeys your stamps. Fist-punch to raise a block; open palm to knock it down. Export when the world pleases you.';
   } else if (G.offer) {
+    aim = 'patron';
     tip = `The patron waits on your answer - thumbs-up to take the contract, open palm to send them away, or tap a reply on the panel.`;
   } else if (G.activeDigId >= 0) {
+    aim = 'dig-x';
     tip = 'The X burns on a marked tile. Carry your champion beside it, then punch the X - treasure lies under it.';
   } else if (G.houses <= 0) {
+    aim = 'haven';
     tip = 'You have no haven yet. Walk the road to the golden ring and press it - a home earns while you wander.';
   } else {
     const open = [...G.quests.values()].filter((q) => !q.done).length;
+    aim = open > 0 ? 'beacon' : 'wish';
     tip = open > 0
       ? `${open} contract${open > 1 ? 's' : ''} ride the rail. The glowing beacon marks the nearest task - or ask the patron for another.`
       : 'The rail is empty. Press the wish crystal, or beckon the patron - the guild always finds work for idle hands.';
   }
+  emit('wizardAim', aim);
   emit('wizardLine', `The Wizard: ${tip}`);
   void llmChat([
     {

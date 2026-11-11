@@ -2,8 +2,6 @@
   "enabled": true,
   "goal": "improvement of our current project \u2014 ensure all of the game has a character: a wizard that asks the user who they want to be; very light, very fast, great wizard, AI-generated theme, explains to the user; push each integrated loop",
   "done": [
-    "PWA assets still 404 live - GitHub Pages deploys remain queued on their side; local dist correct",
-    "Submission goal met: verified build + live URL + PWA + package all on Gameofwar. Only a queued Pages deploy remains (GitHub-side wait, dist is correct)",
     "Runtime left clean: XR session exited, inputs released",
     "FIXED stuck Pages deploy: cancel-in-progress:true broke stale environment lock; manifest+icons now live (200)",
     "NEXT_STEPS.md handoff written - video recording + Devpost form + dev account steps for the user",
@@ -21,11 +19,13 @@
     "Pages freshness VERIFIED: live serves index-CGAVvpr-.js = hash-identical local rebuild = full wizard feature deployed; bundle/maps/manifest all 200; bce2ca3 deploy green",
     "Regression sweep PASS + fix: zero errors; found+fixed missing-glyph spam (MSDF atlas lacks em-dash/mid-dot - ASCII swap across rendered strings, hint line |); tips refire clean; pushed 2de8059",
     "Wizard intro card: wiz-card block (name+role+ASK-HIM controls) in intro-wrap, verified on fresh-boot screenshot; pushed cdaa35f",
-    "Wizard voice shipped: all lines via wizardLine -> feed rail + TTS elder voice (0.92/0.6); speak() serializes; VoiceSystem before Hud so greeting heard; verified live; pushed d073ce9"
+    "Wizard voice shipped: all lines via wizardLine -> feed rail + TTS elder voice (0.92/0.6); speak() serializes; VoiceSystem before Hud so greeting heard; verified live; pushed d073ce9",
+    "Star talk-pulse shipped: wizardLine->1.5s star flare ~1.37x verified; wizard got own clock wizT (was statue at intro - patronT frozen); cached star lookup; needed dev restart + --allow-browser-automation (stale transform again); pushed 451f728",
+    "Build clean 4.63s; XR close-up shot of wizard star mid-pulse saved docs/screenshots/05 (interval-armed pulse + browser screenshot; canvas.toDataURL blank under preserveDrawingBuffer:false); XR exited; pushed c65cb6f"
   ],
   "pending": [],
-  "current": "Polish: wizard idle anim - star pulses when a tip is spoken (visible feedback that he is talking)",
-  "iteration": 883,
+  "current": "Polish: wizard points/steps toward the relevant object when a tip fires (aim at dig-x/patron/haven as he speaks)",
+  "iteration": 887,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
