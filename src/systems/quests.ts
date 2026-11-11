@@ -277,6 +277,7 @@ export class QuestSystem extends createSystem({
       emit('weaponDrop', w.rarity);
     }
     feed(`Quest complete [${GRADES[q.gradeIdx]}]: +${gold}g +${power}p`);
+    emit('questDone', GRADES[q.gradeIdx]);
     const idx = G.cardSlots.indexOf(q.id);
     if (idx >= 0) {
       G.cardSlots[idx] = -1;

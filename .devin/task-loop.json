@@ -25,7 +25,7 @@
   ],
   "pending": [],
   "current": null,
-  "iteration": 1710,
+  "iteration": 1712,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1198,6 +1198,10 @@
     {
       "task": "levelUp + weaponDrop reactions",
       "result": "DONE - new events wired; Mythic line + dedup verified live"
+    },
+    {
+      "task": "verify milestone deploy",
+      "result": "DONE - 75493d0 green"
     }
   ],
   "session": "bedecked-drink"

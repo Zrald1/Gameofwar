@@ -198,6 +198,8 @@ const REACTS: [string, string, (a?: unknown) => string][] = [
   ['npcOffer', 'patron', () => 'A patron approaches. Weigh the reward against the risk before you answer.'],
   ['freeDigSpent', 'dig-x', () => 'The earth gives up its secret. Spend the spoils well - the fold provides.'],
   ['levelUp', '', (lv) => `Level ${lv} - the fold acknowledges your growth. Even the stones bow a little.`],
+  ['questDone', 'beacon', (g) =>
+    `Contract fulfilled at ${g}-grade. Word of you travels the fold now - the guild will offer harder work.`],
   ['weaponDrop', 'champion', (r) =>
     r === 'Mythic' || r === 'Legendary'
       ? `A ${r} relic! The fold hides such things for the worthy - wield it and be remembered.`
