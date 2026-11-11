@@ -238,3 +238,15 @@ skill directory and state when they apply.
 - `assets.ts` runs in a separate realm — no DOM/canvas; create card
   canvases lazily in the system (DOM realm), not the asset factory.
 - `AudioUtils.createOneShot` ignores `options.position` in rc.2 (empty branch) — positional one-shots still play but sit at the listener; use `positional:false` or place a persistent AudioSource entity instead.
+- The locomotion worker (`useWorker: true`) walks on a STALE environment
+  snapshot — moving a `LocomotionEnvironment` entity at runtime does NOT
+  update its collision world, and instanced meshes aren't raycastable by it
+  at all. Two falls (-80m, -91m) proved both. Fix: one static floor big
+  enough to cover the whole playable area (100m disc), never moved.
+- Scaling a parent ×20 rescales its children's hit proxies and gesture
+  ranges — proximity checks measured to entity origins fail because figure
+  origins sit at the feet. Measure to a chest-height point and scale radii
+  too (aim 2.2m→9m, bump 0.45m→1.7m).
+- `xr set-gamepad-state` takes `{index, value}` objects for axes, not raw
+  `[x,y]` pairs. XR sessions die on every HMR reload — re-`xr enter` after
+  each source edit before continuing a test.
