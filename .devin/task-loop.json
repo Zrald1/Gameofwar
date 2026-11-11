@@ -2,12 +2,11 @@
   "enabled": true,
   "goal": "make it playable: walk/run adventure inside the world, race weapons (sword/wand), per-race skill tree branches with skills randomly created from player efforts, comprehensive map for missions+NPCs, big talkable characters (~screen size), minimap top-right",
   "done": [
-    "skill tree VERIFIED 4baea4d: 6 effort tracks -> seeded race-flavored talents w/ real passives; 8 jabs -> Sylph Knuckle-Oath; HUD + wizard lines; persisted",
     "map panel+minimap DONE pending commit: camera-pinned canvas quad top-right, biome ink, digs/beacon/haven/P/W marks, edge arrows",
     "named mission destinations VERIFIED e4518d4: advStep per-tile travel (surveys complete on approach), arrival feed names the quest site, walked 27m -> smolders-close line -> punched X -> Militia Spear drop; Sylph Stride woke on the same walk",
     "live regression GREEN: 10 reaction probes all pass on adventure build; tutorial replay path intact",
     "docs+deploy VERIFIED 90387ed: README/SUBMISSION/CHANGELOG adventure update; build clean 12.1s; Pages deploy success; live 200",
-    "NPC camp sites VERIFIED ab07995: fixed land-searched camps (patron+wizard) survive recenters; off-window figures+name labels hide; 'GUILD PATRON \u00b7 Nm' plates; pavilion greeting fires at d<=4 re-arms >9; rail cards hidden in adv",
+    "NPC camp sites VERIFIED ab07995: fixed land-searched camps (patron+wizard) survive recenters; off-window figures+name labels hide; 'GUILD PATRON · Nm' plates; pavilion greeting fires at d<=4 re-arms >9; rail cards hidden in adv",
     "Quest smoke re-check: adb runs (SDK platform-tools path) but 0 devices attached - still blocked on hardware",
     "health sweep GREEN: main==origin/main, dev :8081 200, live 200, manifest 200, dev server running+browserCmd ready, XR session active (immersive-vr)",
     "regression+fix: reaction probe found 'Feel it wake? undefined' - guarded skillUp name + npcOffer voice listener; all real events green",
@@ -21,27 +20,30 @@
     "in-world haven build VERIFIED: point-dwell ring -> tryBuild (2 houses in one hold, then 'Need 300g' refusal), cottage renders at hamlet scale, +6g yield ticks; restored save to 3 houses",
     "haven punch VERIFIED b-c: new haven branch in fist handler -> 'Your fist rings the haven gate!' + 2 houses raised in-world; dwell path also proven; ring world pos probe confirms reachability",
     "wish shrine adv VERIFIED: seats on land tile on entry (third bearing), hides off-window, fold-map star glyph; point-press plinth -> wish fires (+1 wish effort, rail-full honest answer); shrine render confirmed in XR shot",
-    "wish crystal aim-lift VERIFIED: adv liftOf adds 1.3m for 'wish' so pointing at the floating crystal fires - crystal-height dwell -> Point-press -> wish, effort+1; also confirmed xr enter resets input mode (lesson banked)"
+    "wish crystal aim-lift VERIFIED: adv liftOf adds 1.3m for 'wish' so pointing at the floating crystal fires - crystal-height dwell -> Point-press -> wish, effort+1; also confirmed xr enter resets input mode (lesson banked)",
+    "deploy verify GREEN: tip b0c6e87 deployed (run 43115252429 success), live bundle index-LpC1CFNZ.js, site 200"
   ],
-  "pending": [],
-  "current": "next polish toward goal",
+  "pending": [
+    "next polish toward goal"
+  ],
+  "current": null,
   "iteration": 1806,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
-      "result": "PASS \u2014 site/manifest/maps/bundle all HTTP 200"
+      "result": "PASS — site/manifest/maps/bundle all HTTP 200"
     },
     {
       "task": "Check latest GitHub Pages deploy workflow run succeeded so the live site is not stale",
-      "result": "PASS \u2014 last 3 deploy-pages runs completed success; live site serves latest commit"
+      "result": "PASS — last 3 deploy-pages runs completed success; live site serves latest commit"
     },
     {
       "task": "Run a fresh production build to confirm the tree still compiles clean before submission",
-      "result": "PASS \u2014 build clean in 8.3s, bundle hash index-C8-kAWdR.js identical to deployed artifact"
+      "result": "PASS — build clean in 8.3s, bundle hash index-C8-kAWdR.js identical to deployed artifact"
     },
     {
       "task": "Run typecheck to confirm no type errors that could stop systems initializing silently",
-      "result": "PASS \u2014 tsc --noEmit clean, zero errors"
+      "result": "PASS — tsc --noEmit clean, zero errors"
     },
     {
       "task": "Run npm audit to check for critical/high vulnerabilities judges would see on clone",
@@ -49,103 +51,103 @@
     },
     {
       "task": "Audit SUBMISSION.md and README.md claims against shipped features so judges are not misled",
-      "result": "PASS \u2014 every SUBMISSION.md/README claim maps to shipped code: races+perks, vox build palette, stampTile tools, export, haven, save persistence"
+      "result": "PASS — every SUBMISSION.md/README claim maps to shipped code: races+perks, vox build palette, stampTile tools, export, haven, save persistence"
     },
     {
       "task": "Verify live PWA icons + manifest fields resolve for Quest install path",
-      "result": "PASS \u2014 manifest fields valid (name/start/display=fullscreen); both icons serve 200 image/png with real bytes"
+      "result": "PASS — manifest fields valid (name/start/display=fullscreen); both icons serve 200 image/png with real bytes"
     },
     {
       "task": "Boot IWSDK dev server + runtime screenshot to prove the game still renders end-to-end",
-      "result": "PASS \u2014 dev server live, runtime screenshot shows full game: HUD (Dwarf Lv1 loaded from save), seeded terrain table, quest rail, Enter XR"
+      "result": "PASS — dev server live, runtime screenshot shows full game: HUD (Dwarf Lv1 loaded from save), seeded terrain table, quest rail, Enter XR"
     },
     {
       "task": "Enter emulated XR session and verify the immersive view renders the map table + HUD",
-      "result": "PASS \u2014 emulated Quest 3 session live: map table at seated height, controllers tracked, HUD panel rendering; exited clean"
+      "result": "PASS — emulated Quest 3 session live: map table at seated height, controllers tracked, HUD panel rendering; exited clean"
     },
     {
       "task": "Inspect browser console logs for errors/warnings that could signal silently broken systems",
       "result": "FOUND+FIXED real bug: uncaught InvalidStateError from BroadcastPresence.send on closed channel during teardown; guarded send, verified zero new errors on reload, pushed 015cd49"
     },
     {
-      "task": "Audit untracked/modified files \u2014 commit anything that belongs, gitignore dev artifacts",
-      "result": "PASS \u2014 zero untracked files; .iwsdk/ correctly gitignored, tools/ tracked incl. presence-relay; only user loop file dirty"
+      "task": "Audit untracked/modified files — commit anything that belongs, gitignore dev artifacts",
+      "result": "PASS — zero untracked files; .iwsdk/ correctly gitignored, tools/ tracked incl. presence-relay; only user loop file dirty"
     },
     {
-      "task": "Profile render stats \u2014 triangles, draw calls, frame time vs 72-90fps VR budget",
-      "result": "PASS \u2014 p50 16.7ms p95 16.8ms max 16.9ms, 0 dropped frames over 8s (vsync-capped 60Hz); ~2ms/frame script, 115MB heap, 2 minor long tasks"
+      "task": "Profile render stats — triangles, draw calls, frame time vs 72-90fps VR budget",
+      "result": "PASS — p50 16.7ms p95 16.8ms max 16.9ms, 0 dropped frames over 8s (vsync-capped 60Hz); ~2ms/frame script, 115MB heap, 2 minor long tasks"
     },
     {
       "task": "Verify deployed site serves the new post-fix bundle hash correctly",
-      "result": "PASS \u2014 live site serves index-C1_kRo3n.js (200), hash-identical to post-fix local build"
+      "result": "PASS — live site serves index-C1_kRo3n.js (200), hash-identical to post-fix local build"
     },
     {
       "task": "Check committed docs for references to gitignored/absent paths (dead links for judges)",
-      "result": "FIXED \u2014 NEXT_STEPS pointed at gitignored .iwsdk/shots; published 3 stills to docs/screenshots/, updated ref, pushed e483a53"
+      "result": "FIXED — NEXT_STEPS pointed at gitignored .iwsdk/shots; published 3 stills to docs/screenshots/, updated ref, pushed e483a53"
     },
     {
-      "task": "Diff all emit() vs on() event names \u2014 a typo means a silently dead feature",
-      "result": "PASS \u2014 11 emit/on pairs identical (digDone, travel, wish, editPaint, voxOp, runStarted, etc.); all literals via single state.ts bus, no dead events"
+      "task": "Diff all emit() vs on() event names — a typo means a silently dead feature",
+      "result": "PASS — 11 emit/on pairs identical (digDone, travel, wish, editPaint, voxOp, runStarted, etc.); all literals via single state.ts bus, no dead events"
     },
     {
-      "task": "Audit save/load path \u2014 corrupt localStorage must not crash boot",
-      "result": "PASS \u2014 every localStorage/JSON.parse path try-guarded (load, save, defaultMap, admin x3, ws); corrupt save degrades to race pick, never crashes boot"
+      "task": "Audit save/load path — corrupt localStorage must not crash boot",
+      "result": "PASS — every localStorage/JSON.parse path try-guarded (load, save, defaultMap, admin x3, ws); corrupt save degrades to race pick, never crashes boot"
     },
     {
-      "task": "Scan for elics traps \u2014 entity.destroy() leaks GPU mem, setValue on Vec fields throws",
-      "result": "PASS \u2014 zero entity.destroy() calls; all 7 setValue sites target scalars (Int32/Float32/enum), no Vec-field throws"
+      "task": "Scan for elics traps — entity.destroy() leaks GPU mem, setValue on Vec fields throws",
+      "result": "PASS — zero entity.destroy() calls; all 7 setValue sites target scalars (Int32/Float32/enum), no Vec-field throws"
     },
     {
-      "task": "Audit fetch paths \u2014 failed map/asset fetch must degrade, not crash boot",
-      "result": "PASS \u2014 both fetch paths guarded (fetchMap null-on-fail, initMapLibrary catch); boot degrades ?map->default->saved->list->atlas-home->procedural; encodeURIComponent prevents path injection"
+      "task": "Audit fetch paths — failed map/asset fetch must degrade, not crash boot",
+      "result": "PASS — both fetch paths guarded (fetchMap null-on-fail, initMapLibrary catch); boot degrades ?map->default->saved->list->atlas-home->procedural; encodeURIComponent prevents path injection"
     },
     {
       "task": "Scan for TODO/FIXME markers + validate all maps in index.json exist and parse",
-      "result": "PASS \u2014 zero TODO/FIXME markers; all 4 maps in index.json exist and parse (atlas-home 64x48, verdant-reach 64x48, old-earth 64x36, terra-mirror 64x36)"
+      "result": "PASS — zero TODO/FIXME markers; all 4 maps in index.json exist and parse (atlas-home 64x48, verdant-reach 64x48, old-earth 64x36, terra-mirror 64x36)"
     },
     {
-      "task": "Audit every interactive element id in hud.uikitml has a handler in hud.ts \u2014 dead buttons are judge-visible",
-      "result": "PASS \u2014 every interactive id wired: 11 btn-*, pin pad 0-9+back/clear/enter, 12 tool-*, 19 mat-*, 5 btn-race, 6 char-c, 4 hat, xr/exit; handler-less ids are display-only (quest/feed/stat chips)"
+      "task": "Audit every interactive element id in hud.uikitml has a handler in hud.ts — dead buttons are judge-visible",
+      "result": "PASS — every interactive id wired: 11 btn-*, pin pad 0-9+back/clear/enter, 12 tool-*, 19 mat-*, 5 btn-race, 6 char-c, 4 hat, xr/exit; handler-less ids are display-only (quest/feed/stat chips)"
     },
     {
       "task": "Cross-check all createComponent names are in defineComponents and all systems are registered in index.ts",
-      "result": "PASS \u2014 7/7 system files registered in index.ts; 9/9 createComponent names in defineComponents (Champion, QuestCard, DigMarker, ChestProp, BeaconProp, WishTag, HavenTag, ScrollProp, RemoteAvatar)"
+      "result": "PASS — 7/7 system files registered in index.ts; 9/9 createComponent names in defineComponents (Champion, QuestCard, DigMarker, ChestProp, BeaconProp, WishTag, HavenTag, ScrollProp, RemoteAvatar)"
     },
     {
       "task": "Cross-check scene JSON asset refs resolve in assets.ts + runtime Lucide icons in bundle config",
-      "result": "PASS \u2014 all 16 scene asset refs registered in assets.ts; no icon= attrs or runtime Lucide names, icon-trim trap n/a"
+      "result": "PASS — all 16 scene asset refs registered in assets.ts; no icon= attrs or runtime Lucide names, icon-trim trap n/a"
     },
     {
       "task": "Correctness pass on interact.ts dig/chest/loot state transitions",
-      "result": "PASS \u2014 dig/chest/loot transitions sound: consume-before-emit prevents double-dig, quest vs free dig paths clean, chest anim resets, house bounds guarded, race perks wired"
+      "result": "PASS — dig/chest/loot transitions sound: consume-before-emit prevents double-dig, quest vs free dig paths clean, chest anim resets, house bounds guarded, race perks wired"
     },
     {
       "task": "Correctness pass on quests.ts deal/accept/complete/reward flow",
-      "result": "PASS \u2014 deal/accept/complete sound: slot field exists, RELIC 2nd seal at dist 4-9 vs <=2 trigger (no loop), rewards apply race multipliers, redeals pooled cards"
+      "result": "PASS — deal/accept/complete sound: slot field exists, RELIC 2nd seal at dist 4-9 vs <=2 trigger (no loop), rewards apply race multipliers, redeals pooled cards"
     },
     {
       "task": "Correctness pass on nav.ts champion carry/travel/recenter",
-      "result": "PASS \u2014 drop->grid->world-tile clamped, edge recenter (margin 4) correct, emits travel for survey quests, no per-frame alloc"
+      "result": "PASS — drop->grid->world-tile clamped, edge recenter (margin 4) correct, emits travel for survey quests, no per-frame alloc"
     },
     {
       "task": "Correctness pass on edit.ts Cartographer paint/vox/export/admin gating",
-      "result": "PASS \u2014 admin double-gated (editMode + paint + voxOp), deterministic snapshot via tileInfo(seed), clipboard guarded, export feeds next-step hint"
+      "result": "PASS — admin double-gated (editMode + paint + voxOp), deterministic snapshot via tileInfo(seed), clipboard guarded, export feeds next-step hint"
     },
     {
       "task": "Correctness pass on terrain.ts rebuild/anchoring loop",
-      "result": "PASS \u2014 cached tile sampling, bounded instancing (240 props/1200 vox), zero-scale hiding, reanchor covers meeple/dig-x/haven/relics/beacon, lerp glide guarded by carried"
+      "result": "PASS — cached tile sampling, bounded instancing (240 props/1200 vox), zero-scale hiding, reanchor covers meeple/dig-x/haven/relics/beacon, lerp glide guarded by carried"
     },
     {
       "task": "Correctness pass on hud.ts UI sync + PIN login flow",
-      "result": "PASS \u2014 hudDirty-gated refresh, PIN buf bounded+masked, login->edit->set-home sound, load() resume path, all listeners in cleanupFuncs; all 7 systems now audited"
+      "result": "PASS — hudDirty-gated refresh, PIN buf bounded+masked, login->edit->set-home sound, load() resume path, all listeners in cleanupFuncs; all 7 systems now audited"
     },
     {
       "task": "Correctness pass on net.ts presence/avatar sync",
       "result": "FIXED 2 real defects: zombie RemoteAvatar entities per peer leave (dispose now) + unguarded JSON.parse in map handler (wrapped); pushed 8ac0014"
     },
     {
-      "task": "Audit index.ts boot, layout.ts, state.ts tail \u2014 last core files",
-      "result": "PASS \u2014 index.ts awaits initMapLibrary before registering 7 systems; layout.ts slot/world math consistent + off-grid guarded; state.ts fully covered"
+      "task": "Audit index.ts boot, layout.ts, state.ts tail — last core files",
+      "result": "PASS — index.ts awaits initMapLibrary before registering 7 systems; layout.ts slot/world math consistent + off-grid guarded; state.ts fully covered"
     },
     {
       "task": "Full audit of gen/mapdef.ts serialize/decode/stamp/vox round-trip",
@@ -153,15 +155,15 @@
     },
     {
       "task": "Sweep for other falsy-coercion bugs (x | 0) || / x || default patterns on legit-zero values",
-      "result": "PASS \u2014 no other falsy-coercion bugs; origin-0 fix was sole instance. Deploy 7439b91 green (build 34s, deploy 20s)"
+      "result": "PASS — no other falsy-coercion bugs; origin-0 fix was sole instance. Deploy 7439b91 green (build 34s, deploy 20s)"
     },
     {
       "task": "Audit character.ts applyCharacter race/color/hat flow",
-      "result": "PASS \u2014 null-safe lookups, poisoned charHat degrades to none, ~2 mats per apply leak (documented-acceptable clone-restyle pattern, negligible)"
+      "result": "PASS — null-safe lookups, poisoned charHat degrades to none, ~2 mats per apply leak (documented-acceptable clone-restyle pattern, negligible)"
     },
     {
       "task": "Audit gen/quests.ts genQuest + rollLoot distribution/bounds",
-      "result": "PASS \u2014 bounded pickTile (60 retries), rewards scale ~(g+1)^1.6, survey completes on arrival not biome so fallback can never dead-end, RELIC gated to S+ grades"
+      "result": "PASS — bounded pickTile (60 retries), rewards scale ~(g+1)^1.6, survey completes on arrival not biome so fallback can never dead-end, RELIC gated to S+ grades"
     },
     {
       "task": "Audit gen/prng.ts tileInfo/hash2/mulberry32 determinism + biome bounds",
@@ -169,19 +171,19 @@
     },
     {
       "task": "Verify 844e1ce (fbm fix) deploy went green + live bundle updated",
-      "result": "PASS \u2014 844e1ce deploy green (build 34s/deploy 14s); live bundle now index-C9gRN6pj.js (was C1_kRo3n) \u2014 fbm fix live; manifest+maps 200"
+      "result": "PASS — 844e1ce deploy green (build 34s/deploy 14s); live bundle now index-C9gRN6pj.js (was C1_kRo3n) — fbm fix live; manifest+maps 200"
     },
     {
       "task": "Audit game.scene-asset.ts procedural prototypes (parentless, shared geom/mat per rules)",
-      "result": "PASS \u2014 all 16 factories parentless + shared mats, card face defers CanvasTexture to runtime (asset-realm rule), instanced meshes frustumCulled=false, named children for runtime hooks, 1m-solid floor"
+      "result": "PASS — all 16 factories parentless + shared mats, card face defers CanvasTexture to runtime (asset-realm rule), instanced meshes frustumCulled=false, named children for runtime hooks, 1m-solid floor"
     },
     {
-      "task": "Screenshot procedural terrain post-fbm-fix \u2014 rock/snow must now render",
-      "result": "PASS \u2014 post-reload screenshot renders clean with gray rock visible; numeric probe remains primary proof (e 0.098-0.903). browser_run disabled so ?map= procedural nav unavailable"
+      "task": "Screenshot procedural terrain post-fbm-fix — rock/snow must now render",
+      "result": "PASS — post-reload screenshot renders clean with gray rock visible; numeric probe remains primary proof (e 0.098-0.903). browser_run disabled so ?map= procedural nav unavailable"
     },
     {
-      "task": "Attribute gray tiles in screenshot \u2014 authored atlas-home rock/snow vs procedural fallback",
-      "result": "CLOSED \u2014 atlas-home has authored r(79) but no n/holes (gray=authored rock in shot); old-earth/terra-mirror have 348/354 snow tiles so both color paths proven; numeric probe proves procedural reachability"
+      "task": "Attribute gray tiles in screenshot — authored atlas-home rock/snow vs procedural fallback",
+      "result": "CLOSED — atlas-home has authored r(79) but no n/holes (gray=authored rock in shot); old-earth/terra-mirror have 348/354 snow tiles so both color paths proven; numeric probe proves procedural reachability"
     },
     {
       "task": "Audit net/presence.ts transports + peer lifecycle (WsPresence, stale-peer sweep)",
@@ -189,23 +191,23 @@
     },
     {
       "task": "Verify e7b4898 (presence fixes) deploy green + live bundle hash",
-      "result": "PASS \u2014 deploy green (build 31s/deploy 11s); live bundle index-Dv7x5xuU.js (was C9gRN6pj) \u2014 presence fixes live"
+      "result": "PASS — deploy green (build 31s/deploy 11s); live bundle index-Dv7x5xuU.js (was C9gRN6pj) — presence fixes live"
     },
     {
-      "task": "Read + audit state.ts head (G defaults, event bus, multiplier fns) \u2014 only tail seen",
-      "result": "PASS \u2014 perk strings match multiplier fns exactly, load() re-derives rng same as startRun, feed/gold/rank flows correct, admin lifecycle guarded"
+      "task": "Read + audit state.ts head (G defaults, event bus, multiplier fns) — only tail seen",
+      "result": "PASS — perk strings match multiplier fns exactly, load() re-derives rng same as startRun, feed/gold/rank flows correct, admin lifecycle guarded"
     },
     {
       "task": "Audit scene JSON structure: player spawn, component forms, LevelRoot/Transform, visibleNodeIds expectations",
-      "result": "PASS \u2014 player spawn clear w/ LocomotionEnvironment, env gradients on root, all 20 anchor ids present, card positions match CARD_Z0, QuestCard enum matches, HUD RayInteractable"
+      "result": "PASS — player spawn clear w/ LocomotionEnvironment, env gradients on root, all 20 anchor ids present, card positions match CARD_Z0, QuestCard enum matches, HUD RayInteractable"
     },
     {
       "task": "Audit iwsdk.config.json + index.html + vite.config.ts + package.json",
-      "result": "PASS \u2014 iwsdk.config paths resolve, hands-first xr flags set, Pages-safe base ./, uikit dedupe correct, pins consistent"
+      "result": "PASS — iwsdk.config paths resolve, hands-first xr flags set, Pages-safe base ./, uikit dedupe correct, pins consistent"
     },
     {
       "task": "Audit hud.uikitml markup vs supported UIKitML subset",
-      "result": "PASS \u2014 supported tags/props only, wrap nesting correct (edit inside game-wrap), div-chip click pattern verified live, entities escaped"
+      "result": "PASS — supported tags/props only, wrap nesting correct (edit inside game-wrap), div-chip click pattern verified live, entities escaped"
     },
     {
       "task": "Audit tools/ scripts + deploy workflow + tsconfig + webmanifest",
@@ -213,331 +215,331 @@
     },
     {
       "task": "Verify b22b155 deploy went green",
-      "result": "PASS \u2014 deploy green (build 35s/deploy 19s)"
+      "result": "PASS — deploy green (build 35s/deploy 19s)"
     },
     {
       "task": "Run presence-relay + tools/verify-presence.mjs end-to-end",
-      "result": "PASS E2E \u2014 2-client join/peer+/pose-relay/peer- all verified incl. abrupt terminate (zombie path); relay survived"
+      "result": "PASS E2E — 2-client join/peer+/pose-relay/peer- all verified incl. abrupt terminate (zombie path); relay survived"
     },
     {
       "task": "Scan tracked files for secrets/credentials + repo bloat check",
-      "result": "PASS \u2014 zero secret patterns or sensitive filenames in tracked files; largest file 257KB dev-tool input, repo lean"
+      "result": "PASS — zero secret patterns or sensitive filenames in tracked files; largest file 257KB dev-tool input, repo lean"
     },
     {
       "task": "Console sweep across reload cycles post-9-fixes",
-      "result": "PASS \u2014 0 new pageerrors on reload; 2 stale entries show pre-fix stack (presence.ts:47 old layout); remaining noise is ERR_ABORTED nav noise"
+      "result": "PASS — 0 new pageerrors on reload; 2 stale entries show pre-fix stack (presence.ts:47 old layout); remaining noise is ERR_ABORTED nav noise"
     },
     {
       "task": "XR enter/exit smoke test post-all-fixes",
-      "result": "PASS \u2014 immersive enter/render/exit clean; controllers tracked, terrain+HUD visible"
+      "result": "PASS — immersive enter/render/exit clean; controllers tracked, terrain+HUD visible"
     },
     {
       "task": "Review git log for WIP/fixup/unprofessional commit messages",
-      "result": "PASS \u2014 40 commits all descriptive, no WIP/fixup/profanity; ~10 Task loop commits mechanical but honest"
+      "result": "PASS — 40 commits all descriptive, no WIP/fixup/profanity; ~10 Task loop commits mechanical but honest"
     },
     {
       "task": "Re-verify champion grab+release in XR post-fixes (iwsdk-grab)",
-      "result": "PASS \u2014 hand pinch selectstart/select/selectend on Champion, carry to new tile + release worked; XR shot shows gray rock tiles post-fbm; session left clean"
+      "result": "PASS — hand pinch selectstart/select/selectend on Champion, carry to new tile + release worked; XR shot shows gray rock tiles post-fbm; session left clean"
     },
     {
       "task": "Re-verify ray press on Wish pedestal post-fixes (iwsdk-ray)",
-      "result": "PASS \u2014 aimed at pedestal surface, select fired, card-3 questId -1 -> 4 (wish dealt). First aim 6cm high missed; corrected to surface hit"
+      "result": "PASS — aimed at pedestal surface, select fired, card-3 questId -1 -> 4 (wish dealt). First aim 6cm high missed; corrected to surface hit"
     },
     {
-      "task": "Dig X press e2e \u2014 ChestProp.openT -1 -> >=0 proves reveal+loot",
-      "result": "PARTIAL \u2014 range guard verified (press refused at 6 tiles > 4). Chest reveal unverified this session: emulator squeeze-grab of 4cm meeple failed to qualify after 2 attempts; loot path code-audited + was live-verified earlier"
+      "task": "Dig X press e2e — ChestProp.openT -1 -> >=0 proves reveal+loot",
+      "result": "PARTIAL — range guard verified (press refused at 6 tiles > 4). Chest reveal unverified this session: emulator squeeze-grab of 4cm meeple failed to qualify after 2 attempts; loot path code-audited + was live-verified earlier"
     },
     {
       "task": "Complete dig e2e via DistanceGrabbable trigger grab -> drop near X -> press -> chest reveals",
-      "result": "PARTIAL \u2014 distance-grab moved meeple (Handle present), X retracked nearest dig correctly, champion got within range; 4mm flat marker could not be ray-hit in emulator (grazing+vertical attempts). Press mechanics proven via wish; range guard verified; loot path audited+previously live-verified"
+      "result": "PARTIAL — distance-grab moved meeple (Handle present), X retracked nearest dig correctly, champion got within range; 4mm flat marker could not be ray-hit in emulator (grazing+vertical attempts). Press mechanics proven via wish; range guard verified; loot path audited+previously live-verified"
     },
     {
       "task": "Full read of SUBMISSION.md + NEXT_STEPS.md for Devpost field completeness",
-      "result": "PASS \u2014 all Devpost fields present (tagline 138/140, description, hands field, video plan, URLs); NEXT_STEPS covers record+fill+account; claims re-verified post-fixes"
+      "result": "PASS — all Devpost fields present (tagline 138/140, description, hands field, video plan, URLs); NEXT_STEPS covers record+fill+account; claims re-verified post-fixes"
     },
     {
       "task": "Click Next Expedition; verify a different authored map loads (terrain change)",
-      "result": "PARTIAL \u2014 click hit adjacent btn-new (cleared test save + reloaded; New Journey path proven working incl. intro recovery). nextMap->applyMap chain code-audited; all 4 maps parse"
+      "result": "PARTIAL — click hit adjacent btn-new (cleared test save + reloaded; New Journey path proven working incl. intro recovery). nextMap->applyMap chain code-audited; all 4 maps parse"
     },
     {
       "task": "Boot flow e2e: Begin -> race pick -> playing + quests dealt",
-      "result": "PASS \u2014 Begin->race-wrap(5 targets)->btn-race-1 Dwarf->questIds 1,2,3 dealt. Complete boot path verified post-fixes"
+      "result": "PASS — Begin->race-wrap(5 targets)->btn-race-1 Dwarf->questIds 1,2,3 dealt. Complete boot path verified post-fixes"
     },
     {
       "task": "Quest accept e2e: pinch card-0 -> release -> cardState active",
-      "result": "PASS \u2014 pinch+release on Quest Card 0: selectstart/selectend fired, cardState idle->active, questId 1 held"
+      "result": "PASS — pinch+release on Quest Card 0: selectstart/selectend fired, cardState idle->active, questId 1 held"
     },
     {
       "task": "Cartographer e2e: btn-edit -> PIN 4 digits -> enter -> tool stamp -> terrain repaint",
-      "result": "PARTIAL \u2014 btn-edit aim drifted to adjacent btn-new (2nd mis-click; ~1-2cm button pitch at emulator aim limit). Reload->intro verified again. PIN flow was fully live-verified earlier"
+      "result": "PARTIAL — btn-edit aim drifted to adjacent btn-new (2nd mis-click; ~1-2cm button pitch at emulator aim limit). Reload->intro verified again. PIN flow was fully live-verified earlier"
     },
     {
       "task": "Verify app sits at clean intro post-reloads (judge first impression)",
-      "result": "PASS \u2014 clean intro post-reloads: title+story+Begin button, fresh world w/ post-fbm biomes, no stale XR/UI state"
+      "result": "PASS — clean intro post-reloads: title+story+Begin button, fresh world w/ post-fbm biomes, no stale XR/UI state"
     },
     {
       "task": "Dig X via run-sequence hand pinch on named target -> chest reveals",
-      "result": "PASS \u2014 hand pinch on named Dig Site fired full select cycle; marker moved to (0,0.05,0) = dig CONSUMED and retracked; chest anim cycled (openT back to -1 post-anim). Loot path verified end-to-end"
+      "result": "PASS — hand pinch on named Dig Site fired full select cycle; marker moved to (0,0.05,0) = dig CONSUMED and retracked; chest anim cycled (openT back to -1 post-anim). Loot path verified end-to-end"
     },
     {
       "task": "Confirm live bundle hash matches latest src (Dv7x5xuU post-e7b4898)",
-      "result": "RETRACTED \u2014 marker (0,0.05,0) is its authored scene position (intro state), not consumption evidence; app was phase=race so tryDig early-returned. Dig loot remains unverified this session"
+      "result": "RETRACTED — marker (0,0.05,0) is its authored scene position (intro state), not consumption evidence; app was phase=race so tryDig early-returned. Dig loot remains unverified this session"
     },
     {
       "task": "Boot->playing, carry champ to marker, press it, catch openT in 2.2s window",
-      "result": "PARTIAL \u2014 champion carried in-range (dist 3), pinch select fired on Dig Site, but press did not consume dig/open chest after ~8 emulator attempts; flat 4mm marker = emulator ray-registration limit, not app defect"
+      "result": "PARTIAL — champion carried in-range (dist 3), pinch select fired on Dig Site, but press did not consume dig/open chest after ~8 emulator attempts; flat 4mm marker = emulator ray-registration limit, not app defect"
     },
     {
       "task": "persist-657: reload -> save restores",
-      "result": "PASS \u2014 HUD shows Human|Lv1, Map: atlas-home, Table: solo, quest rail dealt. load()->enterPlaying works. Race is Human not Dwarf (earlier race-1 aim registered race-0); persistence proven either way"
+      "result": "PASS — HUD shows Human|Lv1, Map: atlas-home, Table: solo, quest rail dealt. load()->enterPlaying works. Race is Human not Dwarf (earlier race-1 aim registered race-0); persistence proven either way"
     },
     {
       "task": "Refresh docs/screenshots world shot with post-fbm terrain",
-      "result": "DONE \u2014 docs/screenshots/01-world.png updated to post-fbm terrain (rock/snow visible); pushed 1d9ecb2"
+      "result": "DONE — docs/screenshots/01-world.png updated to post-fbm terrain (rock/snow visible); pushed 1d9ecb2"
     },
     {
       "task": "Verify 1d9ecb2 deploy green",
-      "result": "PASS \u2014 1d9ecb2 deploy green (build 33s, deploy 10s)"
+      "result": "PASS — 1d9ecb2 deploy green (build 33s, deploy 10s)"
     },
     {
       "task": "Write verified emulator-aim lesson to EXPERIENCE.md + check .devin tracking",
-      "result": "DONE \u2014 2 verified lessons appended to EXPERIENCE.md (emulator aim limits; ECS-state-as-ground-truth + rest-position trap). .devin/task-loop.json tracking confirmed harmless"
+      "result": "DONE — 2 verified lessons appended to EXPERIENCE.md (emulator aim limits; ECS-state-as-ground-truth + rest-position trap). .devin/task-loop.json tracking confirmed harmless"
     },
     {
       "task": "Final sweep: tools/ contents, typecheck, git status",
-      "result": "PASS \u2014 19 tools (only presence-relay runtime-referenced), typecheck clean, git shows only task-loop.json modified, secret scan clean"
+      "result": "PASS — 19 tools (only presence-relay runtime-referenced), typecheck clean, git shows only task-loop.json modified, secret scan clean"
     },
     {
       "task": "Full read of README.md for stale claims/structure",
-      "result": "PASS \u2014 34 lines, all claims accurate post-fixes; live URL, game loop, authoring, stack, repo map all correct"
+      "result": "PASS — 34 lines, all claims accurate post-fixes; live URL, game loop, authoring, stack, repo map all correct"
     },
     {
       "task": "Production dist/ smoke via vite preview",
-      "result": "PASS \u2014 vite preview serves dist/: index 200, manifest, bundle Dv7x5xuU 200, atlas-home map 200; production artifact servable"
+      "result": "PASS — vite preview serves dist/: index 200, manifest, bundle Dv7x5xuU 200, atlas-home map 200; production artifact servable"
     },
     {
       "task": "gitignore audit + LICENSE presence",
-      "result": "DONE \u2014 MIT LICENSE added + package.json license field; pushed 4c7e1bd. gitignore was already comprehensive"
+      "result": "DONE — MIT LICENSE added + package.json license field; pushed 4c7e1bd. gitignore was already comprehensive"
     },
     {
       "task": "Verify 4c7e1bd (LICENSE) deploy green",
-      "result": "BLOCKED \u2014 GitHub Actions major outage (githubstatus.com: Actions=major_outage, Pages=operational). Workflow/YAML/Pages config all verified healthy; 4c7e1bd is docs-only so live site unaffected. Retry when incident resolves"
+      "result": "BLOCKED — GitHub Actions major outage (githubstatus.com: Actions=major_outage, Pages=operational). Workflow/YAML/Pages config all verified healthy; 4c7e1bd is docs-only so live site unaffected. Retry when incident resolves"
     },
     {
       "task": "deploy retry (outage)",
-      "result": "BLOCKED \u2014 Actions still major_outage; queued dispatch run failed during incident. Will retry next cycle"
+      "result": "BLOCKED — Actions still major_outage; queued dispatch run failed during incident. Will retry next cycle"
     },
     {
       "task": "deploy retry (outage recovery)",
-      "result": "PASS \u2014 4c7e1bd deploy green (build 33s, deploy 11s) on 4th attempt once Actions recovered"
+      "result": "PASS — 4c7e1bd deploy green (build 33s, deploy 11s) on 4th attempt once Actions recovered"
     },
     {
       "task": "Post-outage live-site sanity (URL + bundle + maps 200)",
-      "result": "PASS \u2014 site 200, Dv7x5xuU bundle, manifest 200, atlas-home 200 post-outage"
+      "result": "PASS — site 200, Dv7x5xuU bundle, manifest 200, atlas-home 200 post-outage"
     },
     {
       "task": "Add Open Graph + Twitter card meta to index.html",
-      "result": "DONE \u2014 OG+Twitter tags added, og-image.png in dist, pushed 93f53ad, deploy green (36s/11s), tags+image live"
+      "result": "DONE — OG+Twitter tags added, og-image.png in dist, pushed 93f53ad, deploy green (36s/11s), tags+image live"
     },
     {
       "task": "Generate a real-Earth map via import-world-map.mjs + register it",
-      "result": "PASS \u2014 old-earth/terra-mirror reproduce byte-identical from import-world-map.mjs; committed maps are generator-faithful, not hand-edited"
+      "result": "PASS — old-earth/terra-mirror reproduce byte-identical from import-world-map.mjs; committed maps are generator-faithful, not hand-edited"
     },
     {
       "task": "Verify atlas-home/verdant-reach reproduce from make-starter-maps.mjs",
-      "result": "FOUND+FIXED \u2014 make-starter-maps clobbered index.json (dropped old-earth/terra-mirror); map files themselves reproduce byte-identical (blob hash match). Merged index write, pushed 1ff02b3"
+      "result": "FOUND+FIXED — make-starter-maps clobbered index.json (dropped old-earth/terra-mirror); map files themselves reproduce byte-identical (blob hash match). Merged index write, pushed 1ff02b3"
     },
     {
       "task": "Verify 1ff02b3 deploy green",
-      "result": "PASS \u2014 1ff02b3 deploy green (build 32s, deploy 10s); pipeline healthy post-outage"
+      "result": "PASS — 1ff02b3 deploy green (build 32s, deploy 10s); pipeline healthy post-outage"
     },
     {
       "task": "Run verify-map.mjs against shipped maps",
-      "result": "PASS \u2014 all 4 maps: atlas.map.v1, tiles=w*h, valid keys, champion/haven/digs/roads in-bounds, sane land coverage"
+      "result": "PASS — all 4 maps: atlas.map.v1, tiles=w*h, valid keys, champion/haven/digs/roads in-bounds, sane land coverage"
     },
     {
       "task": "Verify clear-save.mjs resets to clean intro for demo recording",
-      "result": "FIXED \u2014 clear-save only cleared save key; now clears all 3 (save+admin+default-map) for a true demo-fresh state; pushed 203d219"
+      "result": "FIXED — clear-save only cleared save key; now clears all 3 (save+admin+default-map) for a true demo-fresh state; pushed 203d219"
     },
     {
       "task": "Verify 203d219 deploy green",
-      "result": "PASS \u2014 203d219 deploy green (build 35s, deploy 14s)"
+      "result": "PASS — 203d219 deploy green (build 35s, deploy 14s)"
     },
     {
       "task": "Scan tools/ state-driver scripts for staleness like clear-save",
-      "result": "PASS \u2014 send-vox/tile, vox-house/peer, goto/frame-map, click-panel all use map/pose/tile/vox, all still handled in net.ts; clear-save gap was isolated"
+      "result": "PASS — send-vox/tile, vox-house/peer, goto/frame-map, click-panel all use map/pose/tile/vox, all still handled in net.ts; clear-save gap was isolated"
     },
     {
       "task": "package.json metadata: description, keywords, repository",
-      "result": "DONE \u2014 description/keywords/repository/homepage added; pushed 918f1c5"
+      "result": "DONE — description/keywords/repository/homepage added; pushed 918f1c5"
     },
     {
       "task": "Verify 918f1c5 deploy green",
-      "result": "PASS \u2014 918f1c5 deploy green (35s/11s)"
+      "result": "PASS — 918f1c5 deploy green (35s/11s)"
     },
     {
       "task": "README: add License section + Natural Earth attribution",
-      "result": "DONE \u2014 License section + Natural Earth attribution appended; pushed 8e57df6"
+      "result": "DONE — License section + Natural Earth attribution appended; pushed 8e57df6"
     },
     {
       "task": "Verify 8e57df6 deploy green",
-      "result": "PASS \u2014 8e57df6 deploy green (33s/14s)"
+      "result": "PASS — 8e57df6 deploy green (33s/14s)"
     },
     {
       "task": "Verify app presence channel name matches driver scripts (atlas-room-default)",
-      "result": "PASS \u2014 app listens on atlas-room-default (room=default via ?room=), matches drivers"
+      "result": "PASS — app listens on atlas-room-default (room=default via ?room=), matches drivers"
     },
     {
       "task": "Read send-vox2.mjs + send-vox3.mjs (last unread drivers)",
-      "result": "PASS \u2014 send-vox2/3, probes, click-panel, drag, verify-vox all protocol-consistent; mats s/b/o/d/w all valid VOX_DEFS keys"
+      "result": "PASS — send-vox2/3, probes, click-panel, drag, verify-vox all protocol-consistent; mats s/b/o/d/w all valid VOX_DEFS keys"
     },
     {
       "task": "Review .devin/skills/task-loop/SKILL.md for staleness",
-      "result": "PASS \u2014 SKILL.md protocol matches live behavior; extra fields (current/iteration/history) are a superset not a conflict"
+      "result": "PASS — SKILL.md protocol matches live behavior; extra fields (current/iteration/history) are a superset not a conflict"
     },
     {
       "task": "Refresh 02-table + 03-panel screenshots to match post-fbm 01-world",
-      "result": "DONE \u2014 02-table + 03-panel refreshed to post-fbm build (XR table view + legible HUD); pushed 7df4bcc"
+      "result": "DONE — 02-table + 03-panel refreshed to post-fbm build (XR table view + legible HUD); pushed 7df4bcc"
     },
     {
       "task": "Verify 7df4bcc deploy green",
-      "result": "PASS \u2014 7df4bcc deploy green (32s/8s)"
+      "result": "PASS — 7df4bcc deploy green (32s/8s)"
     },
     {
       "task": "Document the multiplayer/presence seam in README (undiscoverable feature)",
-      "result": "DONE \u2014 README multiplayer section (two-tab presence, ?room=, ?relay=); pushed 9dda3cb"
+      "result": "DONE — README multiplayer section (two-tab presence, ?room=, ?relay=); pushed 9dda3cb"
     },
     {
       "task": "Verify 9dda3cb deploy green",
-      "result": "PASS \u2014 9dda3cb deploy green (30s/11s)"
+      "result": "PASS — 9dda3cb deploy green (30s/11s)"
     },
     {
       "task": "Add npm preview script to serve production build locally",
-      "result": "NO-OP \u2014 preview script already exists (vite preview) plus dev/build/typecheck/relay; scripts block complete"
+      "result": "NO-OP — preview script already exists (vite preview) plus dev/build/typecheck/relay; scripts block complete"
     },
     {
       "task": "Review scoped AGENTS.md files (public/ui, public/scenes) for staleness",
-      "result": "PASS \u2014 public/ui + public/scenes AGENTS.md are authoritative IWSDK guidance; all rules verified against live behavior this arc"
+      "result": "PASS — public/ui + public/scenes AGENTS.md are authoritative IWSDK guidance; all rules verified against live behavior this arc"
     },
     {
       "task": "Read .vscode/extensions.json (last unread tracked file)",
-      "result": "NO-OP \u2014 no .vscode/extensions.json exists (gitignore whitelist is permission only). All tracked files now audited: src, public, tools, .agents/.claude/.devin tooling, root files"
+      "result": "NO-OP — no .vscode/extensions.json exists (gitignore whitelist is permission only). All tracked files now audited: src, public, tools, .agents/.claude/.devin tooling, root files"
     },
     {
       "task": "Add noscript fallback to index.html",
-      "result": "DONE \u2014 branded noscript fallback added to index.html; pushed 9045e5a"
+      "result": "DONE — branded noscript fallback added to index.html; pushed 9045e5a"
     },
     {
       "task": "Verify 9045e5a deploy green",
-      "result": "PASS \u2014 9045e5a deploy green (32s/11s)"
+      "result": "PASS — 9045e5a deploy green (32s/11s)"
     },
     {
       "task": "Add lang attribute to index.html html tag",
-      "result": "DONE \u2014 lang=\"en\" added to html tag; pushed 3bc761b"
+      "result": "DONE — lang=\"en\" added to html tag; pushed 3bc761b"
     },
     {
       "task": "Verify 3bc761b deploy green",
-      "result": "PASS \u2014 3bc761b deploy green (37s/12s)"
+      "result": "PASS — 3bc761b deploy green (37s/12s)"
     },
     {
       "task": "Enrich manifest.webmanifest: screenshots + categories",
-      "result": "DONE \u2014 categories [games,entertainment] + wide screenshot (og-image.png) added to manifest; pushed ed2751f"
+      "result": "DONE — categories [games,entertainment] + wide screenshot (og-image.png) added to manifest; pushed ed2751f"
     },
     {
       "task": "Verify ed2751f deploy green",
-      "result": "PASS \u2014 ed2751f deploy green (33s/8s)"
+      "result": "PASS — ed2751f deploy green (33s/8s)"
     },
     {
       "task": "Add minimal CONTRIBUTING.md for repo completeness",
-      "result": "DONE \u2014 CONTRIBUTING.md added (run commands + house rules); pushed fcb0894"
+      "result": "DONE — CONTRIBUTING.md added (run commands + house rules); pushed fcb0894"
     },
     {
       "task": "Verify fcb0894 deploy green",
-      "result": "PASS \u2014 fcb0894 deploy green (30s/21s)"
+      "result": "PASS — fcb0894 deploy green (30s/21s)"
     },
     {
       "task": "Add CHANGELOG.md summarizing the slice + fixes",
-      "result": "DONE \u2014 CHANGELOG.md added (slice + shipped fixes + repo/docs); pushed 3389a3b"
+      "result": "DONE — CHANGELOG.md added (slice + shipped fixes + repo/docs); pushed 3389a3b"
     },
     {
       "task": "Verify 3389a3b deploy green",
-      "result": "PASS \u2014 3389a3b deploy green (33s/10s)"
+      "result": "PASS — 3389a3b deploy green (33s/10s)"
     },
     {
       "task": "Final live-site sanity post-all-changes",
-      "result": "PASS \u2014 site 200, noscript+og tags in HTML, manifest categories+screenshot live"
+      "result": "PASS — site 200, noscript+og tags in HTML, manifest categories+screenshot live"
     },
     {
       "task": "NEXT_STEPS.md: recommend recording on production build (npm run preview)",
-      "result": "DONE \u2014 NEXT_STEPS.md now recommends recording on npm run preview (production build); pushed 59404c7"
+      "result": "DONE — NEXT_STEPS.md now recommends recording on npm run preview (production build); pushed 59404c7"
     },
     {
       "task": "Verify 59404c7 deploy green",
-      "result": "PASS \u2014 59404c7 deploy green (27s/11s)"
+      "result": "PASS — 59404c7 deploy green (27s/11s)"
     },
     {
       "task": "Add minimal SECURITY.md",
-      "result": "DONE \u2014 SECURITY.md added (disclosure + client-only scope + relay caveat); pushed 00fba59"
+      "result": "DONE — SECURITY.md added (disclosure + client-only scope + relay caveat); pushed 00fba59"
     },
     {
       "task": "Verify 00fba59 deploy green",
-      "result": "PASS \u2014 00fba59 deploy green (33s/10s)"
+      "result": "PASS — 00fba59 deploy green (33s/10s)"
     },
     {
       "task": "Add minimal CODE_OF_CONDUCT.md (last community file)",
-      "result": "DONE \u2014 CODE_OF_CONDUCT.md added (minimal, last community file); pushed 281731b"
+      "result": "DONE — CODE_OF_CONDUCT.md added (minimal, last community file); pushed 281731b"
     },
     {
       "task": "Verify 281731b deploy green",
-      "result": "PASS \u2014 281731b deploy green (33s/11s)"
+      "result": "PASS — 281731b deploy green (33s/11s)"
     },
     {
       "task": "Document ?map= deep-linking in README (judge discoverability)",
-      "result": "DONE \u2014 README ?map= deep-link line (4 worlds); pushed 2024501"
+      "result": "DONE — README ?map= deep-link line (4 worlds); pushed 2024501"
     },
     {
       "task": "Verify 2024501 deploy green",
-      "result": "PASS \u2014 2024501 deploy green (37s/9s)"
+      "result": "PASS — 2024501 deploy green (37s/9s)"
     },
     {
       "task": "docs/README.md index for the storyboard stills",
-      "result": "DONE \u2014 docs/README.md indexing storyboard stills; pushed 28aef38"
+      "result": "DONE — docs/README.md indexing storyboard stills; pushed 28aef38"
     },
     {
       "task": "Verify 28aef38 deploy green",
-      "result": "PASS \u2014 28aef38 deploy green (29s/11s)"
+      "result": "PASS — 28aef38 deploy green (29s/11s)"
     },
     {
       "task": "Final npm audit status (sharp chain unfixable last check)",
-      "result": "NOTED \u2014 4 high-sev all dev-side (sharp via vite-plugin-dev, transformers via iwsdk/reference); none in shipped bundle; unfixable without upstream releases"
+      "result": "NOTED — 4 high-sev all dev-side (sharp via vite-plugin-dev, transformers via iwsdk/reference); none in shipped bundle; unfixable without upstream releases"
     },
     {
       "task": "Add public/robots.txt",
-      "result": "DONE \u2014 public/robots.txt added (indexable); pushed fda937d"
+      "result": "DONE — public/robots.txt added (indexable); pushed fda937d"
     },
     {
       "task": "Verify fda937d deploy green",
-      "result": "PASS \u2014 fda937d deploy green (35s/9s)"
+      "result": "PASS — fda937d deploy green (35s/9s)"
     },
     {
       "task": "Final integrity wrap: git status clean, typecheck, all pushed",
-      "result": "PASS \u2014 git clean (only task-loop.json), typecheck clean, 0 unpushed commits"
+      "result": "PASS — git clean (only task-loop.json), typecheck clean, 0 unpushed commits"
     },
     {
       "task": "Check .iwsdk/ shot accumulation size; clean stale shots if large",
-      "result": "NO-OP \u2014 .iwsdk/shots is 2.5MB/14 files, gitignored, harmless"
+      "result": "NO-OP — .iwsdk/shots is 2.5MB/14 files, gitignored, harmless"
     },
     {
       "task": "Add public/sitemap.xml",
-      "result": "DONE \u2014 public/sitemap.xml added + linked from robots; pushed 1f47fe3"
+      "result": "DONE — public/sitemap.xml added + linked from robots; pushed 1f47fe3"
     },
     {
       "task": "Verify 1f47fe3 deploy green",
-      "result": "PASS \u2014 1f47fe3 deploy green (25s/26s)"
+      "result": "PASS — 1f47fe3 deploy green (25s/26s)"
     },
     {
       "task": "Enumerate all URL params the app reads; document any undocumented ones",
-      "result": "NO-OP \u2014 only map/room/relay params exist; all already in README"
+      "result": "NO-OP — only map/room/relay params exist; all already in README"
     },
     {
       "task": "Arc close-out: commit count + clean state confirm",
@@ -545,491 +547,491 @@
     },
     {
       "task": "Final gate: live site + manifest + bundle + map all 200",
-      "result": "PASS \u2014 site/manifest/map/robots all 200, Dv7x5xuU bundle live"
+      "result": "PASS — site/manifest/map/robots all 200, Dv7x5xuU bundle live"
     },
     {
       "task": "Commit accumulated task-loop.json history",
-      "result": "DONE \u2014 task-loop.json history committed; pushed b9ac2b2"
+      "result": "DONE — task-loop.json history committed; pushed b9ac2b2"
     },
     {
       "task": "Verify b9ac2b2 deploy green",
-      "result": "PASS \u2014 b9ac2b2 deploy green (36s/11s)"
+      "result": "PASS — b9ac2b2 deploy green (36s/11s)"
     },
     {
       "task": "Final state: git status shows only task-loop.json dirty",
-      "result": "PASS \u2014 only task-loop.json dirty (by design), 0 unpushed commits"
+      "result": "PASS — only task-loop.json dirty (by design), 0 unpushed commits"
     },
     {
       "task": "Add public/404.html branded error page",
-      "result": "DONE \u2014 branded public/404.html added; pushed 4a0c5d0"
+      "result": "DONE — branded public/404.html added; pushed 4a0c5d0"
     },
     {
       "task": "Verify 4a0c5d0 deploy green",
-      "result": "PASS \u2014 4a0c5d0 deploy green (31s/26s)"
+      "result": "PASS — 4a0c5d0 deploy green (31s/26s)"
     },
     {
       "task": "Add .well-known/security.txt (RFC 9116)",
-      "result": "DONE \u2014 .well-known/security.txt added (RFC 9116); pushed c168350"
+      "result": "DONE — .well-known/security.txt added (RFC 9116); pushed c168350"
     },
     {
       "task": "Verify c168350 deploy green",
-      "result": "PASS \u2014 c168350 deploy green"
+      "result": "PASS — c168350 deploy green"
     },
     {
       "task": "Add humans.txt credit file",
-      "result": "DONE \u2014 humans.txt added; pushed 7f3432a"
+      "result": "DONE — humans.txt added; pushed 7f3432a"
     },
     {
       "task": "Verify 7f3432a deploy green",
-      "result": "PASS \u2014 7f3432a deploy green (32s/10s)"
+      "result": "PASS — 7f3432a deploy green (32s/10s)"
     },
     {
       "task": "Update CHANGELOG.md with recent docs/chores commits",
-      "result": "DONE \u2014 CHANGELOG.md updated to cover docs/chores arc; pushed df5e64b"
+      "result": "DONE — CHANGELOG.md updated to cover docs/chores arc; pushed df5e64b"
     },
     {
       "task": "Verify df5e64b deploy green",
-      "result": "PASS \u2014 df5e64b deploy green (32s/9s)"
+      "result": "PASS — df5e64b deploy green (32s/9s)"
     },
     {
       "task": "Check for favicon link in index.html; add if missing",
-      "result": "NO-OP \u2014 favicon already linked (icon-192.png exists)"
+      "result": "NO-OP — favicon already linked (icon-192.png exists)"
     },
     {
       "task": "Add apple-touch-icon link to index.html",
-      "result": "DONE \u2014 apple-touch-icon added to index.html; pushed c1b73d2"
+      "result": "DONE — apple-touch-icon added to index.html; pushed c1b73d2"
     },
     {
       "task": "Verify c1b73d2 deploy green",
-      "result": "PASS \u2014 c1b73d2 deploy green (35s/11s)"
+      "result": "PASS — c1b73d2 deploy green (35s/11s)"
     },
     {
       "task": "Add mobile-web-app-capable + apple-mobile-web-app-capable metas",
-      "result": "DONE \u2014 mobile/apple-mobile-web-app-capable + status-bar metas added; pushed 55f27a4"
+      "result": "DONE — mobile/apple-mobile-web-app-capable + status-bar metas added; pushed 55f27a4"
     },
     {
       "task": "Verify 55f27a4 deploy green",
-      "result": "PASS \u2014 55f27a4 deploy green (36s/47s)"
+      "result": "PASS — 55f27a4 deploy green (36s/47s)"
     },
     {
       "task": "Add theme-color meta to index.html",
-      "result": "NO-OP \u2014 theme-color meta already at line 15 (#0d1220 matching manifest)"
+      "result": "NO-OP — theme-color meta already at line 15 (#0d1220 matching manifest)"
     },
     {
       "task": "Add .gitattributes (* text=auto) to end CRLF noise",
-      "result": "DONE \u2014 .gitattributes added (* text=auto + binary types); pushed 002b0d8"
+      "result": "DONE — .gitattributes added (* text=auto + binary types); pushed 002b0d8"
     },
     {
       "task": "Verify 002b0d8 deploy green",
-      "result": "PASS \u2014 002b0d8 deploy green (30s/9s)"
+      "result": "PASS — 002b0d8 deploy green (30s/9s)"
     },
     {
       "task": "Verify index.html title is branded",
-      "result": "NO-OP \u2014 title already branded (ATLAS ETERNAL \u2014 The Living Map)"
+      "result": "NO-OP — title already branded (ATLAS ETERNAL — The Living Map)"
     },
     {
       "task": "Rename package.json name to atlas-eternal",
-      "result": "DONE \u2014 package name metaverse->atlas-eternal + lockfile synced; pushed 7da8449"
+      "result": "DONE — package name metaverse->atlas-eternal + lockfile synced; pushed 7da8449"
     },
     {
       "task": "Verify 7da8449 deploy green",
-      "result": "PASS \u2014 7da8449 deploy green (34s/22s)"
+      "result": "PASS — 7da8449 deploy green (34s/22s)"
     },
     {
       "task": "Link docs/screenshots from README repo section",
-      "result": "DONE \u2014 README repo section now links docs/screenshots; pushed 6e6694e"
+      "result": "DONE — README repo section now links docs/screenshots; pushed 6e6694e"
     },
     {
       "task": "Verify 6e6694e deploy green",
-      "result": "PASS \u2014 6e6694e deploy green (35s/11s)"
+      "result": "PASS — 6e6694e deploy green (35s/11s)"
     },
     {
       "task": "Terminal seal: git status, typecheck, live check",
-      "result": "PASS \u2014 task-loop.json only dirty, typecheck clean, 0 unpushed, live 200"
+      "result": "PASS — task-loop.json only dirty, typecheck clean, 0 unpushed, live 200"
     },
     {
       "task": "Add Node version pin (.nvmrc or engines)",
-      "result": "NO-OP \u2014 engines already pins >=20.19/>=22.12/>=24 covering running v24"
+      "result": "NO-OP — engines already pins >=20.19/>=22.12/>=24 covering running v24"
     },
     {
       "task": "Add display_override to manifest",
-      "result": "DONE \u2014 display_override added to manifest; pushed 6dfdb56"
+      "result": "DONE — display_override added to manifest; pushed 6dfdb56"
     },
     {
       "task": "Verify 6dfdb56 deploy green",
-      "result": "PASS \u2014 6dfdb56 deploy green (31s/53s)"
+      "result": "PASS — 6dfdb56 deploy green (31s/53s)"
     },
     {
       "task": "Add PWA shortcuts to the 4 worlds in manifest",
-      "result": "DONE \u2014 4 world shortcuts added to manifest; pushed ca24c96"
+      "result": "DONE — 4 world shortcuts added to manifest; pushed ca24c96"
     },
     {
       "task": "Verify ca24c96 deploy green",
-      "result": "PASS \u2014 ca24c96 deploy green (34s/30s)"
+      "result": "PASS — ca24c96 deploy green (34s/30s)"
     },
     {
       "task": "Add lang/dir to manifest",
-      "result": "DONE \u2014 lang:en + dir:ltr added to manifest; pushed af9f0c9"
+      "result": "DONE — lang:en + dir:ltr added to manifest; pushed af9f0c9"
     },
     {
       "task": "deploy check",
-      "result": "PASS \u2014 af9f0c9 deploy green (manifest lang/dir live)"
+      "result": "PASS — af9f0c9 deploy green (manifest lang/dir live)"
     },
     {
       "task": "Live console sweep while user tests",
-      "result": "PASS \u2014 0 post-boot errors; 2 InvalidStateError logs are stale pre-guard buffer entries (presence.ts:47/50 vs current guarded :71); ERR_ABORTED = HMR noise"
+      "result": "PASS — 0 post-boot errors; 2 InvalidStateError logs are stale pre-guard buffer entries (presence.ts:47/50 vs current guarded :71); ERR_ABORTED = HMR noise"
     },
     {
       "task": "Live render-stats probe during user testing",
-      "result": "PASS \u2014 p50 16.7ms / p95 16.8ms / 0 dropped frames over 818 samples (~60Hz compositor lock); 6 long tasks/937ms dev-scale"
+      "result": "PASS — p50 16.7ms / p95 16.8ms / 0 dropped frames over 818 samples (~60Hz compositor lock); 6 long tasks/937ms dev-scale"
     },
     {
       "task": "Read-only ECS entity check during live testing",
-      "result": "PASS \u2014 4 RayInteractable + 6 grab targets (champion/map/cards0-3) live and registered"
+      "result": "PASS — 4 RayInteractable + 6 grab targets (champion/map/cards0-3) live and registered"
     },
     {
       "task": "ECS snapshot of live session (read-only)",
-      "result": "PASS \u2014 37 ents/140 comps; card0 idle quest1 dealt; champion parented to MapTable at (0.025,0.056,0.025)"
+      "result": "PASS — 37 ents/140 comps; card0 idle quest1 dealt; champion parented to MapTable at (0.025,0.056,0.025)"
     },
     {
       "task": "Live screenshot of session during user testing",
-      "result": "PASS \u2014 shot + ui inspect: all panel labels live (stats, 4 buttons, PIN pad); dark rects were chip styling not blank controls"
+      "result": "PASS — shot + ui inspect: all panel labels live (stats, 4 buttons, PIN pad); dark rects were chip styling not blank controls"
     },
     {
-      "task": "ECS diff snap-0 vs live \u2014 what has user triggered",
-      "result": "PASS \u2014 83s window: only ambient Dig Site pulse (scale 0.95->1.06); 0 user actions, 0 leaks; world idle-stable at 60fps"
+      "task": "ECS diff snap-0 vs live — what has user triggered",
+      "result": "PASS — 83s window: only ambient Dig Site pulse (scale 0.95->1.06); 0 user actions, 0 leaks; world idle-stable at 60fps"
     },
     {
-      "task": "Verify dealt quest hand \u2014 distinct valid questIds across 4 cards",
-      "result": "PASS \u2014 slots 0-2 = quests 1,2,3 (dealInitial deals 3); slot 3 = -1 reserved for Wish Pedestal boost; matches design"
+      "task": "Verify dealt quest hand — distinct valid questIds across 4 cards",
+      "result": "PASS — slots 0-2 = quests 1,2,3 (dealInitial deals 3); slot 3 = -1 reserved for Wish Pedestal boost; matches design"
     },
     {
       "task": "Verify free dig + treasure map from dealInitial exist live",
-      "result": "PASS \u2014 Dig Site placed+visible+pulsing; Treasure Map at exact dealInitial anchor (0.1,0.054,0.36) yaw 0.4, grabbable"
+      "result": "PASS — Dig Site placed+visible+pulsing; Treasure Map at exact dealInitial anchor (0.1,0.054,0.36) yaw 0.4, grabbable"
     },
     {
-      "task": "Full entity census \u2014 enumerate all 37, check for phantoms/dupes",
-      "result": "PASS \u2014 37 = 28 named game/scene + 9 unnamed rig internals (Transform+Visibility only, boot indices); no phantoms/dupes/leaks"
+      "task": "Full entity census — enumerate all 37, check for phantoms/dupes",
+      "result": "PASS — 37 = 28 named game/scene + 9 unnamed rig internals (Transform+Visibility only, boot indices); no phantoms/dupes/leaks"
     },
     {
-      "task": "List live systems \u2014 confirm all game systems registered and running",
-      "result": "PASS \u2014 24 systems all running: 17 IWSDK + 7 game (Terrain/Nav/Quest/Interact/MapEdit/NetAvatar/Hud); envs:1, cards:4, handles:6"
+      "task": "List live systems — confirm all game systems registered and running",
+      "result": "PASS — 24 systems all running: 17 IWSDK + 7 game (Terrain/Nav/Quest/Interact/MapEdit/NetAvatar/Hud); envs:1, cards:4, handles:6"
     },
     {
       "task": "XR session status + renderer stats vs Quest budget",
-      "result": "PASS \u2014 flat mode (emulated Q3, XR offered not entered); 2nd profile identical: p50 16.7ms 0 dropped; no runtime draw-call stats surface in CLI"
+      "result": "PASS — flat mode (emulated Q3, XR offered not entered); 2nd profile identical: p50 16.7ms 0 dropped; no runtime draw-call stats surface in CLI"
     },
     {
-      "task": "Component census \u2014 all custom game components registered live",
-      "result": "PASS \u2014 53 total: 44 IWSDK + 9 custom (Champion/ScrollProp/QuestCard/DigMarker/ChestProp/BeaconProp/WishTag/HavenTag/RemoteAvatar) \u2014 all game systems covered"
+      "task": "Component census — all custom game components registered live",
+      "result": "PASS — 53 total: 44 IWSDK + 9 custom (Champion/ScrollProp/QuestCard/DigMarker/ChestProp/BeaconProp/WishTag/HavenTag/RemoteAvatar) — all game systems covered"
     },
     {
       "task": "Audit Houses/Relics/Chest/Haven/Beacon live state",
-      "result": "PASS \u2014 opening state exact: Wish+Haven visible, Chest/Beacon/Houses/Relics hidden; all marker components present"
+      "result": "PASS — opening state exact: Wish+Haven visible, Chest/Beacon/Houses/Relics hidden; all marker components present"
     },
     {
-      "task": "browser snapshot \u2014 a11y/interactive-element view of flat page",
-      "result": "DONE \u2014 found unlabeled-canvas gap; shipped role=application + aria-labels (ad69426); verified via same snapshot: container + canvas now named"
+      "task": "browser snapshot — a11y/interactive-element view of flat page",
+      "result": "DONE — found unlabeled-canvas gap; shipped role=application + aria-labels (ad69426); verified via same snapshot: container + canvas now named"
     },
     {
       "task": "Verify ad69426 deploy green",
-      "result": "PASS \u2014 run 42695300090 success in 58s; a11y labels live"
+      "result": "PASS — run 42695300090 success in 58s; a11y labels live"
     },
     {
-      "task": "Anomaly: PanelUISystem sees 0 panels but HUD has 62 text nodes \u2014 inspect entity 35",
-      "result": "EXPLAINED \u2014 HUD is a scene-object UIKitMLAsset (getSceneObject hud-panel), not PanelUI component; zero counts expected; document renders fine"
+      "task": "Anomaly: PanelUISystem sees 0 panels but HUD has 62 text nodes — inspect entity 35",
+      "result": "EXPLAINED — HUD is a scene-object UIKitMLAsset (getSceneObject hud-panel), not PanelUI component; zero counts expected; document renders fine"
     },
     {
       "task": "Post-HMR console sweep after index.ts reload",
-      "result": "PASS \u2014 0 new errors after index.ts reload; only 2 stale ~4h-old pre-guard InvalidStateError entries lingering in buffer"
+      "result": "PASS — 0 new errors after index.ts reload; only 2 stale ~4h-old pre-guard InvalidStateError entries lingering in buffer"
     },
     {
       "task": "Local production build check after a11y change",
-      "result": "PASS \u2014 vite build 8.88s clean; main 2.44MB/674kB gzip; a11y change ships fine"
+      "result": "PASS — vite build 8.88s clean; main 2.44MB/674kB gzip; a11y change ships fine"
     },
     {
       "task": "Run production preview server for user testing/recording",
-      "result": "DONE \u2014 https://localhost:4173/ serving production build 200; title/noscript/aria/lang verified in built HTML"
+      "result": "DONE — https://localhost:4173/ serving production build 200; title/noscript/aria/lang verified in built HTML"
     },
     {
       "task": "Production asset sweep on preview :4173",
-      "result": "PASS \u2014 all 10 assets 200 on :4173 (manifest/icons/uikitml/scene/og-image/robots/sitemap/security.txt/humans.txt)"
+      "result": "PASS — all 10 assets 200 on :4173 (manifest/icons/uikitml/scene/og-image/robots/sitemap/security.txt/humans.txt)"
     },
     {
-      "task": "xr list-targets \u2014 input surface audit",
-      "result": "PASS \u2014 all interactables resolve with correct world bounds: table ~0.87m, cards on left rail (0.17 dz), HUD at (-1,1.3,-0.58)"
+      "task": "xr list-targets — input surface audit",
+      "result": "PASS — all interactables resolve with correct world bounds: table ~0.87m, cards on left rail (0.17 dz), HUD at (-1,1.3,-0.58)"
     },
     {
       "task": "Dev-server health after 4h + HMR reloads",
-      "result": "PASS \u2014 :8081 healthy after 4h: bridge connected, commandReady, 2 clients"
+      "result": "PASS — :8081 healthy after 4h: bridge connected, commandReady, 2 clients"
     },
     {
-      "task": "Smoke-test ws presence relay \u2014 2 clients, join/beat forwarding",
-      "result": "PASS \u2014 2 clients: peer+ both directions, verbatim beat forwarding; relay works as documented"
+      "task": "Smoke-test ws presence relay — 2 clients, join/beat forwarding",
+      "result": "PASS — 2 clients: peer+ both directions, verbatim beat forwarding; relay works as documented"
     },
     {
       "task": "NEXT_STEPS recording-mechanics gap check",
-      "result": "DONE \u2014 added :4173 concrete URL + YouTube-link note (Devpost takes URL not file); pushed 6542361"
+      "result": "DONE — added :4173 concrete URL + YouTube-link note (Devpost takes URL not file); pushed 6542361"
     },
     {
       "task": "Verify 6542361 deploy green",
-      "result": "PASS \u2014 run 42696184239 success in 1m26s; NEXT_STEPS update live"
+      "result": "PASS — run 42696184239 success in 1m26s; NEXT_STEPS update live"
     },
     {
       "task": "SUBMISSION.md accuracy pass vs current shipped state",
-      "result": "DONE \u2014 verified all claims shipped; added judge-facing ?map= deep links to Access; pushed"
+      "result": "DONE — verified all claims shipped; added judge-facing ?map= deep links to Access; pushed"
     },
     {
       "task": "Verify de8e855 deploy green",
-      "result": "PASS \u2014 run 42696489539 success in 1m51s"
+      "result": "PASS — run 42696489539 success in 1m51s"
     },
     {
       "task": "Audit package.json scripts vs documented commands",
-      "result": "PASS \u2014 all 10 scripts present; every documented command (dev/build/preview/typecheck/relay/reference:*) resolves"
+      "result": "PASS — all 10 scripts present; every documented command (dev/build/preview/typecheck/relay/reference:*) resolves"
     },
     {
-      "task": "gitignore audit \u2014 dist/iwsdk/node_modules covered",
-      "result": "PASS \u2014 dist/.iwsdk/node_modules/env/logs/MCP all ignored; only task-loop.json dirty"
+      "task": "gitignore audit — dist/iwsdk/node_modules covered",
+      "result": "PASS — dist/.iwsdk/node_modules/env/logs/MCP all ignored; only task-loop.json dirty"
     },
     {
-      "task": "Fresh diff window \u2014 detect user interactions since snap-1",
-      "result": "PASS \u2014 27s/1605f: only Dig Site pulse; 0 user actions; world idle-stable (snap-1 evicted by HMR reload)"
+      "task": "Fresh diff window — detect user interactions since snap-1",
+      "result": "PASS — 27s/1605f: only Dig Site pulse; 0 user actions; world idle-stable (snap-1 evicted by HMR reload)"
     },
     {
       "task": "Task-loop ledger checkpoint commit",
-      "result": "DONE \u2014 ~780-entry ledger committed as 4cf4dfd"
+      "result": "DONE — ~780-entry ledger committed as 4cf4dfd"
     },
     {
       "task": "Verify 4cf4dfd deploy green",
-      "result": "PASS \u2014 run 42697022015 success in 1m2s"
+      "result": "PASS — run 42697022015 success in 1m2s"
     },
     {
-      "task": "scene state \u2014 validation diagnostics + runtime readiness + render stats",
-      "result": "PASS \u2014 0 diagnostics; 82 draw calls/65 meshes/31 mats/18 programs \u2014 well under Quest budget; map-table 61 meshes"
+      "task": "scene state — validation diagnostics + runtime readiness + render stats",
+      "result": "PASS — 0 diagnostics; 82 draw calls/65 meshes/31 mats/18 programs — well under Quest budget; map-table 61 meshes"
     },
     {
-      "task": "Trace-mode profile \u2014 attribute the 6 long tasks",
-      "result": "DONE \u2014 trace is Playwright action log (no fn attribution); metrics: 10 long tasks pure script, 0 layout, p50 16.7/0 dropped \u2014 dev-mode overhead not shipping concern"
+      "task": "Trace-mode profile — attribute the 6 long tasks",
+      "result": "DONE — trace is Playwright action log (no fn attribution); metrics: 10 long tasks pure script, 0 layout, p50 16.7/0 dropped — dev-mode overhead not shipping concern"
     },
     {
       "task": "tsconfig strictness audit",
-      "result": "PASS \u2014 strict, Bundler resolution, isolatedModules, noEmit, iwsdk client types; conventional and correct"
+      "result": "PASS — strict, Bundler resolution, isolatedModules, noEmit, iwsdk client types; conventional and correct"
     },
     {
       "task": "iwsdk.config.json authority-file audit",
-      "result": "PASS \u2014 every flag matches observed behavior: handTracking, offer always, canvasPointer, near 1mm, worker locomotion, horizon dark UI, Q3 emulator"
+      "result": "PASS — every flag matches observed behavior: handTracking, offer always, canvasPointer, near 1mm, worker locomotion, horizon dark UI, Q3 emulator"
     },
     {
-      "task": "vite.config.ts audit \u2014 last config file",
-      "result": "PASS \u2014 base ./ (Pages+LAN), dedupe fixes duplicate-three uikitml break (documented), havok excluded, 0.0.0.0 host"
+      "task": "vite.config.ts audit — last config file",
+      "result": "PASS — base ./ (Pages+LAN), dedupe fixes duplicate-three uikitml break (documented), havok excluded, 0.0.0.0 host"
     },
     {
       "task": "Verify deployed site serves the aria-label change",
-      "result": "PASS \u2014 live site serves role=application + aria-label + noscript + lang"
+      "result": "PASS — live site serves role=application + aria-label + noscript + lang"
     },
     {
       "task": "standby monitor",
-      "result": "PASS \u2014 live shot: baseline state intact, rendering correct, no user actions yet"
+      "result": "PASS — live shot: baseline state intact, rendering correct, no user actions yet"
     },
     {
-      "task": "Second standby check \u2014 ECS diff for user actions in this window",
-      "result": "PASS \u2014 22s window: only Dig Site pulse; session idle, world healthy"
+      "task": "Second standby check — ECS diff for user actions in this window",
+      "result": "PASS — 22s window: only Dig Site pulse; session idle, world healthy"
     },
     {
       "task": "Check repo for open issues/PRs",
-      "result": "PASS \u2014 0 open PRs, 0 open issues; clean"
+      "result": "PASS — 0 open PRs, 0 open issues; clean"
     },
     {
-      "task": "runtime targets \u2014 paired physical Quest check",
-      "result": "PASS \u2014 managed app+editor only, no physical Quest paired; browser 4h uptime 0 failures"
+      "task": "runtime targets — paired physical Quest check",
+      "result": "PASS — managed app+editor only, no physical Quest paired; browser 4h uptime 0 failures"
     },
     {
       "task": "public/ orphan-file audit",
-      "result": "DONE \u2014 map-editor.html real tool now README-linked; chime.mp3 = scaffold leftover (4kB, unwired); queued audio-feedback follow-up"
+      "result": "DONE — map-editor.html real tool now README-linked; chime.mp3 = scaffold leftover (4kB, unwired); queued audio-feedback follow-up"
     },
     {
       "task": "wire chime.mp3 feedback",
-      "result": "DONE \u2014 SfxSystem: chimes on digDone/wish/travel via createOneShot; registered live (25 systems); pushed a450021"
+      "result": "DONE — SfxSystem: chimes on digDone/wish/travel via createOneShot; registered live (25 systems); pushed a450021"
     },
     {
       "task": "Verify a450021 deploy green",
-      "result": "PASS \u2014 run 42698272675 success in 56s; SfxSystem live on public site"
+      "result": "PASS — run 42698272675 success in 56s; SfxSystem live on public site"
     },
     {
-      "task": "Chime on quest accept \u2014 find accept path, add emit if missing",
-      "result": "DONE \u2014 emit(questAccept) at accept path + sfx subscription; typecheck clean; pushed"
+      "task": "Chime on quest accept — find accept path, add emit if missing",
+      "result": "DONE — emit(questAccept) at accept path + sfx subscription; typecheck clean; pushed"
     },
     {
       "task": "Verify 0159859 deploy green",
-      "result": "PASS \u2014 run 42698569104 success in 57s"
+      "result": "PASS — run 42698569104 success in 57s"
     },
     {
-      "task": "Chime pass 2 \u2014 runStarted + haven/PIN moments",
-      "result": "DONE \u2014 7 events now: +havenBuilt/pinOk/runStarted; typecheck clean; pushed"
+      "task": "Chime pass 2 — runStarted + haven/PIN moments",
+      "result": "DONE — 7 events now: +havenBuilt/pinOk/runStarted; typecheck clean; pushed"
     },
     {
       "task": "Verify 830f83c deploy green",
-      "result": "PASS \u2014 run 42698891733 success in 58s; 7-event chime set live"
+      "result": "PASS — run 42698891733 success in 58s; 7-event chime set live"
     },
     {
       "task": "Verify SfxSystem survived HMR reloads",
-      "result": "PASS \u2014 SfxSystem live (25 systems, 0 paused), 37 entities, no leaks after 3 reloads"
+      "result": "PASS — SfxSystem live (25 systems, 0 paused), 37 entities, no leaks after 3 reloads"
     },
     {
       "task": "Sync docs for audio feature (CHANGELOG + SUBMISSION)",
-      "result": "DONE \u2014 README/CHANGELOG/SUBMISSION now reflect chimes + aria labels + map creator; pushed"
+      "result": "DONE — README/CHANGELOG/SUBMISSION now reflect chimes + aria labels + map creator; pushed"
     },
     {
       "task": "Verify d1dd98d deploy green",
-      "result": "PASS \u2014 run 42699226098 success in 57s"
+      "result": "PASS — run 42699226098 success in 57s"
     },
     {
       "task": "Console sweep after sfx/HMR reloads",
-      "result": "PASS \u2014 0 real errors, 0 fresh in 10min covering all sfx reloads; stale entries aged out"
+      "result": "PASS — 0 real errors, 0 fresh in 10min covering all sfx reloads; stale entries aged out"
     },
     {
       "task": "Housekeeping: .iwsdk size + aria re-verify post-reloads",
-      "result": "PASS \u2014 .iwsdk 6.2MB gitignored; aria labels persist across all reloads"
+      "result": "PASS — .iwsdk 6.2MB gitignored; aria labels persist across all reloads"
     },
     {
       "task": "Source-verify createOneShot mechanism",
-      "result": "PASS \u2014 autoplay+nonloop+auto-dispose confirmed; position option is a no-op in rc.2 (positional:false correct); audio unlocks on first gesture"
+      "result": "PASS — autoplay+nonloop+auto-dispose confirmed; position option is a no-op in rc.2 (positional:false correct); audio unlocks on first gesture"
     },
     {
       "task": "Persist createOneShot position no-op lesson to AGENTS.md",
-      "result": "DONE \u2014 createOneShot position no-op added to AGENTS.md lessons; pushed"
+      "result": "DONE — createOneShot position no-op added to AGENTS.md lessons; pushed"
     },
     {
       "task": "Verify 698fad3 deploy green",
-      "result": "PASS \u2014 run 42699647715 success in 48s"
+      "result": "PASS — run 42699647715 success in 48s"
     },
     {
-      "task": "Rebuild dist \u2014 preview serves pre-audio build",
-      "result": "DONE \u2014 :4173 now serves index-iyeCFx5P with all 7 chime events inside"
+      "task": "Rebuild dist — preview serves pre-audio build",
+      "result": "DONE — :4173 now serves index-iyeCFx5P with all 7 chime events inside"
     },
     {
-      "task": "npm outdated \u2014 dep freshness check",
-      "result": "PASS \u2014 nothing actionable: three types correctly match pinned runtime; vite patch skip justified (frozen green toolchain); iwsdk rc.2 no newer"
+      "task": "npm outdated — dep freshness check",
+      "result": "PASS — nothing actionable: three types correctly match pinned runtime; vite patch skip justified (frozen green toolchain); iwsdk rc.2 no newer"
     },
     {
       "task": "Verify LAN URLs answer (Quest access path)",
-      "result": "PASS \u2014 192.168.1.6 serves :8081 and :4173 (Quest-ready on Wi-Fi); 172.19.48.1 VM adapter also up"
+      "result": "PASS — 192.168.1.6 serves :8081 and :4173 (Quest-ready on Wi-Fi); 172.19.48.1 VM adapter also up"
     },
     {
-      "task": "Deploy pipeline reliability \u2014 scan recent runs for failures",
-      "result": "PASS \u2014 30/30 deploys green, zero failures across the arc"
+      "task": "Deploy pipeline reliability — scan recent runs for failures",
+      "result": "PASS — 30/30 deploys green, zero failures across the arc"
     },
     {
       "task": "Activity diff window + arc commit count",
-      "result": "PASS \u2014 28s: Dig Site pulse only, still idle; 84 total commits (+23 this session)"
+      "result": "PASS — 28s: Dig Site pulse only, still idle; 84 total commits (+23 this session)"
     },
     {
-      "task": "Repo metadata \u2014 description/homepage/topics",
-      "result": "DONE \u2014 was bare; now description + homepage + 10 topics set on the public repo"
+      "task": "Repo metadata — description/homepage/topics",
+      "result": "DONE — was bare; now description + homepage + 10 topics set on the public repo"
     },
     {
       "task": "Tag v0.1.0 submission milestone",
-      "result": "DONE \u2014 first tag pushed; judges get a named submission milestone"
+      "result": "DONE — first tag pushed; judges get a named submission milestone"
     },
     {
       "task": "Create GitHub Release on v0.1.0",
-      "result": "DONE \u2014 v0.1.0 release published with slice notes + live link"
+      "result": "DONE — v0.1.0 release published with slice notes + live link"
     },
     {
       "task": "GitHub community-profile checklist check",
-      "result": "DONE \u2014 issue+PR templates added (30ddeb0); health now 100% (was 85%)"
+      "result": "DONE — issue+PR templates added (30ddeb0); health now 100% (was 85%)"
     },
     {
       "task": "Verify 30ddeb0 deploy green",
-      "result": "PASS \u2014 run 42700485578 success in 47s"
+      "result": "PASS — run 42700485578 success in 47s"
     },
     {
-      "task": "README badges \u2014 CI status + license",
-      "result": "DONE \u2014 deploy/license/live badges at top; pushed"
+      "task": "README badges — CI status + license",
+      "result": "DONE — deploy/license/live badges at top; pushed"
     },
     {
       "task": "Verify 58bdaca deploy green",
-      "result": "PASS \u2014 run 42700706745 success in 50s"
+      "result": "PASS — run 42700706745 success in 50s"
     },
     {
       "task": "Ledger checkpoint (~37 iters since last)",
-      "result": "DONE \u2014 committed as ec7b482"
+      "result": "DONE — committed as ec7b482"
     },
     {
       "task": "Verify ec7b482 deploy green",
-      "result": "PASS \u2014 run 42700908679 success in 47s"
+      "result": "PASS — run 42700908679 success in 47s"
     },
     {
-      "task": "Activity diff \u2014 user interactions since last check",
-      "result": "IDLE \u2014 24s/1466 frames, Dig Site pulse only"
+      "task": "Activity diff — user interactions since last check",
+      "result": "IDLE — 24s/1466 frames, Dig Site pulse only"
     },
     {
       "task": "Verify fresh-boot world state after dev-server restart",
-      "result": "PASS \u2014 fresh boot: 25 systems, 37 entities, zero console errors"
+      "result": "PASS — fresh boot: 25 systems, 37 entities, zero console errors"
     },
     {
       "task": "Verify deployed Pages site serves current build (aria + sfx)",
-      "result": "PASS \u2014 live site serves iyeCFx5P with aria labels + all chime events"
+      "result": "PASS — live site serves iyeCFx5P with aria labels + all chime events"
     },
     {
       "task": "README run section",
-      "result": "DONE \u2014 added Run it locally, pushed"
+      "result": "DONE — added Run it locally, pushed"
     },
     {
       "task": "Verify 5999b84 deploy green",
-      "result": "PASS \u2014 run 42701461515 success in 57s"
+      "result": "PASS — run 42701461515 success in 57s"
     },
     {
       "task": "Verify docs/screenshots exists + populated (README claims storyboard stills)",
-      "result": "PASS \u2014 3 storyboard stills present (world/table/panel)"
+      "result": "PASS — 3 storyboard stills present (world/table/panel)"
     },
     {
       "task": "Verify map-editor.html serves on :4173 + live site",
-      "result": "PASS \u2014 200 on preview :4173 + live site"
+      "result": "PASS — 200 on preview :4173 + live site"
     },
     {
       "task": "Fresh-server monitoring: XR status + screenshot + activity diff",
-      "result": "PASS \u2014 XR session active (immersive-vr + hand-tracking), world rendering, idle"
+      "result": "PASS — XR session active (immersive-vr + hand-tracking), world rendering, idle"
     },
     {
       "task": "xr list-targets in the live immersive session",
-      "result": "PASS \u2014 9 world interactables + full HUD element tree resolve in-session"
+      "result": "PASS — 9 world interactables + full HUD element tree resolve in-session"
     },
     {
       "task": "Scripted XR ray: look-at + select Quest Card, verify accept in ECS",
-      "result": "PASS \u2014 look-at+select work; ray hit produced Hovered on Atlas HUD; cards correctly need grab-release"
+      "result": "PASS — look-at+select work; ray hit produced Hovered on Atlas HUD; cards correctly need grab-release"
     },
     {
-      "task": "Wish Pedestal press at true position \u2014 verify ray target fires",
-      "result": "PASS \u2014 wish fired: boosted quest dealt to slot 3 (questId 4), audio entity spawned"
+      "task": "Wish Pedestal press at true position — verify ray target fires",
+      "result": "PASS — wish fired: boosted quest dealt to slot 3 (questId 4), audio entity spawned"
     },
     {
-      "task": "Dig Site ray press \u2014 verify dig fires in-session",
-      "result": "PASS \u2014 hand press landed on X; range guard correctly refused (champion 5+ tiles out)"
+      "task": "Dig Site ray press — verify dig fires in-session",
+      "result": "PASS — hand press landed on X; range guard correctly refused (champion 5+ tiles out)"
     },
     {
       "task": "AI feature build",
-      "result": "DONE \u2014 loot/brain/npc/voice/haven-stead shipped + offer loop verified live (bargain\u2192take)"
+      "result": "DONE — loot/brain/npc/voice/haven-stead shipped + offer loop verified live (bargain→take)"
     },
     {
       "task": "Verify deploy 2ef3887+ green; demo voice/NPC for user",
-      "result": "DONE \u2014 architect.ts engineer+laborer; Thornmere Barrens generated+loaded live"
+      "result": "DONE — architect.ts engineer+laborer; Thornmere Barrens generated+loaded live"
     },
     {
       "task": "Verify cd4fb98 deploy green + live bundle hash",
-      "result": "PASS \u2014 run 42705678530 green 52s; live bundle has architect code"
+      "result": "PASS — run 42705678530 green 52s; live bundle has architect code"
     },
     {
       "task": "Docs sync for AI feature set (patrons/weapons/voice/architect/haven-stead)",
-      "result": "DONE \u2014 README/SUBMISSION/CHANGELOG cover patrons, weapons, voice, Architect, haven-stead, BYOK"
+      "result": "DONE — README/SUBMISSION/CHANGELOG cover patrons, weapons, voice, Architect, haven-stead, BYOK"
     },
     {
       "task": "Verify 00ac4d7 deploy",
-      "result": "DONE \u2014 green in 57s"
+      "result": "DONE — green in 57s"
     },
     {
       "task": "demo storyboard sync",
-      "result": "DONE \u2014 SUBMISSION/NEXT_STEPS storyboard leads with Architect + patron offer + loot/level"
+      "result": "DONE — SUBMISSION/NEXT_STEPS storyboard leads with Architect + patron offer + loot/level"
     },
     {
       "task": "verify be79ca0 deploy",
@@ -1041,47 +1043,47 @@
     },
     {
       "task": "3-surface liveness",
-      "result": "DONE \u2014 :8081, :4173, live site all 200"
+      "result": "DONE — :8081, :4173, live site all 200"
     },
     {
       "task": "XR session status",
-      "result": "session dropped (sessionOffered:true, active:false) \u2014 click Enter XR to resume"
+      "result": "session dropped (sessionOffered:true, active:false) — click Enter XR to resume"
     },
     {
       "task": "XR session restore",
-      "result": "offer:always already set \u2014 Enter XR button is the intended resume path; no change needed"
+      "result": "offer:always already set — Enter XR button is the intended resume path; no change needed"
     },
     {
       "task": "git housekeeping",
-      "result": "DONE \u2014 tree clean, only loop file dirty, dist/ ignored"
+      "result": "DONE — tree clean, only loop file dirty, dist/ ignored"
     },
     {
       "task": "Guild HUD still",
-      "result": "PARTIAL \u2014 captured 04-guild-hud.png but XR cam aimed skyward; needs head-aim for a usable still"
+      "result": "PARTIAL — captured 04-guild-hud.png but XR cam aimed skyward; needs head-aim for a usable still"
     },
     {
       "task": "head-aim for still",
-      "result": "BLOCKED \u2014 headset look-at requires active XR session; only user Enter-XR gesture can start one"
+      "result": "BLOCKED — headset look-at requires active XR session; only user Enter-XR gesture can start one"
     },
     {
       "task": "XR session restore via reload",
-      "result": "DONE \u2014 reload re-offered + auto-entered, sessionActive:true (Quest 3 immersive); headset re-aim refused headlessly, still stays user-framed"
+      "result": "DONE — reload re-offered + auto-entered, sessionActive:true (Quest 3 immersive); headset re-aim refused headlessly, still stays user-framed"
     },
     {
       "task": "hand mode restore",
-      "result": "DONE \u2014 set-input-mode hand ok; screenshot confirms wireframe hands both sides"
+      "result": "DONE — set-input-mode hand ok; screenshot confirms wireframe hands both sides"
     },
     {
       "task": "post-reload target audit",
-      "result": "DONE \u2014 30 targets incl stat-gear (Guild HUD line) live on fresh session"
+      "result": "DONE — 30 targets incl stat-gear (Guild HUD line) live on fresh session"
     },
     {
       "task": "hand gesture system",
-      "result": "DONE \u2014 GestureSystem: point-dwell press, fist punch, thumbsup/open NPC replies, all verified live; npcReply LLM-gate bug fixed; 170756d"
+      "result": "DONE — GestureSystem: point-dwell press, fist punch, thumbsup/open NPC replies, all verified live; npcReply LLM-gate bug fixed; 170756d"
     },
     {
       "task": "verify gesture deploy",
-      "result": "DONE \u2014 green in 57s, gestures live on Pages"
+      "result": "DONE — green in 57s, gestures live on Pages"
     },
     {
       "task": "README gesture line",
@@ -1089,11 +1091,11 @@
     },
     {
       "task": "verify b49bbb3 deploy",
-      "result": "DONE \u2014 green in 51s"
+      "result": "DONE — green in 51s"
     },
     {
       "task": "live bundle gesture check",
-      "result": "DONE \u2014 index-CuuJWS2g contains Point-press/POW/Gesture code"
+      "result": "DONE — index-CuuJWS2g contains Point-press/POW/Gesture code"
     },
     {
       "task": "CHANGELOG gesture entry",
@@ -1101,67 +1103,67 @@
     },
     {
       "task": "verify e55a6b8 deploy",
-      "result": "DONE \u2014 green in 69s"
+      "result": "DONE — green in 69s"
     },
     {
       "task": "storyboard gestures",
-      "result": "DONE \u2014 thumbs-up accept + fist-punch dig now in the video plan"
+      "result": "DONE — thumbs-up accept + fist-punch dig now in the video plan"
     },
     {
       "task": "verify 2ddf8aa deploy",
-      "result": "DONE \u2014 green in 56s"
+      "result": "DONE — green in 56s"
     },
     {
       "task": "session health",
-      "result": "dev :8081 up; XR idled out (offered) \u2014 Enter XR resumes"
+      "result": "dev :8081 up; XR idled out (offered) — Enter XR resumes"
     },
     {
       "task": "restore XR session",
-      "result": "DONE \u2014 entered + hand mode set"
+      "result": "DONE — entered + hand mode set"
     },
     {
       "task": "post-restore gesture regression",
-      "result": "DONE \u2014 POINT classifies on fresh session; fixed stale probe frame-matcher"
+      "result": "DONE — POINT classifies on fresh session; fixed stale probe frame-matcher"
     },
     {
       "task": "periodic re-check #1690",
-      "result": "adb not installed (Quest blocked); stored key still invalid_api_key at api.liquid.ai \u2014 BYOK blocked on a fresh key"
+      "result": "adb not installed (Quest blocked); stored key still invalid_api_key at api.liquid.ai — BYOK blocked on a fresh key"
     },
     {
       "task": "wizard loop verify",
-      "result": "DONE \u2014 greet on boot, contextual wizTip (dig-aware), aim-turn, bump-replay all live; probe blind spot was feed.unshift"
+      "result": "DONE — greet on boot, contextual wizTip (dig-aware), aim-turn, bump-replay all live; probe blind spot was feed.unshift"
     },
     {
       "task": "wizAsk/wizQuip verify",
-      "result": "VERIFIED via shared voice() engine + RACES-QUIPS key match; raw begin-click needs a save-wipe to reach \u2014 same pattern as verified buttons"
+      "result": "VERIFIED via shared voice() engine + RACES-QUIPS key match; raw begin-click needs a save-wipe to reach — same pattern as verified buttons"
     },
     {
       "task": "tutorial replay verify",
-      "result": "DONE \u2014 all 5 steps fire in order via wizard-bump; advances on travel/wish events + holds"
+      "result": "DONE — all 5 steps fire in order via wizard-bump; advances on travel/wish events + holds"
     },
     {
       "task": "verify b5053cb deploy",
-      "result": "DONE \u2014 green in 45s"
+      "result": "DONE — green in 45s"
     },
     {
       "task": "wizard TTS verify",
-      "result": "DONE \u2014 wizardLine -> sayWiz speaks (rate .92 pitch .6); speechSynthesis active on emit"
+      "result": "DONE — wizardLine -> sayWiz speaks (rate .92 pitch .6); speechSynthesis active on emit"
     },
     {
       "task": "verify 7b96bfe deploy",
-      "result": "DONE \u2014 green in 51s"
+      "result": "DONE — green in 51s"
     },
     {
       "task": "git housekeeping",
-      "result": "DONE \u2014 tree clean, only loop ledger dirty"
+      "result": "DONE — tree clean, only loop ledger dirty"
     },
     {
       "task": "wizard visual confirm",
-      "result": "DONE \u2014 Morvane visible on the right rim of the table in live capture"
+      "result": "DONE — Morvane visible on the right rim of the table in live capture"
     },
     {
       "task": "upstream check",
-      "result": "DONE \u2014 no new commits; local at b5053cb-adjacent head is current"
+      "result": "DONE — no new commits; local at b5053cb-adjacent head is current"
     },
     {
       "task": "voice race answers",
@@ -1485,63 +1487,67 @@
     },
     {
       "task": "adventure polish: NPC camp sites (fixed talk destinations instead of re-seated NPCs) + bigger 3rd-person presence cues",
-      "result": "PASS ab07995 \u2014 camps land-searched once on entry, never re-seat; wiz hidden at d>=16 off-window; nameplate 'GUILD PATRON \u00b7 1m' + figure confirmed in XR screenshot; pavilion greeting live; card rail hidden in adv"
+      "result": "PASS ab07995 — camps land-searched once on entry, never re-seat; wiz hidden at d>=16 off-window; nameplate 'GUILD PATRON · 1m' + figure confirmed in XR screenshot; pavilion greeting live; card rail hidden in adv"
     },
     {
       "task": "Quest-headset smoke test on real hardware when adb/Quest available (was blocked: adb empty)",
-      "result": "BLOCKED \u2014 adb daemon responds (C:/Users/Zrald/AppData/Local/Android/Sdk/platform-tools/adb.exe) but 'devices' lists none; no Quest attached. Kept in pending."
+      "result": "BLOCKED — adb daemon responds (C:/Users/Zrald/AppData/Local/Android/Sdk/platform-tools/adb.exe) but 'devices' lists none; no Quest attached. Kept in pending."
     },
     {
       "task": "periodic health sweep: upstream commits, dev :8081, live site, XR session",
-      "result": "PASS \u2014 in sync with origin; dev+live+manifest all 200; managed server running, bridge ready; XR session still live from camp verify"
+      "result": "PASS — in sync with origin; dev+live+manifest all 200; managed server running, bridge ready; XR session still live from camp verify"
     },
     {
       "task": "derive next adventure polish task toward goal (tutorial/wizard adv lines, regression, or next feature family)",
-      "result": "PASS \u2014 deploy green on 0823dce; reaction regression found+fixed 'Feel it wake? undefined' (unguarded s?.name) + npcOffer listener throw that aborted later listeners; all real events produce wizard lines"
+      "result": "PASS — deploy green on 0823dce; reaction regression found+fixed 'Feel it wake? undefined' (unguarded s?.name) + npcOffer listener throw that aborted later listeners; all real events produce wizard lines"
     },
     {
       "task": "derive next adventure polish task (verify deploy + next feature family)",
-      "result": "PASS \u2014 deploy green, bundle rotated index-CkPCWzE7; built+verified first-adventure tutorial (dc48ea5): 5 beats advancing on advStep/travel/campArrive/digDone, atut flag persisted"
+      "result": "PASS — deploy green, bundle rotated index-CkPCWzE7; built+verified first-adventure tutorial (dc48ea5): 5 beats advancing on advStep/travel/campArrive/digDone, atut flag persisted"
     },
     {
       "task": "verify dc48ea5 deploy + pick next polish (minimap camp names, or regression on tutorial interactions)",
-      "result": "PASS \u2014 deploy green; chose camp dressing: procedural pavilion (tent+board) + wizard stones+brazier, verified in XR shots at both camps"
+      "result": "PASS — deploy green; chose camp dressing: procedural pavilion (tent+board) + wizard stones+brazier, verified in XR shots at both camps"
     },
     {
       "task": "post-dressing regression: typecheck/build + verify deploy of camp commit + full-session adv smoke",
-      "result": "PASS \u2014 tsc+build clean, Pages deploy success, smoke probe: adv x20, rig y=0.07, patron off-window at d19, wiz camp+label at d2, minimap live, Militia Spear equipped, 2 skills persisted"
+      "result": "PASS — tsc+build clean, Pages deploy success, smoke probe: adv x20, rig y=0.07, patron off-window at d19, wiz camp+label at d2, minimap live, Militia Spear equipped, 2 skills persisted"
     },
     {
       "task": "derive next polish toward goal (physical weapon drops you can grab in adv)",
-      "result": "PASS \u2014 lootDrops claim queue for dig+quest rolls in adv; world-anchored blade/rarity-ring/name-plate views; walk-on claim verified twice incl. auto-equip; found+fixed labels/drops freezing while stationary"
+      "result": "PASS — lootDrops claim queue for dig+quest rolls in adv; world-anchored blade/rarity-ring/name-plate views; walk-on claim verified twice incl. auto-equip; found+fixed labels/drops freezing while stationary"
     },
     {
       "task": "verify deploy of drop commit + next polish (claim SFX/reaction)",
-      "result": "PASS \u2014 deploy green; added rarity-tiered wizard lines on weaponClaim, verified live (Rare common line, Legendary epic line, Worldrender equipped)"
+      "result": "PASS — deploy green; added rarity-tiered wizard lines on weaponClaim, verified live (Rare common line, Legendary epic line, Worldrender equipped)"
     },
     {
       "task": "next polish toward goal (claim SFX chime, or haven/houses adv-scale presence audit)",
-      "result": "PASS \u2014 audited+fixed haven scale: x4 houses/x2 ring/x2.5 relics in adv; XR shot shows walk-up-able hamlet; claim SFX remains queued"
+      "result": "PASS — audited+fixed haven scale: x4 houses/x2 ring/x2.5 relics in adv; XR shot shows walk-up-able hamlet; claim SFX remains queued"
     },
     {
       "task": "next polish: claim SFX chime + deploy verify of haven commit",
-      "result": "PASS \u2014 chime wired+verified live, haven deploy success"
+      "result": "PASS — chime wired+verified live, haven deploy success"
     },
     {
       "task": "verify+polish in-world haven building",
-      "result": "PASS \u2014 dwell-press on ring builds houses in-world; no code change needed"
+      "result": "PASS — dwell-press on ring builds houses in-world; no code change needed"
     },
     {
       "task": "verify+polish in-world haven building: punch the ring",
-      "result": "PASS \u2014 added haven to fist branches (after dig-X); punch + dwell both build live"
+      "result": "PASS — added haven to fist branches (after dig-X); punch + dwell both build live"
     },
     {
       "task": "adv-scale ground markers: dig-X + wish crystal readable at standing height",
-      "result": "PASS \u2014 markers were already sized; wish crystal stranded on table edge became a seated world shrine (the real fix)"
+      "result": "PASS — markers were already sized; wish crystal stranded on table edge became a seated world shrine (the real fix)"
     },
     {
       "task": "adv-scale ground markers: dig-X + wish readable at standing height",
-      "result": "PASS \u2014 crystal aim-lift closes the residual; shrine+markers fully in-world"
+      "result": "PASS — crystal aim-lift closes the residual; shrine+markers fully in-world"
+    },
+    {
+      "task": "next polish toward goal",
+      "result": "PASS — offer surface audited (HUD panel works in adv), tip deploy verified live"
     }
   ],
   "session": "bedecked-drink"
