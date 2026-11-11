@@ -186,4 +186,30 @@ export function armTutorial(): void {
   });
   on('travel', () => tutAdvance('travel'));
   on('wish', () => tutAdvance('wish'));
+  armReactions();
+}
+
+/* ---------- milestone reactions ----------
+ * A great guide notices your deeds - one commemorative line per milestone,
+ * once per session, so he stays a presence instead of a parrot. */
+const REACTS: [string, string, string][] = [
+  ['questAccept', 'beacon', 'The contract is inked. The beacon marks your task - the guild watches how you keep your word.'],
+  ['havenBuilt', 'haven', 'A haven rises on the fold. Walls remember their builders, wanderer.'],
+  ['npcOffer', 'patron', 'A patron approaches. Weigh the reward against the risk before you answer.'],
+  ['freeDigSpent', 'dig-x', 'The earth gives up its secret. Spend the spoils well - the fold provides.'],
+];
+
+let reactArmed = false;
+function armReactions(): void {
+  if (reactArmed) return;
+  reactArmed = true;
+  const seen = new Set<string>();
+  for (const [ev, aim, line] of REACTS) {
+    on(ev, () => {
+      if (seen.has(ev)) return;
+      seen.add(ev);
+      if (aim) emit('wizardAim', aim);
+      emit('wizardLine', `The Wizard: ${line}`);
+    });
+  }
 }
