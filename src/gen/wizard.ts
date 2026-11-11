@@ -289,11 +289,12 @@ function armReactions(): void {
   }
   // every talent is a new milestone - not deduped like the shared reactions
   on('skillUp', (s: { name?: string; track?: string; level?: number }) => {
+    const nm = s?.name ?? 'a new art'; // a malformed emit must not speak "undefined"
     emit('wizardAim', 'champion');
     emit('wizardLine', `The Wizard: ${pick([
-      `${s?.name} - your deeds grew it. The fold grants what you practice.`,
-      `Feel it wake? ${s?.name} - no tome taught it, your own hands did.`,
-      `${s?.name}. That is the old way, wanderer - the world shapes the shaper.`,
+      `${nm} - your deeds grew it. The fold grants what you practice.`,
+      `Feel it wake? ${nm} - no tome taught it, your own hands did.`,
+      `${nm}. That is the old way, wanderer - the world shapes the shaper.`,
     ])}`);
   });
 

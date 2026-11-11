@@ -68,8 +68,8 @@ export class VoiceSystem extends createSystem({}) {
     on('npcLine', (l: string) => this.say(l));
     // the Wizard speaks in a deeper, slower voice than the patrons
     on('wizardLine', (l: string) => this.sayWiz(l));
-    on('npcOffer', (o: { npc: { name: string }; greeting: string }) => {
-      this.say(`${o.npc.name} says: ${o.greeting}`);
+    on('npcOffer', (o: { npc?: { name?: string }; greeting?: string }) => {
+      this.say(`${o?.npc?.name ?? 'A patron'} says: ${o?.greeting ?? 'work awaits'}`);
     });
   }
 
