@@ -1194,6 +1194,10 @@
     {
       "task": "verify reactions deploy",
       "result": "DONE - fa7f7e0 green"
+    },
+    {
+      "task": "levelUp + weaponDrop reactions",
+      "result": "DONE - new events wired; Mythic line + dedup verified live"
     }
   ],
   "session": "bedecked-drink"
