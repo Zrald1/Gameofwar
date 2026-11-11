@@ -2,7 +2,6 @@
   "enabled": true,
   "goal": "make it playable: walk/run adventure inside the world, race weapons (sword/wand), per-race skill tree branches with skills randomly created from player efforts, comprehensive map for missions+NPCs, big talkable characters (~screen size), minimap top-right",
   "done": [
-    "Periodic re-check #716: adb empty, 0 env files - still blocked",
     "Periodic re-check #717: adb empty, 0 env files - still blocked",
     "Periodic re-check #718: adb empty, 0 env files - still blocked",
     "Periodic re-check #719: adb empty, 0 env files - still blocked",
@@ -21,13 +20,14 @@
     "live regression GREEN: 10 reaction probes all pass on adventure build; tutorial replay path intact",
     "docs+deploy VERIFIED 90387ed: README/SUBMISSION/CHANGELOG adventure update; build clean 12.1s; Pages deploy success; live 200",
     "NPC camp sites VERIFIED ab07995: fixed land-searched camps (patron+wizard) survive recenters; off-window figures+name labels hide; 'GUILD PATRON · Nm' plates; pavilion greeting fires at d<=4 re-arms >9; rail cards hidden in adv",
-    "Quest smoke re-check: adb runs (SDK platform-tools path) but 0 devices attached - still blocked on hardware"
+    "Quest smoke re-check: adb runs (SDK platform-tools path) but 0 devices attached - still blocked on hardware",
+    "health sweep GREEN: main==origin/main, dev :8081 200, live 200, manifest 200, dev server running+browserCmd ready, XR session active (immersive-vr)"
   ],
   "pending": [
-    "periodic health sweep: upstream commits, dev :8081, live site, XR session"
+    "derive next adventure polish task toward goal (tutorial/wizard adv lines, regression, or next feature family)"
   ],
   "current": null,
-  "iteration": 1791,
+  "iteration": 1792,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1492,6 +1492,10 @@
     {
       "task": "Quest-headset smoke test on real hardware when adb/Quest available (was blocked: adb empty)",
       "result": "BLOCKED — adb daemon responds (C:/Users/Zrald/AppData/Local/Android/Sdk/platform-tools/adb.exe) but 'devices' lists none; no Quest attached. Kept in pending."
+    },
+    {
+      "task": "periodic health sweep: upstream commits, dev :8081, live site, XR session",
+      "result": "PASS — in sync with origin; dev+live+manifest all 200; managed server running, bridge ready; XR session still live from camp verify"
     }
   ],
   "session": "bedecked-drink"
