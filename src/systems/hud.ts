@@ -393,6 +393,11 @@ export class HudSystem extends createSystem({}) {
     this.set('stat-gear', {
       text: w ? `${w.rarity} ${w.name} +${w.power}p` : 'No weapon wielded',
     });
+    this.set('stat-skills', {
+      text: G.skills.length
+        ? `Talents: ${G.skills.map((s) => `${s.name} ${s.level > 1 ? 'x' + s.level : ''}`).join(', ')}`
+        : 'Talents: none yet - your deeds will grow them',
+    });
     this.set(
       'stat-haven',
       { text: G.houses > 0 ? `Haven: ${G.houses} house${G.houses > 1 ? 's' : ''} (+${G.houses * 2}g/10s)` : 'Haven: unbuilt - press the golden ring' },

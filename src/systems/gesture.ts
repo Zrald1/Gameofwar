@@ -9,7 +9,8 @@
  * the same joints.
  */
 import { createSystem, CylinderGeometry, Mesh, MeshBasicMaterial, Quaternion, Vector3 } from '@iwsdk/core';
-import { Anchors, emit, feed, G, on } from '../state.js';
+import { bumpEffort, punchPowerChance } from '../gen/skills.js';
+import { addPower, Anchors, emit, feed, G, on } from '../state.js';
 
 type Pose = 'point' | 'fist' | 'open' | 'thumbsup' | 'relaxed';
 
@@ -288,7 +289,11 @@ export class GestureSystem extends createSystem({}) {
       // ---- fist: thrown punch (edit mode: place block at the cursor) ----
       if (pose === 'fist' && st.vel > PUNCH_SPEED && st.punchCooldown <= 0) {
         st.punchCooldown = 0.6;
-        G.effort.punch++;
+        bumpEffort('punch');
+        if (G.rng() < punchPowerChance()) {
+          addPower(1);
+          feed('Your fist rings true - the world yields a spark of power.');
+        }
         const adv = G.mode === 'adv';
         const range = adv ? ADV_PUNCH : PUNCH_RANGE;
         // a punch thrown at a figure is aimed contact, in any mode

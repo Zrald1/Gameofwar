@@ -15,6 +15,7 @@ import {
 import { genQuest, GRADES, GRADE_COLORS, Quest, QuestKinds } from '../gen/quests.js';
 import { rollWeapon, weaponDropChance } from '../gen/loot.js';
 import { makeOffer, reply, ReplyIntent } from '../gen/npc.js';
+import { bumpEffort, questGoldBonus, talkGradeChance, wishBoost } from '../gen/skills.js';
 import { Biomes } from '../gen/prng.js';
 import { mapTileInfo } from '../gen/mapdef.js';
 import {
@@ -112,6 +113,11 @@ export class QuestSystem extends createSystem({
     if (slot < 0) return;
     const o = makeOffer(G.ci, G.cj);
     o.slot = slot;
+    if (G.rng() < talkGradeChance()) {
+      // silver tongue: the patron opens a grade kinder
+      o.quest.gradeIdx = Math.min(GRADES.length - 1, o.quest.gradeIdx + 1);
+      feed('Your easy words sweeten the terms - the patron offers a kinder grade.');
+    }
     G.offer = o;
     emit('npcOffer', o);
     G.hudDirty = true;
@@ -123,7 +129,7 @@ export class QuestSystem extends createSystem({
     if (!o || G.phase !== 'playing') return;
     const res = await reply(o, intent);
     o.line = res.line;
-    G.effort.talk++;
+    bumpEffort('talk');
     feed(res.line);
     if (res.outcome === 'accept') {
       this.placeCard(o.slot, o.quest);
@@ -264,8 +270,8 @@ export class QuestSystem extends createSystem({
   private completeQuest(q: Quest): void {
     q.done = true;
     G.activeQuests.delete(q.id);
-    G.effort.quest++;
-    const gold = Math.round(q.rewardGold * raceGoldMul());
+    bumpEffort('quest');
+    const gold = Math.round(q.rewardGold * raceGoldMul() * questGoldBonus());
     const power = Math.round(q.rewardPower * powerMul(q.kind));
     addGold(gold);
     addPower(power);
@@ -308,7 +314,7 @@ export class QuestSystem extends createSystem({
       return;
     }
     feed('You whisper a wish... the map ink swirls');
-    G.effort.wish++;
-    this.dealToSlot(slot, 2);
+    bumpEffort('wish');
+    this.dealToSlot(slot, 2 + wishBoost()); // wishcraft deepens the deal
   }
 }

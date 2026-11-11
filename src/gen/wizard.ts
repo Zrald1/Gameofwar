@@ -284,6 +284,15 @@ function armReactions(): void {
       emit('wizardLine', `The Wizard: ${line(a)}`);
     });
   }
+  // every talent is a new milestone - not deduped like the shared reactions
+  on('skillUp', (s: { name?: string; track?: string; level?: number }) => {
+    emit('wizardAim', 'champion');
+    emit('wizardLine', `The Wizard: ${pick([
+      `${s?.name} - your deeds grew it. The fold grants what you practice.`,
+      `Feel it wake? ${s?.name} - no tome taught it, your own hands did.`,
+      `${s?.name}. That is the old way, wanderer - the world shapes the shaper.`,
+    ])}`);
+  });
 
   // ambient presence - after a long silence he mutters a world-observation,
   // a few times a session at most, and never over his own voice

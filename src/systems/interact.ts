@@ -9,6 +9,7 @@ import { Biomes } from '../gen/prng.js';
 import { mapTileInfo } from '../gen/mapdef.js';
 import { rollLoot } from '../gen/quests.js';
 import { rollWeapon, weaponDropChance } from '../gen/loot.js';
+import { bumpEffort, digGoldBonus } from '../gen/skills.js';
 import {
   addGold,
   addPower,
@@ -75,7 +76,7 @@ export class InteractSystem extends createSystem({
     if (G.phase !== 'playing' || G.activeDigId < 0) return;
     const dig = G.digs.find((d) => d.id === G.activeDigId);
     if (!dig) return;
-    G.effort.dig++;
+    bumpEffort('dig');
     if (tileDist(G.ci, G.cj, dig.i, dig.j) > DIG_RANGE) {
       feed('Too far - carry your champion to the X');
       return;
@@ -102,7 +103,7 @@ export class InteractSystem extends createSystem({
       G.rng,
       luckBonus(info.biome === Biomes.OCEAN) + levelLuck(),
     );
-    const gold = Math.round(loot.gold * digGoldMul());
+    const gold = Math.round(loot.gold * digGoldMul() * digGoldBonus());
     addGold(gold);
     addPower(loot.power + Math.round(weaponPower() * 0.1));
     addXp(15);

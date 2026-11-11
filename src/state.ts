@@ -62,6 +62,8 @@ export interface GameState {
   wizJ: number;
   /** what the wanderer has actually been doing - feeds emergent skills */
   effort: { walk: number; dig: number; punch: number; quest: number; talk: number; wish: number };
+  /** talents grown from effort - names woven from the bloodline */
+  skills: { id: string; track: string; name: string; level: number }[];
   /** world tile at grid center */
   centerI: number;
   centerJ: number;
@@ -187,6 +189,7 @@ export const G: GameState = {
   wizI: 0,
   wizJ: 0,
   effort: { walk: 0, dig: 0, punch: 0, quest: 0, talk: 0, wish: 0 },
+  skills: [],
   centerI: 0,
   centerJ: 0,
   terrainDirty: true,
@@ -318,6 +321,8 @@ export function save(): void {
         cj: G.cj,
         houses: G.houses,
         relics: G.relics,
+        skills: G.skills,
+        effort: G.effort,
         map: G.mapName,
         charColor: G.charColor,
         charHat: G.charHat,
@@ -350,6 +355,8 @@ export function load(): boolean {
     G.centerJ = G.cj;
     G.houses = d.houses ?? 0;
     G.relics = d.relics ?? [];
+    G.skills = Array.isArray(d.skills) ? d.skills : [];
+    if (d.effort) Object.assign(G.effort, d.effort);
     G.charColor = d.charColor ?? 0;
     G.charHat = d.charHat ?? 'none';
     G.charBack = d.charBack ?? 'none';

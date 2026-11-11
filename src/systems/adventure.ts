@@ -9,7 +9,8 @@ import { createSystem, Object3D, Vector3 } from '@iwsdk/core';
 import { GRID_H, GRID_W, TILE, TILE_TOP } from '../scene-assets/game.scene-asset.js';
 import { createRaceWeapon } from '../scene-assets/weapons.scene-asset.js';
 import { mapTileInfo } from '../gen/mapdef.js';
-import { Anchors, emit, feed, G, on } from '../state.js';
+import { bumpEffort, walkLoreXp } from '../gen/skills.js';
+import { addXp, Anchors, emit, feed, G, on } from '../state.js';
 import { ADV_SCALE, HALF_H, HALF_W, tileDist, tileHeight, worldTilePos } from '../layout.js';
 
 const TABLE_POS = new Vector3(0, 0.82, -0.55);
@@ -134,7 +135,7 @@ export class AdventureSystem extends createSystem({}) {
     this.lastCi = ci;
     this.lastCj = cj;
     if (ci !== G.ci || cj !== G.cj) {
-      G.effort.walk += tileDist(G.ci, G.cj, ci, cj);
+      bumpEffort('walk', tileDist(G.ci, G.cj, ci, cj));
       G.ci = ci;
       G.cj = cj;
       G.hudDirty = true;
@@ -146,6 +147,8 @@ export class AdventureSystem extends createSystem({}) {
       G.terrainDirty = true;
       this.seatNpcs();
       feed(`You walk into the ${mapTileInfo(ci, cj).biome} lands (${ci}, ${cj})`);
+      const lore = walkLoreXp();
+      if (lore > 0) addXp(lore); // trail lore: the land itself teaches
       emit('travel', ci, cj);
       this.placeTable(); // world slides; keep your tile underfoot
     }

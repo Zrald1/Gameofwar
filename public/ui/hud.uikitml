@@ -205,6 +205,7 @@
       <div id="stat-power" class="stats">Power 0</div>
       <div id="stat-gold" class="gold">0 gold</div>
       <div id="stat-gear" class="stats">No weapon wielded</div>
+      <div id="stat-skills" class="sub">Talents: none yet - your deeds will grow them</div>
       <div id="stat-haven" class="sub">Haven: unbuilt</div>
       <div id="stat-map" class="sub">Map: the Wild Ink</div>
       <div id="stat-peers" class="sub">Table: solo</div>
