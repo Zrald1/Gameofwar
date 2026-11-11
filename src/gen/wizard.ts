@@ -6,7 +6,7 @@
  * game never hard-depends on a key).
  */
 import { llmChat } from './brain.js';
-import { emit, G } from '../state.js';
+import { emit, G, on } from '../state.js';
 
 const GREETS = [
   'Ah - a new soul at the table. I am Morvane, Keeper of the Fold.',
@@ -109,4 +109,75 @@ export function wizTip(): void {
   ]).then((l) => {
     if (l) emit('wizardLine', `The Wizard: ${l}`);
   });
+}
+
+/* ---------- first-run tutorial ----------
+ * On the very first runStarted the Wizard walks the player through the
+ * core loop in four steps. Each step aims him at the thing it teaches and
+ * advances early when the player does it (travel / wish) - a hold timer
+ * moves on regardless so the lesson never stalls. Lines are deterministic
+ * on purpose: a tutorial should read the same for every new player. */
+const TUT_KEY = 'atlas-tut-v1';
+const TUT_STEPS: { aim: string; line: string; advance?: string; hold: number }[] = [
+  { aim: '', line: 'A first crossing? Keep an ear on the rim - I will walk you through it.', hold: 4.5 },
+  { aim: 'champion', line: 'Pinch your blue meeple and carry him past the map edge - the world scrolls under his feet.', advance: 'travel', hold: 16 },
+  { aim: 'wish', line: 'The crystal on the far rim deals quests. Press it, then press a dealt card to take the work.', advance: 'wish', hold: 14 },
+  { aim: 'patron', line: 'And that hooded one is a guild patron. Point at him - thumbs-up takes a contract, open palm refuses.', hold: 10 },
+  { aim: '', line: 'That is the whole art, wanderer. Poke me whenever you are lost.', hold: 0 },
+];
+let tutIdx = -1;
+let tutTimer: ReturnType<typeof setTimeout> | null = null;
+
+const tutDone = (): boolean => {
+  try {
+    return localStorage.getItem(TUT_KEY) === '1';
+  } catch {
+    return true; // private mode - do not nag
+  }
+};
+const tutMark = (): void => {
+  try {
+    localStorage.setItem(TUT_KEY, '1');
+  } catch {
+    /* private mode */
+  }
+};
+
+function tutSpeak(i: number): void {
+  const s = TUT_STEPS[i];
+  if (!s) {
+    tutIdx = -1;
+    tutMark();
+    return;
+  }
+  tutIdx = i;
+  emit('wizardAim', s.aim);
+  emit('wizardLine', `The Wizard: ${s.line}`);
+  if (tutTimer) clearTimeout(tutTimer);
+  if (i + 1 < TUT_STEPS.length) {
+    tutTimer = setTimeout(() => tutSpeak(i + 1), s.hold * 1000);
+  } else {
+    tutTimer = null;
+    tutMark();
+  }
+}
+
+function tutAdvance(ev: string): void {
+  const s = TUT_STEPS[tutIdx];
+  if (s?.advance === ev) tutSpeak(tutIdx + 1);
+}
+
+let tutArmed = false;
+/** subscribe the tutorial to the game bus - called once on app boot */
+export function armTutorial(): void {
+  if (tutArmed) return;
+  tutArmed = true;
+  on('runStarted', () => {
+    if (tutDone()) return;
+    if (tutTimer) clearTimeout(tutTimer);
+    // let the race quip land before the lesson starts
+    tutTimer = setTimeout(() => tutSpeak(0), 4000);
+  });
+  on('travel', () => tutAdvance('travel'));
+  on('wish', () => tutAdvance('wish'));
 }

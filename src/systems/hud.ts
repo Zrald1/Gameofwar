@@ -7,7 +7,7 @@ import { createSystem, UIKitMLAsset, VisibilityState } from '@iwsdk/core';
 import { GRADES, powerRank, QuestKinds } from '../gen/quests.js';
 import { clearDefaultMap, nextMap, saveDefaultMap, VOX_DEFS } from '../gen/mapdef.js';
 import { commissionTheGuild } from '../gen/architect.js';
-import { wizAsk, wizGreet, wizQuip } from '../gen/wizard.js';
+import { armTutorial, wizAsk, wizGreet, wizQuip } from '../gen/wizard.js';
 import { applyCharacter, BACKS, charName, CHAR_COLORS, HATS, RACE_HATS } from '../character.js';
 import {
   adminLogin,
@@ -63,6 +63,7 @@ export class HudSystem extends createSystem({}) {
     // subscribe BEFORE wizGreet: his lines route through wizardLine
     on('wizardLine', (line: string) => feed(line));
     wizGreet();
+    armTutorial(); // first-run guided lesson listens for runStarted
     // intro -> race select
     const begin = p.getElementById('btn-begin');
     const onBegin = () => {

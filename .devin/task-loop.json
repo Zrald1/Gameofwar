@@ -2,7 +2,6 @@
   "enabled": true,
   "goal": "improvement of our current project \u2014 ensure all of the game has a character: a wizard that asks the user who they want to be; very light, very fast, great wizard, AI-generated theme, explains to the user; push each integrated loop",
   "done": [
-    "FIXED stuck Pages deploy: cancel-in-progress:true broke stale environment lock; manifest+icons now live (200)",
     "NEXT_STEPS.md handoff written - video recording + Devpost form + dev account steps for the user",
     "README replaced with real game overview + live URL + feature list (was scaffold boilerplate)",
     "AGENTS.md: project lessons recorded (LocomotionEnvironment, kit Button 80u, XR click path, panel face, Pages lock, assets realm)",
@@ -21,11 +20,12 @@
     "Wizard voice shipped: all lines via wizardLine -> feed rail + TTS elder voice (0.92/0.6); speak() serializes; VoiceSystem before Hud so greeting heard; verified live; pushed d073ce9",
     "Star talk-pulse shipped: wizardLine->1.5s star flare ~1.37x verified; wizard got own clock wizT (was statue at intro - patronT frozen); cached star lookup; needed dev restart + --allow-browser-automation (stale transform again); pushed 451f728",
     "Build clean 4.63s; XR close-up shot of wizard star mid-pulse saved docs/screenshots/05 (interval-armed pulse + browser screenshot; canvas.toDataURL blank under preserveDrawingBuffer:false); XR exited; pushed c65cb6f",
-    "Wizard aim shipped: wizardAim->yaw ease toward patron/dig-x/haven/beacon/wish, verified -0.46->-1.57; FIXED latent gesture bug (haven vs haven-marker - dwell at haven never worked); pushed 9886f25"
+    "Wizard aim shipped: wizardAim->yaw ease toward patron/dig-x/haven/beacon/wish, verified -0.46->-1.57; FIXED latent gesture bug (haven vs haven-marker - dwell at haven never worked); pushed 9886f25",
+    "Haven dwell regression PASS e2e in XR: point-tip at ring -> Point-press x4 -> tryBuild -> houses 0->3, Haven complete; alias fix proven end-to-end; pushed 1c9c6bb"
   ],
   "pending": [],
-  "current": "Regression: verify gesture dwell at haven-marker now fires tryBuild (post-alias)",
-  "iteration": 889,
+  "current": "Next feature family: wizard teaches the FIRST-time player actively - scripted 3-step tutorial lines on first Begin (travel/dig/patron), not just reactive tips",
+  "iteration": 891,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
