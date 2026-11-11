@@ -1186,6 +1186,10 @@
     {
       "task": "verify Morvane-speech deploy",
       "result": "DONE - dd0779c green (096b543 content included)"
+    },
+    {
+      "task": "wizard milestone reactions",
+      "result": "DONE - questAccept/havenBuilt/npcOffer/freeDigSpent each get one line; dedup verified live"
     }
   ],
   "session": "bedecked-drink"
