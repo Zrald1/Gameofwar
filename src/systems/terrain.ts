@@ -25,7 +25,7 @@ import {
   TILE,
   TILE_TOP,
 } from '../scene-assets/game.scene-asset.js';
-import { Anchors, G } from '../state.js';
+import { Anchors, G, on } from '../state.js';
 import { HALF_H, HALF_W, slotPos, worldTilePos } from '../layout.js';
 import { Champion } from '../components.js';
 import { Grabbed } from '@iwsdk/core';
@@ -69,6 +69,9 @@ export class TerrainSystem extends createSystem({
   private patronPid = '';
   private patronT = 0;
   private patronRigged = false;
+  private wizStar: Mesh | null = null;
+  private wizTalkT = 0;
+  private wizT = 0;
 
   init(): void {
     const table = this.world.requireSceneObject('map-table');
@@ -106,6 +109,8 @@ export class TerrainSystem extends createSystem({
     // patron robe gets its own material so persona tints don't touch the asset.
     // the manifest clone mounts async - rig it lazily on first visible frame
     this.patronRobe = new MeshStandardMaterial({ color: 0x6a7a9a, roughness: 0.7 });
+    // the Wizard's star flares while he is speaking
+    on('wizardLine', () => { this.wizTalkT = 1.5; });
   }
 
   rebuild(): void {
@@ -384,10 +389,27 @@ export class TerrainSystem extends createSystem({
     const wiz = Anchors.get('wizard')!;
     if (!wiz.visible) wiz.visible = true;
     {
-      wiz.position.y = 0.032 + Math.sin(this.patronT * 1.8) * 0.0025;
-      wiz.rotation.y = -0.38 + Math.sin(this.patronT * 0.7) * 0.12;
-      const star = wiz.getObjectByName('wizard-star');
-      if (star) star.rotation.y += delta * 2.2;
+      // his own clock - patronT freezes outside 'playing' but the Wizard
+      // performs from the intro onward
+      this.wizT += delta;
+      wiz.position.y = 0.032 + Math.sin(this.wizT * 1.8) * 0.0025;
+      wiz.rotation.y = -0.38 + Math.sin(this.wizT * 0.7) * 0.12;
+      // clone mounts async - cache the star on first sight instead of
+      // getObjectByName every frame
+      if (!this.wizStar) {
+        this.wizStar = (wiz.getObjectByName('wizard-star') as Mesh | undefined) ?? null;
+      }
+      const star = this.wizStar;
+      if (star) {
+        star.rotation.y += delta * 2.2;
+        if (this.wizTalkT > 0) {
+          this.wizTalkT = Math.max(0, this.wizTalkT - delta);
+          const k = this.wizTalkT / 1.5;
+          star.scale.setScalar(1 + Math.max(0, Math.sin(this.wizT * 16)) * 0.45 * k);
+        } else {
+          star.scale.setScalar(1);
+        }
+      }
     }
   }
 }
