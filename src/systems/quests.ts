@@ -274,6 +274,7 @@ export class QuestSystem extends createSystem({
       const w = rollWeapon(G.rng, q.gradeIdx, GRADES[q.gradeIdx]);
       addWeapon(w);
       feed(`${w.rarity.toUpperCase()} DROP - ${w.name} (+${w.power}p)`);
+      emit('weaponDrop', w.rarity);
     }
     feed(`Quest complete [${GRADES[q.gradeIdx]}]: +${gold}g +${power}p`);
     const idx = G.cardSlots.indexOf(q.id);

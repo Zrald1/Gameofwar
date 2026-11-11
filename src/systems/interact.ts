@@ -118,6 +118,7 @@ export class InteractSystem extends createSystem({
       const w = rollWeapon(G.rng, -1, '');
       addWeapon(w);
       feed(`${w.rarity.toUpperCase()} DROP - ${w.name} (+${w.power}p)`);
+      emit('weaponDrop', w.rarity);
     }
     save();
     G.freeDig = null;

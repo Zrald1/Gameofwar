@@ -244,6 +244,7 @@ export function addXp(n: number): void {
     G.xp -= XP_STEP(G.level);
     G.level++;
     feed(`Level up! You are now Lv ${G.level} - the map respects you more.`);
+    emit('levelUp', G.level);
   }
   G.hudDirty = true;
 }
