@@ -2,7 +2,6 @@
   "enabled": true,
   "goal": "make it playable: walk/run adventure inside the world, race weapons (sword/wand), per-race skill tree branches with skills randomly created from player efforts, comprehensive map for missions+NPCs, big talkable characters (~screen size), minimap top-right",
   "done": [
-    "Periodic re-check #715: adb empty, 0 env files - still blocked",
     "Periodic re-check #716: adb empty, 0 env files - still blocked",
     "Periodic re-check #717: adb empty, 0 env files - still blocked",
     "Periodic re-check #718: adb empty, 0 env files - still blocked",
@@ -21,14 +20,14 @@
     "named mission destinations VERIFIED e4518d4: advStep per-tile travel (surveys complete on approach), arrival feed names the quest site, walked 27m -> smolders-close line -> punched X -> Militia Spear drop; Sylph Stride woke on the same walk",
     "live regression GREEN: 10 reaction probes all pass on adventure build; tutorial replay path intact",
     "docs+deploy VERIFIED 90387ed: README/SUBMISSION/CHANGELOG adventure update; build clean 12.1s; Pages deploy success; live 200",
-    "NPC camp sites VERIFIED ab07995: fixed land-searched camps (patron+wizard) survive recenters; off-window figures+name labels hide; 'GUILD PATRON · Nm' plates; pavilion greeting fires at d<=4 re-arms >9; rail cards hidden in adv"
+    "NPC camp sites VERIFIED ab07995: fixed land-searched camps (patron+wizard) survive recenters; off-window figures+name labels hide; 'GUILD PATRON · Nm' plates; pavilion greeting fires at d<=4 re-arms >9; rail cards hidden in adv",
+    "Quest smoke re-check: adb runs (SDK platform-tools path) but 0 devices attached - still blocked on hardware"
   ],
   "pending": [
-    "Quest-headset smoke test on real hardware when adb/Quest available (was blocked: adb empty)",
     "periodic health sweep: upstream commits, dev :8081, live site, XR session"
   ],
   "current": null,
-  "iteration": 1790,
+  "iteration": 1791,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1489,6 +1488,10 @@
     {
       "task": "adventure polish: NPC camp sites (fixed talk destinations instead of re-seated NPCs) + bigger 3rd-person presence cues",
       "result": "PASS ab07995 — camps land-searched once on entry, never re-seat; wiz hidden at d>=16 off-window; nameplate 'GUILD PATRON · 1m' + figure confirmed in XR screenshot; pavilion greeting live; card rail hidden in adv"
+    },
+    {
+      "task": "Quest-headset smoke test on real hardware when adb/Quest available (was blocked: adb empty)",
+      "result": "BLOCKED — adb daemon responds (C:/Users/Zrald/AppData/Local/Android/Sdk/platform-tools/adb.exe) but 'devices' lists none; no Quest attached. Kept in pending."
     }
   ],
   "session": "bedecked-drink"
