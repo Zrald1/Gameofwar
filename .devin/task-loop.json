@@ -1434,6 +1434,10 @@
     {
       "task": "verify peerJoin deploy",
       "result": "DONE - green"
+    },
+    {
+      "task": "ambient line aims",
+      "result": "DONE - idle musings gesture at the world"
     }
   ],
   "session": "bedecked-drink"
