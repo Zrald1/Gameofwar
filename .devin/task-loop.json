@@ -1418,6 +1418,10 @@
     {
       "task": "health sweep + XR restore",
       "result": "DONE - clean; session active hand mode"
+    },
+    {
+      "task": "intro card Talk mention",
+      "result": "DONE - speak-to-him advertised on the first screen"
     }
   ],
   "session": "bedecked-drink"
