@@ -250,3 +250,15 @@ skill directory and state when they apply.
 - `xr set-gamepad-state` takes `{index, value}` objects for axes, not raw
   `[x,y]` pairs. XR sessions die on every HMR reload — re-`xr enter` after
   each source edit before continuing a test.
+- `xr enter` after a reload/HMR resets input to controller mode — hand
+  gestures (fist velocity, point dwell) then silently never fire though
+  hand state still reports `connected`. Re-run `set-input-mode hand`
+  after every enter before testing gesture paths; the "FIST" feed line
+  is the proof joints are flowing.
+- `xr run-sequence`/`animate-to` relaxes the hand back to rest once a
+  step ends unless an `anchor` pin holds it — set-transform between
+  calls is not a stable wind-up. For gesture velocity tests drive the
+  arc inside a single sequence or animate-to call.
+- Emulated punches land ~1m off aim: query the anchor's live
+  `getWorldPosition` (probe-anchorpos.mjs) before placing the strike
+  arc — list-targets AABBs and tile math both drift from the true origin.
