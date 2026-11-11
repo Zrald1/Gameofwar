@@ -311,8 +311,44 @@ export function createPatron(): Group {
   ring.rotation.x = -Math.PI / 2;
   ring.position.y = 0.001;
   g.add(ring);
+  g.add(createPatronCamp());
   g.add(hitProxy(0.05));
   return g;
+}
+
+/** the patron's pavilion - a sloped canvas tent + contract board behind him.
+ *  Only shown while the world is walked; 'camp' group toggled by terrain. */
+function createPatronCamp(): Group {
+  const camp = new Group();
+  camp.name = 'camp';
+  camp.visible = false;
+  const cloth = mat(0x4a3a6a, { rough: 0.85 });
+  const wood = mat(0x5a3c22, { rough: 0.6 });
+  // tent - two sloped panels meeting at a ridge pole
+  for (const s of [-1, 1]) {
+    const panel = new Mesh(new BoxGeometry(0.1, 0.002, 0.075), cloth);
+    panel.position.set(0, 0.052, -0.055);
+    panel.rotation.x = s * 0.62;
+    panel.position.z = -0.055 + s * 0.028;
+    camp.add(panel);
+  }
+  const ridge = new Mesh(new CylinderGeometry(0.0016, 0.0016, 0.11, 6), wood);
+  ridge.rotation.z = Math.PI / 2;
+  ridge.position.set(0, 0.062, -0.055);
+  camp.add(ridge);
+  for (const x of [-0.05, 0.05]) {
+    const pole = new Mesh(new CylinderGeometry(0.0016, 0.0016, 0.062, 6), wood);
+    pole.position.set(x, 0.031, -0.055);
+    camp.add(pole);
+  }
+  // contract board - a plank on a post beside the tent
+  const post = new Mesh(new CylinderGeometry(0.0018, 0.0018, 0.05, 6), wood);
+  post.position.set(-0.045, 0.025, -0.01);
+  camp.add(post);
+  const board = new Mesh(new BoxGeometry(0.035, 0.022, 0.003), mat(0x7a5a32, { rough: 0.7 }));
+  board.position.set(-0.045, 0.046, -0.01);
+  camp.add(board);
+  return camp;
 }
 
 /** the Wizard - guide figure standing at the right rim. Tall pointy hat +
@@ -352,8 +388,34 @@ export function createWizard(): Group {
   ring.rotation.x = -Math.PI / 2;
   ring.position.y = 0.001;
   g.add(ring);
+  g.add(createWizardCamp());
   g.add(hitProxy(0.065));
   return g;
+}
+
+/** Morvane's camp - a circle of standing stones and a small coal brazier.
+ *  Only shown while the world is walked; 'camp' group toggled by terrain. */
+function createWizardCamp(): Group {
+  const camp = new Group();
+  camp.name = 'camp';
+  camp.visible = false;
+  const stone = mat(0x777d88, { rough: 0.9 });
+  for (let k = 0; k < 5; k++) {
+    const a = (k / 5) * Math.PI * 2 + 0.4;
+    const r = 0.048;
+    const rock = new Mesh(new IcosahedronGeometry(0.009 + (k % 2) * 0.004, 0), stone);
+    rock.position.set(Math.cos(a) * r, 0.007, Math.sin(a) * r);
+    rock.rotation.set(k * 1.1, k * 0.7, k * 0.4);
+    camp.add(rock);
+  }
+  const bowl = new Mesh(new CylinderGeometry(0.011, 0.007, 0.009, 10), mat(0x3a3a42, { rough: 0.5, metal: 0.4 }));
+  bowl.position.set(0.052, 0.0045, -0.03);
+  camp.add(bowl);
+  const coal = new Mesh(new SphereGeometry(0.006, 8, 6), mat(0xff8a3a, { e: 0xff5a1a, ei: 1.8 }));
+  coal.position.set(0.052, 0.01, -0.03);
+  coal.name = 'camp-coal';
+  camp.add(coal);
+  return camp;
 }
 
 /** invisible ray-target - 5cm figures are slivers to click on desktop; this

@@ -69,6 +69,8 @@ export class TerrainSystem extends createSystem({
   private patronPid = '';
   private patronT = 0;
   private patronRigged = false;
+  private patronCamp: Object3D | null | undefined;
+  private wizCamp: Object3D | null | undefined;
   private wizStar: Mesh | null = null;
   private wizTalkT = 0;
   private wizT = 0;
@@ -386,6 +388,10 @@ export class TerrainSystem extends createSystem({
     // in adventure his CAMP is a fixed tile - out of window means out of sight
     const patVis = pOn && (G.mode !== 'adv' || worldTilePos(G.patronI, G.patronJ, this.p));
     if (patron.visible !== patVis) patron.visible = patVis;
+    // his pavilion only exists where the world is walked - the table rim stays clean
+    if (this.patronCamp === undefined) this.patronCamp = patron.getObjectByName('camp') ?? null;
+    if (this.patronCamp && this.patronCamp.visible !== (G.mode === 'adv'))
+      this.patronCamp.visible = G.mode === 'adv';
     if (pOn && patVis) {
       this.patronT += delta;
       if (!this.patronRigged) {
@@ -420,6 +426,9 @@ export class TerrainSystem extends createSystem({
     // in adventure his camp is fixed - out of window means out of sight
     const wizVis = G.mode !== 'adv' || G.phase !== 'playing' || worldTilePos(G.wizI, G.wizJ, this.p);
     if (wiz.visible !== wizVis) wiz.visible = wizVis;
+    if (this.wizCamp === undefined) this.wizCamp = wiz.getObjectByName('camp') ?? null;
+    if (this.wizCamp && this.wizCamp.visible !== (G.mode === 'adv'))
+      this.wizCamp.visible = G.mode === 'adv';
     {
       // his own clock - patronT freezes outside 'playing' but the Wizard
       // performs from the intro onward
