@@ -236,21 +236,21 @@ export function armTutorial(): void {
  * A great guide notices your deeds - one commemorative line per milestone,
  * once per session, so he stays a presence instead of a parrot. */
 const REACTS: [string, string, (a?: unknown) => string, ((a?: unknown) => boolean)?][] = [
-  ['questAccept', 'beacon', () => 'The contract is inked. The beacon marks your task - the guild watches how you keep your word.'],
-  ['havenBuilt', 'haven', () => 'A haven rises on the fold. Walls remember their builders, wanderer.'],
-  ['npcOffer', 'patron', () => 'A patron approaches. Weigh the reward against the risk before you answer.'],
-  ['freeDigSpent', 'dig-x', () => 'The earth gives up its secret. Spend the spoils well - the fold provides.'],
-  ['levelUp', '', (lv) => `Level ${lv} - the fold acknowledges your growth. Even the stones bow a little.`],
+  ['questAccept', 'beacon', () => pick(['The contract is inked. The beacon marks your task - the guild watches how you keep your word.', 'Signed in guild ink. The beacon lights the way - do not keep them waiting.'])],
+  ['havenBuilt', 'haven', () => pick(['A haven rises on the fold. Walls remember their builders, wanderer.', 'A haven! Even wandering souls need a door that is theirs.'])],
+  ['npcOffer', 'patron', () => pick(['A patron approaches. Weigh the reward against the risk before you answer.', 'Hooded and waiting. Read the grade before your thumb decides.'])],
+  ['freeDigSpent', 'dig-x', () => pick(['The earth gives up its secret. Spend the spoils well - the fold provides.', 'What the fold buried, the fold gives back. Spend it boldly.'])],
+  ['levelUp', '', (lv) => pick([`Level ${lv} - the fold acknowledges your growth. Even the stones bow a little.`, `Level ${lv}. The map tilts toward you now - feel it?`])],
   ['questDone', 'beacon', (g) =>
-    `Contract fulfilled at ${g}-grade. Word of you travels the fold now - the guild will offer harder work.`],
+    pick([`Contract fulfilled at ${g}-grade. Word of you travels the fold now - the guild will offer harder work.`, `${g}-grade, done and dusted. The guild has noticed - harder contracts will follow.`])],
   ['weaponDrop', 'champion', (r) =>
     r === 'Mythic' || r === 'Legendary'
       ? `A ${r} relic! The fold hides such things for the worthy - wield it and be remembered.`
       : 'Steel answers the fold\'s call. Wield it well, wanderer.'],
   ['relicFound', 'champion', (item) => `${item}! A relic of the old world - few hands have ever held one. Guard it well.`],
-  ['pinOk', '', () => 'The seal opens - you carry the Cartographer\'s eye now. Shape the world gently, or boldly.'],
-  ['travel', 'champion', () => 'The world folds beneath your feet - the map is endless, wanderer.', () => tutIdx < 0],
-  ['editMode', '', () => 'The cartographer\'s eye opens. Stamp the land as you will - fist raises, palm fells.', (a) => !!a],
+  ['pinOk', '', () => pick(['The seal opens - you carry the Cartographer\'s eye now. Shape the world gently, or boldly.', 'Admin rights, wanderer. The land now answers to your hand.'])],
+  ['travel', 'champion', () => pick(['The world folds beneath your feet - the map is endless, wanderer.', 'The rim folds and the world walks with you. There is no edge, only more map.']), () => tutIdx < 0],
+  ['editMode', '', () => pick(['The cartographer\'s eye opens. Stamp the land as you will - fist raises, palm fells.', 'The world becomes clay. Fist to raise it, palm to take it back.']), (a) => !!a],
 ];
 
 let reactArmed = false;

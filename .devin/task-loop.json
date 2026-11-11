@@ -25,7 +25,7 @@
   ],
   "pending": [],
   "current": null,
-  "iteration": 1748,
+  "iteration": 1750,
   "history": [
     {
       "task": "Re-verify https://zrald1.github.io/Gameofwar/ and key assets (bundle, manifest, maps index) return HTTP 200 so the Devpost link stays live",
@@ -1342,6 +1342,10 @@
     {
       "task": "wizTip phrasing variety",
       "result": "DONE - 2 per context rotating; verified live"
+    },
+    {
+      "task": "verify tip-variety deploy",
+      "result": "DONE - green"
     }
   ],
   "session": "bedecked-drink"
