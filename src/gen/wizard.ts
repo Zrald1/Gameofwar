@@ -265,6 +265,7 @@ const REACTS: [string, string, (a?: unknown) => string, ((a?: unknown) => boolea
   ['mapChange', 'scroll-map', (name) => pick([`A new fold unfolds - ${name}. Chart it well, wanderer.`, `${name} - the ink is fresh here. The X marks await.`]), () => G.phase === 'playing'],
   ['wizardHint', 'patron', () => pick(['No contract waits for your answer - beckon the patron first.', 'Your thumb finds no contract to bless. Summon the patron, then decide.']), () => G.phase === 'playing'],
   ['havenYield', 'haven', () => pick(['Your haven pays its first yield - walls earn where maps cannot.', 'Gold without a pickaxe. That is what a haven buys you.'])],
+  ['voxEdit', 'champion', () => pick(['The land yields to your stamp, Cartographer.', 'There - the world remembers your hand. Keep shaping.'])],
   ['editMode', '', () => pick(['The cartographer\'s eye opens. Stamp the land as you will - fist raises, palm fells.', 'The world becomes clay. Fist to raise it, palm to take it back.']), (a) => !!a],
 ];
 
