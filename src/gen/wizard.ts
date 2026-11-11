@@ -351,6 +351,22 @@ function armReactions(): void {
       emit('wizardLine', `The Wizard: ${line(a)}`);
     });
   }
+  // every claimed blade earns a word - like talents, never deduped
+  on('weaponClaim', (r: string) => {
+    const epic = r === 'Legendary' || r === 'Mythic';
+    emit('wizardLine', `The Wizard: ${pick(
+      epic
+        ? [
+            'THAT is no common steel - the fold rarely yields such. Wield it with reverence.',
+            'A blade out of legend itself. I feel its age from here.',
+          ]
+        : [
+            'Yours now - may it strike true.',
+            'Taken up. The fold provides for the hands that wander.',
+            'A good blade finds its hand.',
+          ],
+    )}`);
+  });
   // every talent is a new milestone - not deduped like the shared reactions
   on('skillUp', (s: { name?: string; track?: string; level?: number }) => {
     const nm = s?.name ?? 'a new art'; // a malformed emit must not speak "undefined"
