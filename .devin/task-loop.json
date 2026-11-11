@@ -1318,6 +1318,10 @@
     {
       "task": "wizard model audit",
       "result": "DONE - hat/beard/star-staff, bob+aim-turn, star pulses while speaking, hit proxy"
+    },
+    {
+      "task": "README wizard update",
+      "result": "DONE - voice answers + reactions + ambience documented"
     }
   ],
   "session": "bedecked-drink"
