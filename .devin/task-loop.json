@@ -1294,6 +1294,10 @@
     {
       "task": "TTS regression",
       "result": "DONE - hasSynth/speaking true, 3 voices, current build"
+    },
+    {
+      "task": "relicFound reaction",
+      "result": "DONE - names the relic aloud; verified live"
     }
   ],
   "session": "bedecked-drink"
